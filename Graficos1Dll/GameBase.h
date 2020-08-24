@@ -7,7 +7,7 @@ namespace Graficos1 {
 	public:
 		GameBase();
 		~GameBase();
-		int Play();
+		int Play(int width, int height, const char* windowName);
 		void Stop();
 	};
 

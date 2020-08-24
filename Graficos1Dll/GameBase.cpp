@@ -10,7 +10,7 @@ namespace Graficos1 {
 	GameBase::~GameBase() {
 
 	}
-	int GameBase::Play() {
+	int GameBase::Play(int width, int height, const char* windowName) {
 		GLFWwindow* window;
 
 		//Initialize the library /
@@ -18,7 +18,7 @@ namespace Graficos1 {
 			return -1;
 
 		// Create a windowed mode window and its OpenGL context /
-		window = glfwCreateWindow(800, 600, "Window", NULL, NULL);
+		window = glfwCreateWindow(width, height, windowName, NULL, NULL);
 		if (!window) {
 			glfwTerminate();
 			return -1;
