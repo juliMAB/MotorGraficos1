@@ -1,6 +1,4 @@
 #include "Game.h"
-#include "glew.h"
-#include "glfw3.h"
 
 namespace Graficos1 {
 	Game::Game() {
