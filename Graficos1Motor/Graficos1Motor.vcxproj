@@ -99,8 +99,8 @@
       <AdditionalDependencies>Graficos1DLL.lib;opengl32.lib;glew32s.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /Y /S "$(ProjectDir)dllsx32" "$(ProjectDir)bin\Debug"
+copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Debug"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -116,6 +116,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Graficos1Dll\bin\Debug;$(SolutionDir)libs\glew-2.1.0\libs\ReleaseGlew\Libx64;$(SolutionDir)libs\glfw-3.3.2\x64\lib-vc2017;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Graficos1DLL.lib;opengl32.lib;glew32s.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /S "$(ProjectDir)dllsx64" "$(ProjectDir)bin\Debug"
+copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Debug"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -134,6 +138,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Graficos1Dll\bin\Release;$(SolutionDir)libs\glew-2.1.0\libs\ReleaseGlew\LibWin32;$(SolutionDir)libs\glfw-3.3.2\x32\lib-vc2017;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Graficos1DLL.lib;opengl32.lib;glew32s.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /S "$(ProjectDir)dllsx32" "$(ProjectDir)bin\Release"
+copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Release"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -152,6 +160,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Graficos1Dll\bin\Release;$(SolutionDir)libs\glew-2.1.0\libs\ReleaseGlew\Libx64;$(SolutionDir)libs\glfw-3.3.2\x64\lib-vc2017;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Graficos1DLL.lib;opengl32.lib;glew32s.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y /S "$(ProjectDir)dllsx64" "$(ProjectDir)bin\Release"
+copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Release"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />

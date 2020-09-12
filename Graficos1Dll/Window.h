@@ -5,13 +5,15 @@
 namespace Graficos1 {
 
 	class Window {
+	GLFWwindow* _window; 
 	public:
 		Window();
 		~Window();
-		int StartWindow(int width, int height, const char* windowName);
+		int StartWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen);
 		void StopWindow();
-		bool CheckIfWindowIsOpen();
+		int CheckIfWindowIsOpen();
 		void SwapBuffers();
+		GLFWwindow* GetWindow();
 	};
 
 }

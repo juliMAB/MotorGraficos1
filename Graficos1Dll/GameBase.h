@@ -10,12 +10,12 @@
 namespace Graficos1 {
 
 	class GraficosEngine_API GameBase {
-		Window* window;
-		Renderer* renderer;
+		Window* _window;
+		Renderer* _renderer;
 	public:
 		GameBase();
 		~GameBase();
-		int Play(int width, int height, const char* windowName);
+		int Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen);
 		void Stop();
 	};
 

@@ -10,6 +10,7 @@ namespace Graficos1 {
 	public:
 		Renderer();
 		~Renderer();
+		int InitGlew();
 		void Draw();
 	};
 

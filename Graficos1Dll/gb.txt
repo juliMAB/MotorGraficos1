@@ -1,18 +1,4 @@
-#include "pch.h"
-#include "GameBase.h"
-#include <iostream>
-namespace Graficos1 {
-
-	GameBase::GameBase() {
-
-	}
-	GameBase::~GameBase() {
-		if (_window != NULL)
-			delete _window;
-		if (_renderer != NULL)
-			delete _renderer;
-	}
-	int GameBase::Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
+int GameBase::Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 		//Iniciar GLFW
 		if (!glfwInit()) {
 			std::cout << "GLFW Initialization failed" << std::endl;
@@ -21,8 +7,8 @@ namespace Graficos1 {
 		}
 
 		//Seteamos propiedades de la ventana de windows con glfw
-		//OpenGL version
-		//GLFWWINDOWHINT Setea la version de glfw (3.3)
+	//OpenGL version
+	//GLFWWINDOWHINT Setea la version de glfw (3.3)
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		//Core profile = No tiene compatibilidad con versiones anteriores de GL
@@ -31,40 +17,57 @@ namespace Graficos1 {
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 		_window = new Window();
-		if (_window != NULL)
+		if (_window != NULL)	{
 			_window->StartWindow(width, height, windowName, fullScreen);
 
-		_renderer = new Renderer();
+			if (!_window->GetWindow()) {
+				std::cout << "Fail to create GLFW window" << std::endl;
+				glfwTerminate(); //Si la ventana no se pudo crear correctamente, termina con glfw
+				return 1;
+			}
+		}
 
 		int bufferWidth;
 		int bufferHeight;
 		//Esta funcion setea los pixeles del frame buffer de la ventana en las variables que le pasemos
 		//par: GLFWwindow* creada, donde almacenar el largo en pixeles, donde almacenar el alto en pixeles
 		//Hay que pasar la referencia en memoria de los buffers
-		glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
-		
-		if (_renderer != NULL)
-			if(!_renderer->InitGlew())
-				if (_window != NULL) {
-					_window->StopWindow();
-					return -1;
-				}
-
 		if (_window != NULL)
+			glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
+
+
+		//Permitir extensiones modernas;
+		glewExperimental = GL_TRUE;
+
+		if (glewInit() != GLEW_OK) {
+			std::cout << "Error in Glew Init" << std::endl;
+			if(_window!=NULL)
+				glfwDestroyWindow(_window->GetWindow()); //Si Glew no puede iniciar, destruimos la ventana que creamos antes
+			glfwTerminate();
+			return 1;
+		}
+
+
+		_renderer = new Renderer();
+		if (!_renderer)
+			return -1;
+
+
+		//Permitir extensiones modernas;
+		glewExperimental = GL_TRUE;
+
+		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
 				if (_renderer != NULL)
 					_renderer->Draw();
+
 				if (_window != NULL)
 					_window->SwapBuffers();
+
 				glfwPollEvents();
 			}
-
+		}
 		if (_window != NULL)
 			_window->StopWindow();
 		return 0;
 	}
-	void GameBase::Stop() {
-
-	}
-
-}

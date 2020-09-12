@@ -1,39 +1,45 @@
 #include "pch.h"
 #include "Window.h"
-
+#include <iostream>
 
 namespace Graficos1 {
-	GLFWwindow* window;
+	
 	Window::Window() {
 
 	}
 	Window::~Window() {
-		if (window != NULL)
-			delete window;
+		if (_window != NULL)
+			delete _window;
 	}
 
-	int Window::StartWindow(int width, int height, const char* windowName) {
+	int Window::StartWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 
-		window = glfwCreateWindow(width, height, windowName, NULL, NULL);
-		if (!window) {
+		_window = glfwCreateWindow(width, height, windowName, fullScreen, NULL);
+		if (!_window) {
+			
 			glfwTerminate();
 			return -1;
 		}
 
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(_window);
 	}
 
 	void Window::StopWindow() {
 		glfwTerminate();
 	}
 
-	bool Window::CheckIfWindowIsOpen() {
-		if (window != NULL)
-			return true;
+	int Window::CheckIfWindowIsOpen() {
+		if (glfwWindowShouldClose(_window))
+			return false;
 
-		return false;
+		return true;
+
 	}
 	void Window::SwapBuffers() {
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(_window);
+	}
+
+	GLFWwindow* Window::GetWindow(){
+		return _window;
 	}
 }
