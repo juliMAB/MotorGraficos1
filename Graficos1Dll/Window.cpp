@@ -8,37 +8,33 @@ namespace Graficos1 {
 
 	}
 	Window::~Window() {
-		if (_window != NULL)
-			delete _window;
+
 	}
 
-	int Window::StartWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
-
+	int Window::MakeWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 		_window = glfwCreateWindow(width, height, windowName, fullScreen, NULL);
 		if (!_window) {
-			
-			glfwTerminate();
-			return -1;
+			std::cout << "Fail to create GLFW window" << std::endl;
+			return 0;
 		}
+		return 1;
+	}
 
+	void Window::InitWindow() {
+		//Setear el contexto para usar GLEW
+		//Par: GLFWwindow* creado anteriormente
 		glfwMakeContextCurrent(_window);
 	}
 
-	void Window::StopWindow() {
-		glfwTerminate();
-	}
-
 	int Window::CheckIfWindowIsOpen() {
-		if (glfwWindowShouldClose(_window))
-			return false;
-
-		return true;
-
+		return (!glfwWindowShouldClose(_window));
 	}
 	void Window::SwapBuffers() {
 		glfwSwapBuffers(_window);
 	}
-
+	void Window::DestroyWindow() {
+		glfwDestroyWindow(_window);
+	}
 	GLFWwindow* Window::GetWindow(){
 		return _window;
 	}

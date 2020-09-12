@@ -11,6 +11,8 @@ namespace Graficos1 {
 		Renderer();
 		~Renderer();
 		int InitGlew();
+		void InitShaders();
+		void StopShaders();
 		void Draw();
 	};
 

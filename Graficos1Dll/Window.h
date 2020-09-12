@@ -9,10 +9,11 @@ namespace Graficos1 {
 	public:
 		Window();
 		~Window();
-		int StartWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen);
-		void StopWindow();
+		int MakeWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen);
+		void InitWindow();
 		int CheckIfWindowIsOpen();
 		void SwapBuffers();
+		void DestroyWindow();
 		GLFWwindow* GetWindow();
 	};
 

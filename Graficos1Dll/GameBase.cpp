@@ -32,35 +32,53 @@ namespace Graficos1 {
 
 		_window = new Window();
 		if (_window != NULL)
-			_window->StartWindow(width, height, windowName, fullScreen);
-
-		_renderer = new Renderer();
-
+			_window->MakeWindow(width, height, windowName, fullScreen);
+		
 		int bufferWidth;
 		int bufferHeight;
 		//Esta funcion setea los pixeles del frame buffer de la ventana en las variables que le pasemos
 		//par: GLFWwindow* creada, donde almacenar el largo en pixeles, donde almacenar el alto en pixeles
 		//Hay que pasar la referencia en memoria de los buffers
 		glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
-		
-		if (_renderer != NULL)
-			if(!_renderer->InitGlew())
-				if (_window != NULL) {
-					_window->StopWindow();
-					return -1;
-				}
 
 		if (_window != NULL)
+			_window->InitWindow();
+
+		_renderer = new Renderer();
+
+
+
+		if (_renderer != NULL)
+			if (!_renderer->InitGlew()) {
+				glfwTerminate();
+				return -1;
+			}
+
+		if (_renderer != NULL)
+			_renderer->InitShaders();
+		if (_window != NULL)
 			while (_window->CheckIfWindowIsOpen()) {
+				//Limpia los buffers a sus valores base
+				//Par: gl_color_buffer_bit - indica los buffers que actualmente estan activados para el dibujado
+				glClear(GL_COLOR_BUFFER_BIT);
+
+				//Limpia la pantalla y setea un color - No hace lo que hace glClear
+				//par: r,g,b,a
+				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+
 				if (_renderer != NULL)
 					_renderer->Draw();
 				if (_window != NULL)
 					_window->SwapBuffers();
+
 				glfwPollEvents();
 			}
 
 		if (_window != NULL)
-			_window->StopWindow();
+			_window->DestroyWindow();
+
+		glfwTerminate();
 		return 0;
 	}
 	void GameBase::Stop() {

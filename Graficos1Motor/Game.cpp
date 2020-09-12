@@ -5,12 +5,12 @@ namespace Graficos1 {
 
 	}
 	Game::~Game() {
-		if (gb)
+		if (gb != NULL)
 			delete gb;
 	}
 	void Game::Play() {
 		gb = new GameBase();
-		if (gb)
+		if (gb != NULL)
 			gb->Play(1024, 768, "Coco", NULL);
 
 	}
