@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-
+#include <glew.h>
+#include <glfw3.h>
 namespace Graficos1 {
 
 	class Window {

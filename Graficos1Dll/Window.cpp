@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "Window.h"
-#include <glew.h>
-#include <glfw3.h>
+
 
 namespace Graficos1 {
 	GLFWwindow* window;
 	Window::Window() {
-		
+
 	}
 	Window::~Window() {
 		if (window != NULL)

@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "Renderer.h"
-#include <glew.h>
-#include <glfw3.h>
 
 namespace Graficos1 {
 	Renderer::Renderer() {
