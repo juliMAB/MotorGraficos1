@@ -1,8 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 #include "GameBase.h"
+#include <glew.h>
+#include <glfw3.h>
 namespace Graficos1 {
-	class Game : GameBase{
+	class Game : GameBase {
 		GameBase* gb;
 	public:
 		Game();

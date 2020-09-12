@@ -11,7 +11,7 @@ namespace Graficos1 {
 	void Game::Play() {
 		gb = new GameBase();
 		if (gb)
-			gb->Play(1024,768,"Coco");
+			gb->Play(1024, 768, "Coco");
 
 	}
 	void Game::Stop() {
