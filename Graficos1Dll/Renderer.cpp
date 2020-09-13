@@ -8,27 +8,31 @@ namespace Graficos1 {
 	static uint VAO;
 	static uint VBO;
 	static uint shader;
-
+	
 	// Vertex Shader
 	static const char* vShader = "						\n\
 #version 330										\n\
 layout(location = 0) in vec3 pos;					\n\
+layout(location = 1) in vec3 colorrrr;				\n\
+out vec4 vColor;									\n\
 void main(){										\n\
 	gl_Position = vec4(0.9f * pos, 1.0f);			\n\
+	vColor = vec4(colorrrr, 1.0f);					\n\
 }";
 	//Fragment Shader
 	static const char* fShader = "						\n\
 #version 330										\n\
+in vec4 vColor;										\n\
 out vec4 colour;									\n\
 void main(){										\n\
-	colour = vec4(0.33f, 0.33f, 1.0f, 1.0f);		\n\
+	colour = vColor;								\n\
 }";
 
 	static void CreateTriangle() {
 		float vertices[] = {
-			-1.0f, -1.0f, 0.0f,
-			1.0f, -1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f
+			-1.0f, -1.0f, 0.0f,	  1.0f,0.0f,0.0f,
+			1.0f, -1.0f, 0.0f,	  0.0f,0.0f,0.0f,
+			0.0f, 1.0f, 0.0f,	  0.0f,0.0f,1.0f
 		};
 
 		//Genera los VAO
@@ -49,12 +53,19 @@ void main(){										\n\
 		//par: target (GL_ARRAY_BUFFER) - tamaño en total (9*sizeof(float) - la data en si (vertices) - el uso (GL_STATIC_DRAW PARA DIBUJAR)
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+		//glGetAttribLocation busca la location del vertex shader
+		//par: el shader - el nombre a buscar
+		unsigned int posLocation = glGetAttribLocation(shader, "pos");
 		//Define un array de data de los Vertex Attribute
 		//par: indice - cantidad de vertices por punto - tipo de dato (float) - normalizar el coso (NULL) - Especificar si tenes datos de posiciones y colores en la data - offset desde el primer componente (normalmente 0) 
-		glVertexAttribPointer(0, 3, GL_FLOAT, NULL, NULL, 0);
+		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
 		//Esto habilita o deshabilita el array de vertex attributes
 		//par: El indice del array del vertex attribute para habilitar o deshabilitar
-		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(posLocation);
+
+		unsigned int colorLocation = glGetAttribLocation(shader, "colorrrr");
+		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(colorLocation);
 
 		//Aca bindeamos un array vacio
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -81,7 +92,6 @@ void main(){										\n\
 
 		int result = 0;
 		char eLog[1024] = { 0 };
-
 		//Retorna un paremtro desde un objeto program
 		//par: el program - el parametro a retornar -  donde retornar el parametro
 		glGetShaderiv(theShader, GL_COMPILE_STATUS, &result);
@@ -143,7 +153,6 @@ void main(){										\n\
 			std::cout << "Error validating program: " << eLog << std::endl;
 			return;
 		}
-
 	}
 
 	Renderer::Renderer() {
@@ -165,8 +174,8 @@ void main(){										\n\
 	}
 
 	void Renderer::InitShaders() {
-		CreateTriangle();
 		CompileShaders();
+		CreateTriangle();
 	}
 
 	void Renderer::StopShaders() {
@@ -180,13 +189,13 @@ void main(){										\n\
 		//par: el program
 		glUseProgram(shader);
 
-
 		//Bindea un VAO
 		//par: el VAO
 		glBindVertexArray(VAO);
 
 		//Renderiza una primitiva de cualquier array de datos
 		//par: el tipo de primitiva a renderizar - el primer indice habilitado para usar - la cantidad de indices a renderizar
+
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		//Esto desbindea el anterior VAO

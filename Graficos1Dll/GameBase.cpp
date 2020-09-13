@@ -26,7 +26,7 @@ namespace Graficos1 {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		//Core profile = No tiene compatibilidad con versiones anteriores de GL
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		//glfwWindowHint(GLFW_OPENGL_PROFILE, glfw_complement_p);
 		//Esto setea que haya compatibilidad con versiones mas recientes de GL
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
@@ -46,8 +46,6 @@ namespace Graficos1 {
 
 		_renderer = new Renderer();
 
-
-
 		if (_renderer != NULL)
 			if (!_renderer->InitGlew()) {
 				glfwTerminate();
@@ -56,7 +54,7 @@ namespace Graficos1 {
 
 		if (_renderer != NULL)
 			_renderer->InitShaders();
-		if (_window != NULL)
+		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
 				//Limpia los buffers a sus valores base
 				//Par: gl_color_buffer_bit - indica los buffers que actualmente estan activados para el dibujado
@@ -66,7 +64,6 @@ namespace Graficos1 {
 				//par: r,g,b,a
 				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-
 				if (_renderer != NULL)
 					_renderer->Draw();
 				if (_window != NULL)
@@ -74,7 +71,7 @@ namespace Graficos1 {
 
 				glfwPollEvents();
 			}
-
+		}
 		if (_window != NULL)
 			_window->DestroyWindow();
 
