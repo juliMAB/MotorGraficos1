@@ -1,10 +1,13 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+
+#include "src/Exports/Exports.h"
 #include <glew.h>
 #include <glfw3.h>
+
 namespace Graficos1 {
 
-	class Window {
+	class GraficosEngine_API Window {
 	GLFWwindow* _window; 
 	public:
 		Window();

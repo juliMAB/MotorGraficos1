@@ -9,32 +9,63 @@ namespace Graficos1 {
 	static uint VBO;
 	static uint shader;
 	
-	// Vertex Shader
-	static const char* vShader = "						\n\
-#version 330										\n\
-layout(location = 0) in vec3 pos;					\n\
-layout(location = 1) in vec3 colorrrr;				\n\
-out vec4 vColor;									\n\
-void main(){										\n\
-	gl_Position = vec4(0.9f * pos, 1.0f);			\n\
-	vColor = vec4(colorrrr, 1.0f);					\n\
-}";
-	//Fragment Shader
-	static const char* fShader = "						\n\
-#version 330										\n\
-in vec4 vColor;										\n\
-out vec4 colour;									\n\
-void main(){										\n\
-	colour = vColor;								\n\
-}";
 
-	static void CreateTriangle() {
-		float vertices[] = {
-			-1.0f, -1.0f, 0.0f,	  1.0f,0.0f,0.0f,
-			1.0f, -1.0f, 0.0f,	  0.0f,0.0f,0.0f,
-			0.0f, 1.0f, 0.0f,	  0.0f,0.0f,1.0f
-		};
+	Renderer::Renderer() {
+		_shape = new Shape();
+	}
+	Renderer::~Renderer() {
+		if (_shape != NULL)
+			delete _shape;
+	}
+	int Renderer::InitGlew() {
+		//Permitir extensiones modernas;
+		glewExperimental = GL_TRUE;
 
+		if (glewInit() != GLEW_OK) {
+			std::cout << "Error in Glew Init" << std::endl;
+			return 0;
+		}
+
+		return 1;
+	}
+
+	void Renderer::InitShaders() {
+		CompileShaders();
+		CreateShape();
+	}
+
+	void Renderer::StopShaders() {
+		glDeleteProgram(shader);
+		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBO);
+	}
+
+	void Renderer::Draw(){
+		//Mete el program object como parte del renderizado
+		//par: el program
+		glUseProgram(shader);
+
+		//Bindea un VAO
+		//par: el VAO
+		glBindVertexArray(VAO);
+
+		//Renderiza una primitiva de cualquier array de datos
+		//par: el tipo de primitiva a renderizar - el primer indice habilitado para usar - la cantidad de indices a renderizar
+
+		if (_shape != NULL)
+			_shape->DrawShape();
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		//Esto desbindea el anterior VAO
+		//par: 0 o NULL
+		glBindVertexArray(0);
+
+		//Esto desasigna el shader
+		//par: 0 o NULL
+		glUseProgram(0);
+	}
+
+	void Renderer::CreateShape() {
 		//Genera los VAO
 		//par: cantidad de VAO a generar - & la posicion en memoria donde guardarlos
 		glGenVertexArrays(1, &VAO);
@@ -49,9 +80,22 @@ void main(){										\n\
 		//par: a donde queres bindear el VBO - el VBO
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+
+		if (_shape != NULL)
+			_shape->InitShape(GL_QUADS);
 		//Crea e inicializa un lugar para almacenar la data del buffer object
 		//par: target (GL_ARRAY_BUFFER) - tamaño en total (9*sizeof(float) - la data en si (vertices) - el uso (GL_STATIC_DRAW PARA DIBUJAR)
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		if (_shape != NULL) 
+			glBufferData(GL_ARRAY_BUFFER, _shape->GetVerticesTam(), _shape->GetVertices(), GL_STATIC_DRAW);
+		
+		if(_shape!=NULL)
+			if (_shape->GetType() == GL_QUADS) {
+				unsigned int ibo;
+				glGenBuffers(1, &ibo);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+				if (_shape != NULL)
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, _shape->GetIndexTam(), _shape->GetIndexs(), GL_STATIC_DRAW);
+			}
 
 		//glGetAttribLocation busca la location del vertex shader
 		//par: el shader - el nombre a buscar
@@ -71,7 +115,8 @@ void main(){										\n\
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-	static void AddShader(uint program, const char* shaderCode, GLenum type) {
+
+	void Renderer::AddShader(uint program, const char* shaderCode, GLenum type) {
 		//Crea un shader object
 		//par: el tipo de shader a crear (frag o vert)
 		uint theShader = glCreateShader(type);
@@ -110,7 +155,8 @@ void main(){										\n\
 		glAttachShader(program, theShader);
 
 	}
-	static void CompileShaders() {
+
+	void Renderer::CompileShaders() {
 		//Crea un object program
 		//retorna un uint, 
 		shader = glCreateProgram();
@@ -155,55 +201,4 @@ void main(){										\n\
 		}
 	}
 
-	Renderer::Renderer() {
-	
-	}
-	Renderer::~Renderer() {
-
-	}
-	int Renderer::InitGlew() {
-		//Permitir extensiones modernas;
-		glewExperimental = GL_TRUE;
-
-		if (glewInit() != GLEW_OK) {
-			std::cout << "Error in Glew Init" << std::endl;
-			return 0;
-		}
-
-		return 1;
-	}
-
-	void Renderer::InitShaders() {
-		CompileShaders();
-		CreateTriangle();
-	}
-
-	void Renderer::StopShaders() {
-		glDeleteProgram(shader);
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &VBO);
-	}
-
-	void Renderer::Draw(){
-		//Mete el program object como parte del renderizado
-		//par: el program
-		glUseProgram(shader);
-
-		//Bindea un VAO
-		//par: el VAO
-		glBindVertexArray(VAO);
-
-		//Renderiza una primitiva de cualquier array de datos
-		//par: el tipo de primitiva a renderizar - el primer indice habilitado para usar - la cantidad de indices a renderizar
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		//Esto desbindea el anterior VAO
-		//par: 0 o NULL
-		glBindVertexArray(0);
-
-		//Esto desasigna el shader
-		//par: 0 o NULL
-		glUseProgram(0);
-	}
 }

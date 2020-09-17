@@ -1,5 +1,6 @@
 #ifndef GAMEBASE_H
 #define GAMEBASE_H
+
 #include "src/Exports/Exports.h"
 
 #include "src/Window/Window.h"
