@@ -98,7 +98,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x32\include\GLFW;$(SolutionDir)Graficos1Dll\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x32\include\GLFW;$(SolutionDir)Graficos1Dll\src;$(SolutionDir)libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +116,7 @@ copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Debug"</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x64\include\GLFW;$(SolutionDir)Graficos1Dll\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x64\include\GLFW;$(SolutionDir)Graficos1Dll\src;$(SolutionDir)libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +136,7 @@ copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Debug"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x32\include\GLFW;$(SolutionDir)Graficos1Dll\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x32\include\GLFW;$(SolutionDir)Graficos1Dll\src;$(SolutionDir)libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,7 +158,7 @@ copy /Y "$(ProjectDir)Graficos1DLL.dll" "$(ProjectDir)bin\Release"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x64\include\GLFW;$(SolutionDir)Graficos1Dll\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Graficos1Dll;$(SolutionDir)libs\glew-2.1.0\include\GL;$(SolutionDir)libs\glfw-3.3.2\x64\include\GLFW;$(SolutionDir)Graficos1Dll\src;$(SolutionDir)libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

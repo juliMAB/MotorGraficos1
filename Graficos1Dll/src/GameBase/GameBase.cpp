@@ -11,6 +11,8 @@ namespace Graficos1 {
 			delete _window;
 		if (_renderer != NULL)
 			delete _renderer;
+		if (_shape != NULL)
+			delete _shape;
 	}
 	int GameBase::Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 		//Iniciar GLFW
@@ -54,6 +56,13 @@ namespace Graficos1 {
 
 		if (_renderer != NULL)
 			_renderer->InitShaders();
+
+		_shape = new Shape(_renderer, nullptr);
+		if (_shape != NULL) {
+			_shape->InitShape(GL_TRIANGLES);
+			_shape->CreateShape();
+		}
+
 		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
 				//Limpia los buffers a sus valores base
@@ -62,10 +71,11 @@ namespace Graficos1 {
 
 				//Limpia la pantalla y setea un color - No hace lo que hace glClear
 				//par: r,g,b,a
-				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+				glClearColor(0.33f,0.33f,0.33f, 1.0f);
 
-				if (_renderer != NULL)
-					_renderer->Draw();
+				if (_shape != NULL)
+					_shape->DrawShape();
+		
 				if (_window != NULL)
 					_window->SwapBuffers();
 

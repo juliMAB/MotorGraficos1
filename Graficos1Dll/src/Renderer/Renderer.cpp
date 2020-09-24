@@ -5,17 +5,14 @@
 namespace Graficos1 {
 
 	typedef unsigned int uint;
-	static uint VAO;
-	static uint VBO;
-	static uint shader;
+
 	
 
 	Renderer::Renderer() {
-		_shape = new Shape();
+
 	}
 	Renderer::~Renderer() {
-		if (_shape != NULL)
-			delete _shape;
+
 	}
 	int Renderer::InitGlew() {
 		//Permitir extensiones modernas;
@@ -31,31 +28,34 @@ namespace Graficos1 {
 
 	void Renderer::InitShaders() {
 		CompileShaders();
-		CreateShape();
+		//CreateShape();
 	}
 
 	void Renderer::StopShaders() {
-		glDeleteProgram(shader);
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &VBO);
+		glDeleteProgram(_shader);
 	}
 
-	void Renderer::Draw(){
+	void Renderer::Draw(GLenum shape, int verts, uint vao){
 		//Mete el program object como parte del renderizado
 		//par: el program
-		glUseProgram(shader);
+		glUseProgram(_shader);
 
 		//Bindea un VAO
 		//par: el VAO
-		glBindVertexArray(VAO);
+		glBindVertexArray(vao);
 
 		//Renderiza una primitiva de cualquier array de datos
 		//par: el tipo de primitiva a renderizar - el primer indice habilitado para usar - la cantidad de indices a renderizar
-
-		if (_shape != NULL)
-			_shape->DrawShape();
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-
+		
+		switch (shape) {
+		case GL_QUADS:
+			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
+			break;
+		case GL_TRIANGLES:
+			glDrawArrays(GL_TRIANGLES, 0, verts);
+			break;
+		}
+		
 		//Esto desbindea el anterior VAO
 		//par: 0 o NULL
 		glBindVertexArray(0);
@@ -65,56 +65,11 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::CreateShape() {
-		//Genera los VAO
-		//par: cantidad de VAO a generar - & la posicion en memoria donde guardarlos
-		glGenVertexArrays(1, &VAO);
-		//Bindea un VAO
-		//par: el VAO
-		glBindVertexArray(VAO);
-
-		//Genera los VBO
-		//par: cantidad de VBO - &La posicion en memoria para guardarlo
-		glGenBuffers(1, &VBO);
-		//Bindea el VBO
-		//par: a donde queres bindear el VBO - el VBO
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-
-		if (_shape != NULL)
-			_shape->InitShape(GL_QUADS);
-		//Crea e inicializa un lugar para almacenar la data del buffer object
-		//par: target (GL_ARRAY_BUFFER) - tamaño en total (9*sizeof(float) - la data en si (vertices) - el uso (GL_STATIC_DRAW PARA DIBUJAR)
-		if (_shape != NULL) 
-			glBufferData(GL_ARRAY_BUFFER, _shape->GetVerticesTam(), _shape->GetVertices(), GL_STATIC_DRAW);
-		
-		if(_shape!=NULL)
-			if (_shape->GetType() == GL_QUADS) {
-				unsigned int ibo;
-				glGenBuffers(1, &ibo);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-				if (_shape != NULL)
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER, _shape->GetIndexTam(), _shape->GetIndexs(), GL_STATIC_DRAW);
-			}
-
-		//glGetAttribLocation busca la location del vertex shader
-		//par: el shader - el nombre a buscar
-		unsigned int posLocation = glGetAttribLocation(shader, "pos");
-		//Define un array de data de los Vertex Attribute
-		//par: indice - cantidad de vertices por punto - tipo de dato (float) - normalizar el coso (NULL) - Especificar si tenes datos de posiciones y colores en la data - offset desde el primer componente (normalmente 0) 
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-		//Esto habilita o deshabilita el array de vertex attributes
-		//par: El indice del array del vertex attribute para habilitar o deshabilitar
-		glEnableVertexAttribArray(posLocation);
-
-		unsigned int colorLocation = glGetAttribLocation(shader, "colorrrr");
-		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(colorLocation);
-
-		//Aca bindeamos un array vacio
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+	uint Renderer::GetShader() {
+		std::cout << "xd" << std::endl;
+		return _shader;
 	}
+	
 
 	void Renderer::AddShader(uint program, const char* shaderCode, GLenum type) {
 		//Crea un shader object
@@ -159,43 +114,43 @@ namespace Graficos1 {
 	void Renderer::CompileShaders() {
 		//Crea un object program
 		//retorna un uint, 
-		shader = glCreateProgram();
-		if (!shader) {
+		_shader = glCreateProgram();
+		if (!_shader) {
 			std::cout << "Error creating the shader program!" << std::endl;
 			return;
 		}
 
 		//añadimos el fragment y vertex shader al programa
-		AddShader(shader, vShader, GL_VERTEX_SHADER);
-		AddShader(shader, fShader, GL_FRAGMENT_SHADER);
+		AddShader(_shader, vShader, GL_VERTEX_SHADER);
+		AddShader(_shader, fShader, GL_FRAGMENT_SHADER);
 
 		int result = 0;
 		char eLog[1024] = { 0 };
 
 		//Linkeamos el objecto program
 		//par: el objeto program
-		glLinkProgram(shader);
+		glLinkProgram(_shader);
 
 		//Retorna un paremtro desde un objeto program
 		//par: el program - el parametro a retornar -  donde retornar el parametro
-		glGetProgramiv(shader, GL_LINK_STATUS, &result);
+		glGetProgramiv(_shader, GL_LINK_STATUS, &result);
 
 		if (!result) {
 			//Si no podes linkear el programa
 			//Esta funcion retorna el info log del programa
 			//par: el programa - el tamaño maximo para guardarlo - el tamaño del string retornado (NULL) - donde guardar la info retornada 
-			glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);
+			glGetProgramInfoLog(_shader, sizeof(eLog), NULL, eLog);
 			std::cout << "Error linking program: " << eLog << std::endl;
 			return;
 		}
 
 		//Valida el programa:
 		//par: el prog
-		glValidateProgram(shader);
-		glGetProgramiv(shader, GL_VALIDATE_STATUS, &result);
+		glValidateProgram(_shader);
+		glGetProgramiv(_shader, GL_VALIDATE_STATUS, &result);
 		if (!result) {
 			//Si no podes validar el programa
-			glGetProgramInfoLog(shader, sizeof(eLog), NULL, eLog);
+			glGetProgramInfoLog(_shader, sizeof(eLog), NULL, eLog);
 			std::cout << "Error validating program: " << eLog << std::endl;
 			return;
 		}

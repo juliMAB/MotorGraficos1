@@ -5,6 +5,7 @@
 
 #include "src/Window/Window.h"
 #include "src/Renderer/Renderer.h"
+#include "src/Shape/Shape.h"
 #include <glew.h>
 #include <glfw3.h>
 
@@ -13,6 +14,7 @@ namespace Graficos1 {
 	class GraficosEngine_API GameBase {
 		Window* _window;
 		Renderer* _renderer;
+		Shape* _shape;
 	public:
 		GameBase();
 		~GameBase();
