@@ -5,18 +5,36 @@
 #include <glew.h>
 #include <glfw3.h>
 #include "src/Renderer/Renderer.h"
-
+#include "glm/vec3.hpp"
+#include "glm/mat4x4.hpp"
+#include "glm/ext/matrix_transform.hpp"
+#include "glm/ext/matrix_clip_space.hpp"
+#include "glm/ext/scalar_constants.hpp"
 namespace Graficos1 {
 
 	class GraficosEngine_API Entity {
+	private:
+		glm::vec3 positionVec;
+		glm::vec3 rotationVec;
+		glm::vec3 scaleVec;
 	protected:
+		glm::mat4 model;
+		glm::mat4 translate;
+		glm::mat4 rotation;
+		glm::mat4 scale;
 		Renderer* _renderer;
+		void UpdateMatrixData();
 	public:
 		Entity();
 		Entity(Renderer* rend);
 		~Entity();
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
+		void SetPos(float x, float y, float z);
+		void SetRotX(float x);
+		void SetRotY(float y);
+		void SetRotZ(float z);
+		void SetScale(float x, float y, float z);
 	};
 
 }
