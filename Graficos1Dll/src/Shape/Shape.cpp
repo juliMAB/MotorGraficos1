@@ -4,16 +4,22 @@
 
 namespace Graficos1 {
 	float triangleVertices[] = {
-		 0.0f,  1.0f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f,	/**/ 1.0f, 0.0f, 1.0f,
-		-1.0f, -1.0f, 0.0f,	/**/ 1.0f, 0.0f, 1.0f
+		 0.0f,  0.5f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f
+	};
+
+	float triangleModel[] = {
+		1.0f, 0.0f, 0.0f,
+		1.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 1.0f
 	};
 
 	float quadVertices[] = {
-		/* 0 */	-0.5, 0.5, 0.0f, /**/ 1.0f, 0.0f, 0.0f,
-		/* 1 */	-0.5,-0.5, 0.0f, /**/ 0.0f, 1.0f, 0.0f,
-		/* 2 */	 0.5,-0.5, 0.0f, /**/ 0.0f, 0.0f, 1.0f,
-		/* 3 */	 0.5, 0.5, 0.0f, /**/ 0.0f, 0.0f, 0.0f
+		/* 0 */	-0.5,  0.5, 0.0f, /**/ 1.0f, 0.0f, 0.0f,
+		/* 1 */	-0.5, -0.5, 0.0f, /**/ 0.0f, 1.0f, 0.0f,
+		/* 2 */	 0.5, -0.5, 0.0f, /**/ 0.0f, 0.0f, 1.0f,
+		/* 3 */	 0.5,  0.5, 0.0f, /**/ 0.0f, 0.0f, 0.0f
 	};
 
 	unsigned int posIndexs[] = {
@@ -24,6 +30,7 @@ namespace Graficos1 {
 	typedef unsigned int uint;
 	static uint VAO;
 	static uint VBO;
+	static uint uniformModel;
 
 	GLenum typeOfShape;
 
@@ -36,7 +43,6 @@ namespace Graficos1 {
 	void Shape::InitShape(GLenum type) {
 		typeOfShape = type;
 	}
-
 	void Shape::CreateShape() {
 		//Genera los VAO
 		//par: cantidad de VAO a generar - & la posicion en memoria donde guardarlos
@@ -58,7 +64,6 @@ namespace Graficos1 {
 		//par: target (GL_ARRAY_BUFFER) - tamaño en total (9*sizeof(float) - la data en si (vertices) - el uso (GL_STATIC_DRAW PARA DIBUJAR)
 		glBufferData(GL_ARRAY_BUFFER, GetVerticesTam(), GetVertices(), GL_STATIC_DRAW);
 
-		std::cout << (typeOfShape == GL_TRIANGLES) << std::endl;
 		if (typeOfShape == GL_QUADS) {
 			unsigned int ibo;
 			glGenBuffers(1, &ibo);
@@ -68,10 +73,7 @@ namespace Graficos1 {
 
 		//glGetAttribLocation busca la location del vertex shader
 		//par: el shader - el nombre a buscar
-
-		std::cout << _renderer->GetShader() << std::endl;
 		unsigned int posLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
-
 		//Define un array de data de los Vertex Attribute
 		//par: indice - cantidad de vertices por punto - tipo de dato (float) - normalizar el coso (NULL) - Especificar si tenes datos de posiciones y colores en la data - offset desde el primer componente (normalmente 0) 
 		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
@@ -79,18 +81,18 @@ namespace Graficos1 {
 		//par: El indice del array del vertex attribute para habilitar o deshabilitar
 		glEnableVertexAttribArray(posLocation);
 
-
-
 		unsigned int colorLocation = glGetAttribLocation(_renderer->GetShader(), "colorrrr");
 		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(colorLocation);
+
+		unsigned int uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
+		glUseProgram(_renderer->GetShader());
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		//Aca bindeamos un array vacio
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-
-
 	void Shape::DrawShape() {
 		if (typeOfShape == GL_TRIANGLES) {
 			_renderer->Draw(typeOfShape, 3, VAO);
@@ -99,7 +101,6 @@ namespace Graficos1 {
 
 		_renderer->Draw(typeOfShape, 6, VAO);
 	}
-
 	void Shape::SetColor(float r, float g, float b) {
 		if (typeOfShape == GL_TRIANGLES) {
 			triangleVertices[3] = r;
@@ -133,7 +134,6 @@ namespace Graficos1 {
 		quadVertices[22] = g;
 		quadVertices[23] = b;
 	}
-
 	int Shape::GetVerticesArrLenght() {
 		if (typeOfShape == GL_TRIANGLES)
 			return (sizeof(triangleVertices) / sizeof(triangleVertices[0]));

@@ -5,7 +5,7 @@
 namespace Graficos1 {
 
 	typedef unsigned int uint;
-
+	uint uniformModel;
 	
 
 	Renderer::Renderer() {
@@ -39,14 +39,13 @@ namespace Graficos1 {
 		//Mete el program object como parte del renderizado
 		//par: el program
 		glUseProgram(_shader);
-
+		
 		//Bindea un VAO
 		//par: el VAO
 		glBindVertexArray(vao);
 
 		//Renderiza una primitiva de cualquier array de datos
 		//par: el tipo de primitiva a renderizar - el primer indice habilitado para usar - la cantidad de indices a renderizar
-		
 		switch (shape) {
 		case GL_QUADS:
 			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
@@ -66,7 +65,6 @@ namespace Graficos1 {
 	}
 
 	uint Renderer::GetShader() {
-		std::cout << "xd" << std::endl;
 		return _shader;
 	}
 	

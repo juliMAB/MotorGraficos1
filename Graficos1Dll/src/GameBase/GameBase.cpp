@@ -4,7 +4,8 @@
 namespace Graficos1 {
 
 	GameBase::GameBase() {
-
+		_window = new Window();
+		_renderer = new Renderer();
 	}
 	GameBase::~GameBase() {
 		if (_window != NULL)
@@ -32,7 +33,7 @@ namespace Graficos1 {
 		//Esto setea que haya compatibilidad con versiones mas recientes de GL
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-		_window = new Window();
+		
 		if (_window != NULL)
 			_window->MakeWindow(width, height, windowName, fullScreen);
 		
@@ -46,14 +47,12 @@ namespace Graficos1 {
 		if (_window != NULL)
 			_window->InitWindow();
 
-		_renderer = new Renderer();
-
 		if (_renderer != NULL)
 			if (!_renderer->InitGlew()) {
 				glfwTerminate();
 				return -1;
 			}
-
+		
 		if (_renderer != NULL)
 			_renderer->InitShaders();
 
@@ -84,7 +83,6 @@ namespace Graficos1 {
 		}
 		if (_window != NULL)
 			_window->DestroyWindow();
-
 		glfwTerminate();
 		return 0;
 	}
