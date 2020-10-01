@@ -105,38 +105,57 @@ namespace Graficos1 {
 
 		_renderer->Draw(typeOfShape, 6, VAO);
 	}
-	void Shape::SetColor(float r, float g, float b) {
+	void Shape::SetColor(float c1[3], float c2[3], float c3[3]){
 		if (typeOfShape == GL_TRIANGLES) {
-			triangleVertices[3] = r;
-			triangleVertices[4] = g;
-			triangleVertices[5] = b;
+			triangleVertices[3] = c1[0];
+			triangleVertices[4] = c1[1];
+			triangleVertices[5] = c1[2];
 
-			triangleVertices[9] = r;
-			triangleVertices[10] = g;
-			triangleVertices[11] = b;
+			triangleVertices[9] = c2[0];
+			triangleVertices[10] = c2[1];
+			triangleVertices[11] = c2[2];
 
-			triangleVertices[15] = r;
-			triangleVertices[16] = g;
-			triangleVertices[17] = b;
+			triangleVertices[15] = c3[0];
+			triangleVertices[16] = c3[1];
+			triangleVertices[17] = c3[2];
+
+			glGenVertexArrays(1, &VAO);
+			glBindVertexArray(VAO);
+
+			glGenBuffers(1, &VBO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+			glBufferData(GL_ARRAY_BUFFER, GetVerticesTam(), GetVertices(), GL_STATIC_DRAW);
+
+			unsigned int posLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
+			glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+			glEnableVertexAttribArray(posLocation);
+
+			unsigned int colorLocation = glGetAttribLocation(_renderer->GetShader(), "colorrrr");
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(colorLocation);
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindVertexArray(0);
 
 			return;
 		}
-
-		quadVertices[3] = r;
-		quadVertices[4] = g;
-		quadVertices[5] = b;
-
-		quadVertices[9] = r;
-		quadVertices[10] = g;
-		quadVertices[11] = b;
-
-		quadVertices[15] = r;
-		quadVertices[16] = g;
-		quadVertices[17] = b;
-
-		quadVertices[21] = r;
-		quadVertices[22] = g;
-		quadVertices[23] = b;
+		
+		//quadVertices[3] = color1.r;
+		//quadVertices[4] = color1.g;
+		//quadVertices[5] = color1.b;
+		//
+		//quadVertices[9] = color1.r;
+		//quadVertices[10] = color1.g;
+		//quadVertices[11] = color1.b;
+		//
+		//quadVertices[15] = color1.r;
+		//quadVertices[16] = color1.g;
+		//quadVertices[17] = color1.b;
+		//
+		//quadVertices[21] = color1.r;
+		//quadVertices[22] = color1.g;
+		//quadVertices[23] = color1.b;
 	}
 	int Shape::GetVerticesArrLenght() {
 		if (typeOfShape == GL_TRIANGLES)

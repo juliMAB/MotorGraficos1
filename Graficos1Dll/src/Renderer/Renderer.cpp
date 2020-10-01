@@ -36,10 +36,6 @@ namespace Graficos1 {
 	}
 
 	void Renderer::Draw(GLenum shape, int verts, uint vao){
-		//Mete el program object como parte del renderizado
-		//par: el program
-		glUseProgram(_shader);
-		
 		//Bindea un VAO
 		//par: el VAO
 		glBindVertexArray(vao);

@@ -2,9 +2,11 @@
 #include "GameBase.h"
 #include <iostream>
 #include <time.h>
+
 namespace Graficos1 {
 
 	GameBase::GameBase() {
+		srand(time(0));
 		_window = new Window();
 		_renderer = new Renderer();
 	}
@@ -34,10 +36,10 @@ namespace Graficos1 {
 		//Esto setea que haya compatibilidad con versiones mas recientes de GL
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-		
+
 		if (_window != NULL)
 			_window->MakeWindow(width, height, windowName, fullScreen);
-		
+
 		int bufferWidth;
 		int bufferHeight;
 		//Esta funcion setea los pixeles del frame buffer de la ventana en las variables que le pasemos
@@ -53,7 +55,7 @@ namespace Graficos1 {
 				glfwTerminate();
 				return -1;
 			}
-		
+
 		if (_renderer != NULL)
 			_renderer->InitShaders();
 
@@ -67,7 +69,7 @@ namespace Graficos1 {
 		float posX = 0;
 		float posY = 0;
 		float posZ = 0;
-		
+
 		float rotX = 0;
 		float rotY = 0;
 		float rotZ = 0;
@@ -78,6 +80,21 @@ namespace Graficos1 {
 
 		float speed = 1000;
 
+		float t = 0;
+
+		float c1[3];
+		float c2[3];
+		float c3[3];
+
+		bool buttonPressed = false;
+		if (_shape != NULL) {
+			for (int i = 0; i < 3; i++) {
+				c1[i] = (rand() % 254 + 1) / 255.0f;
+				c2[i] = (rand() % 254 + 1) / 255.0f;
+				c3[i] = (rand() % 254 + 1) / 255.0f;
+			}
+			_shape->SetColor(c1, c2, c3);
+		}
 		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
 				//Limpia los buffers a sus valores base
@@ -86,18 +103,18 @@ namespace Graficos1 {
 
 				//Limpia la pantalla y setea un color - No hace lo que hace glClear
 				//par: r,g,b,a
-				glClearColor(0.33f,0.33f,0.33f, 1.0f);
+				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 				double timer = clock();
 				float dt = (float)((timer - oldTimer) / 1000.0f);
 				oldTimer = timer;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_W) == GLFW_PRESS) 
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 					posY += speed * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_S) == GLFW_PRESS) 
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
 					posY -= speed * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_A) == GLFW_PRESS) 
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
 					posX -= speed * dt;
 				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
 					posX += speed * dt;
@@ -113,7 +130,7 @@ namespace Graficos1 {
 					rotX -= speed * dt;
 
 				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_5) == GLFW_PRESS)
-					rotY -= speed * dt; 
+					rotY -= speed * dt;
 				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_6) == GLFW_PRESS)
 					rotY += speed * dt;
 
@@ -127,16 +144,32 @@ namespace Graficos1 {
 				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_X) == GLFW_PRESS)
 					scaleY += 5 * dt;
 
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_C) == GLFW_PRESS) {
+					if (!buttonPressed) {
+						for (int i = 0; i < 3; i++) {
+							c1[i] = (rand() % 254 + 1) / 255.0f;
+							c2[i] = (rand() % 254 + 1) / 255.0f;
+							c3[i] = (rand() % 254 + 1) / 255.0f;
+							if(_shape!=NULL)
+							_shape->SetColor(c1, c2, c3);
+						}
+					}
+					buttonPressed = true;
+				}
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_C) == GLFW_RELEASE) {
+					buttonPressed = false;
+				}
+
 				if (_shape != NULL) {
 					_shape->SetPos((posX / 960.0f), (posY / 540.0f), posZ);
-					_shape->SetRotX((rotX/180.0f));
-					_shape->SetRotY((rotY/180.0f));
-					_shape->SetRotZ((rotZ/180.0f));
+					_shape->SetRotX((rotX / 180.0f));
+					_shape->SetRotY((rotY / 180.0f));
+					_shape->SetRotZ((rotZ / 180.0f));
 					_shape->SetScale(scaleX, scaleY, scaleZ);
 				}
 				if (_shape != NULL)
 					_shape->DrawShape();
-		
+
 				if (_window != NULL)
 					_window->SwapBuffers();
 
