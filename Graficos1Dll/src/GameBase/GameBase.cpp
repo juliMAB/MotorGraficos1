@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GameBase.h"
 #include <iostream>
+#include <time.h>
 namespace Graficos1 {
 
 	GameBase::GameBase() {
@@ -62,6 +63,21 @@ namespace Graficos1 {
 			_shape->CreateShape();
 		}
 
+		double oldTimer = clock();
+		float posX = 0;
+		float posY = 0;
+		float posZ = 0;
+		
+		float rotX = 0;
+		float rotY = 0;
+		float rotZ = 0;
+
+		float scaleX = 1;
+		float scaleY = 1;
+		float scaleZ = 1;
+
+		float speed = 1000;
+
 		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
 				//Limpia los buffers a sus valores base
@@ -72,6 +88,52 @@ namespace Graficos1 {
 				//par: r,g,b,a
 				glClearColor(0.33f,0.33f,0.33f, 1.0f);
 
+				double timer = clock();
+				float dt = (float)((timer - oldTimer) / 1000.0f);
+				oldTimer = timer;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_W) == GLFW_PRESS) 
+					posY += speed * dt;
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_S) == GLFW_PRESS) 
+					posY -= speed * dt;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_A) == GLFW_PRESS) 
+					posX -= speed * dt;
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+					posX += speed * dt;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+					rotZ -= speed * dt;
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+					rotZ += speed * dt;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+					rotX += speed * dt;
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_4) == GLFW_PRESS)
+					rotX -= speed * dt;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_5) == GLFW_PRESS)
+					rotY -= speed * dt; 
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_6) == GLFW_PRESS)
+					rotY += speed * dt;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_Q) == GLFW_PRESS)
+					scaleX -= 5 * dt;
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_E) == GLFW_PRESS)
+					scaleX += 5 * dt;
+
+				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_Z) == GLFW_PRESS)
+					scaleY -= 5 * dt;
+				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_X) == GLFW_PRESS)
+					scaleY += 5 * dt;
+
+				if (_shape != NULL) {
+					_shape->SetPos((posX / 960.0f), (posY / 540.0f), posZ);
+					_shape->SetRotX((rotX/180.0f));
+					_shape->SetRotY((rotY/180.0f));
+					_shape->SetRotZ((rotZ/180.0f));
+					_shape->SetScale(scaleX, scaleY, scaleZ);
+				}
 				if (_shape != NULL)
 					_shape->DrawShape();
 		

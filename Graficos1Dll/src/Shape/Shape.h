@@ -17,7 +17,6 @@ namespace Graficos1 {
 		~Shape();
 		void InitShape(GLenum type);
 		void CreateShape();
-		void MoveShape();
 		void DrawShape();
 		void SetColor(float r, float g, float b);
 		int GetVerticesArrLenght();

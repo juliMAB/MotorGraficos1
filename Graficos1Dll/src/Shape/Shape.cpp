@@ -94,6 +94,10 @@ namespace Graficos1 {
 		glBindVertexArray(0);
 	}
 	void Shape::DrawShape() {
+		unsigned int uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
+		glUseProgram(_renderer->GetShader());
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
 		if (typeOfShape == GL_TRIANGLES) {
 			_renderer->Draw(typeOfShape, 3, VAO);
 			return;
