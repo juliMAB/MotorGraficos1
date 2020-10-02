@@ -107,8 +107,7 @@
       <AdditionalDependencies>Motor32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)Motor\Bin\Win32\Debug\Motor32.dll" "$(SolutionDir)Game\Bin\Debug" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
