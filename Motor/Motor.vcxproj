@@ -126,7 +126,7 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)Motor\Bin\Win32\Debug\Motor32.dll" "$(SolutionDir)Game\Bin\Debug"</Command>
+      <Command>copy "$(SolutionDir)Motor\Bin\Win32\Debug\Motor32.dll" "$(SolutionDir)Game\Bin\Debug" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
