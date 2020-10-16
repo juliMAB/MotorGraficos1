@@ -23,8 +23,6 @@ namespace Graficos1 {
 	}
 
 	void Window::InitWindow() {
-		//Setear el contexto para usar GLEW
-		//Par: GLFWwindow* creado anteriormente
 		glfwMakeContextCurrent(_window);
 	}
 

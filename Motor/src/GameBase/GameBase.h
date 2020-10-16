@@ -5,7 +5,6 @@
 #include "../src/Window/Window.h"
 #include "../src/Renderer/Renderer.h"
 #include "../src/Shape/Shape.h"
-
 struct GLFWmonitor;
 
 namespace Graficos1 {

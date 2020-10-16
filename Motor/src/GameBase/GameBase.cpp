@@ -3,6 +3,9 @@
 #include <time.h>
 #include <glew.h>
 #include <glfw/glfw3.h>
+
+#include "../src/Input/Input.h"
+
 namespace Graficos1 {
 
 	GameBase::GameBase() {
@@ -19,21 +22,15 @@ namespace Graficos1 {
 			delete _shape;
 	}
 	int GameBase::Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
-		//Iniciar GLFW
 		if (!glfwInit()) {
 			std::cout << "GLFW Initialization failed" << std::endl;
-			glfwTerminate(); //Si no puede iniciar, entra aca y termina con glfw
+			glfwTerminate();
 			return 1;
 		}
 
-		//Seteamos propiedades de la ventana de windows con glfw
-		//OpenGL version
-		//GLFWWINDOWHINT Setea la version de glfw (3.3)
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		//Core profile = No tiene compatibilidad con versiones anteriores de GL
-		//glfwWindowHint(GLFW_OPENGL_PROFILE, glfw_complement_p);
-		//Esto setea que haya compatibilidad con versiones mas recientes de GL
+
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 
@@ -42,9 +39,6 @@ namespace Graficos1 {
 
 		int bufferWidth;
 		int bufferHeight;
-		//Esta funcion setea los pixeles del frame buffer de la ventana en las variables que le pasemos
-		//par: GLFWwindow* creada, donde almacenar el largo en pixeles, donde almacenar el alto en pixeles
-		//Hay que pasar la referencia en memoria de los buffers
 		glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
 
 		if (_window != NULL)
@@ -97,54 +91,49 @@ namespace Graficos1 {
 		}
 		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
-				//Limpia los buffers a sus valores base
-				//Par: gl_color_buffer_bit - indica los buffers que actualmente estan activados para el dibujado
 				glClear(GL_COLOR_BUFFER_BIT);
-
-				//Limpia la pantalla y setea un color - No hace lo que hace glClear
-				//par: r,g,b,a
 				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 				double timer = clock();
 				float dt = (float)((timer - oldTimer) / 1000.0f);
 				oldTimer = timer;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::W))
 					posY += speed * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::S))
 					posY -= speed * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::A))
 					posX -= speed * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::D))
 					posX += speed * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_1) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::ALPHA1))
 					rotZ -= speed * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_2) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::ALPHA2))
 					rotZ += speed * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_3) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::ALPHA3))
 					rotX += speed * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_4) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::ALPHA4))
 					rotX -= speed * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_5) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::ALPHA5))
 					rotY -= speed * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_6) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::ALPHA6))
 					rotY += speed * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_Q) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::Q))
 					scaleX -= 5 * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_E) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::E))
 					scaleX += 5 * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_Z) == GLFW_PRESS)
+				if (Input::GetKey(_window->GetWindow(), Keycode::Z))
 					scaleY -= 5 * dt;
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_X) == GLFW_PRESS)
+				else if (Input::GetKey(_window->GetWindow(), Keycode::X))
 					scaleY += 5 * dt;
 
-				if (glfwGetKey(_window->GetWindow(), GLFW_KEY_C) == GLFW_PRESS) {
+				if (Input::GetKey(_window->GetWindow(), Keycode::C)) {
 					if (!buttonPressed) {
 						for (int i = 0; i < 3; i++) {
 							c1[i] = (rand() % 254 + 1) / 255.0f;
@@ -156,7 +145,7 @@ namespace Graficos1 {
 					}
 					buttonPressed = true;
 				}
-				else if (glfwGetKey(_window->GetWindow(), GLFW_KEY_C) == GLFW_RELEASE) {
+				else if (Input::GetKeyUp(_window->GetWindow(), Keycode::C)) {
 					buttonPressed = false;
 				}
 
