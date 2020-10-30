@@ -45,6 +45,15 @@
     <ClCompile Include="src\Input\Input.cpp">
       <Filter>Archivos de encabezado</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sprite\Sprite.cpp">
+      <Filter>Archivos de encabezado</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureImporter\TextureImporter.cpp">
+      <Filter>Archivos de encabezado</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureImporter\stb_image.cpp">
+      <Filter>Archivos de encabezado</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entity\Entity.h">
@@ -74,12 +83,24 @@
     <ClInclude Include="src\Input\Input.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
+    <ClInclude Include="src\Sprite\Sprite.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureImporter\stb_image.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureImporter\TextureImporter.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\FragmentShader.shader">
       <Filter>res\shaders</Filter>
     </None>
     <None Include="src\Shaders\VertexShader.shader">
+      <Filter>res\shaders</Filter>
+    </None>
+    <None Include="src\Shaders\FragmentShaderTex.shader">
       <Filter>res\shaders</Filter>
     </None>
   </ItemGroup>

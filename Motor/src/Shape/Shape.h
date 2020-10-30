@@ -8,6 +8,9 @@
 namespace Graficos1 {
 	typedef unsigned int uint;
 	class GraficosEngine_API Shape : public Entity2D {
+		float* _vb;
+		uint _vbo;
+		uint _vao;
 	public:
 		Shape();
 		Shape(Renderer* rend, Material* mat);

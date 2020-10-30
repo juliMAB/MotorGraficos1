@@ -26,6 +26,9 @@
     <ClCompile Include="src\Material\Material.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Shape\Shape.cpp" />
+    <ClCompile Include="src\Sprite\Sprite.cpp" />
+    <ClCompile Include="src\TextureImporter\stb_image.cpp" />
+    <ClCompile Include="src\TextureImporter\TextureImporter.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -37,10 +40,14 @@
     <ClInclude Include="src\Material\Material.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shape\Shape.h" />
+    <ClInclude Include="src\Sprite\Sprite.h" />
+    <ClInclude Include="src\TextureImporter\stb_image.h" />
+    <ClInclude Include="src\TextureImporter\TextureImporter.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\FragmentShader.shader" />
+    <None Include="src\Shaders\FragmentShaderTex.shader" />
     <None Include="src\Shaders\VertexShader.shader" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -121,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Lib\GLFW\include;$(ProjectDir)Lib;$(ProjectDir)Lib\GLEW\Include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;GraficosEngine_Exports;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProyectDir)Lib\GLEW\Lib;$(ProjectDir)Lib\GLFW\glfw-3.3.2.bin.WIN32\lib-vc2017</AdditionalLibraryDirectories>
@@ -154,7 +161,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\Lib\GLFW\include;$(ProjectDir)\Lib\GLEW\Include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;GraficosEngine_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

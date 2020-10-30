@@ -4,6 +4,7 @@
 #include "../src/Exports/Exports.h"
 #include "../src/Shaders/VertexShader.shader"
 #include "../src/Shaders/FragmentShader.shader"
+#include <glm/mat4x4.hpp>
 
 namespace Graficos1 {
 	typedef unsigned int uint;
@@ -15,7 +16,9 @@ namespace Graficos1 {
 		Renderer();
 		~Renderer();
 		int InitGlew();
+		void SetAttribs(int tam, float* verts, uint& vbo, uint& vao, glm::mat4 model);
 		void InitShaders();
+		void UpdateModel(glm::mat4 model);
 		void StopShaders();
 		void Draw(uint shape, int verts, uint vao);
 		uint GetShader();

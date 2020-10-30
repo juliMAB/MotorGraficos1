@@ -2,11 +2,16 @@
 #include <iostream>
 #include <glew.h>
 #include <glfw/glfw3.h>
-
+#include <glm\gtc\type_ptr.hpp>
+#include "../src/Shaders/VertexShader.h"
+#include "../src/Shaders/FragmentShader.h"
 namespace Graficos1 {
 
 	typedef unsigned int uint;
 	
+	static uint posLocation;
+	static uint colorLocation;
+	static uint uniformModel;
 
 	Renderer::Renderer() {
 
@@ -23,6 +28,31 @@ namespace Graficos1 {
 		}
 
 		return 1;
+	}
+
+	void Renderer::SetAttribs(int tam, float* verts, uint& vbo, uint& vao, glm::mat4 model) {
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+		glBufferData(GL_ARRAY_BUFFER, tam, verts, GL_STATIC_DRAW);
+
+		posLocation = glGetAttribLocation(GetShader(), "pos");
+		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+		glEnableVertexAttribArray(posLocation);
+	
+		unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
+		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(colorLocation);
+	
+		unsigned int uniformModel = glGetUniformLocation(GetShader(), "model");
+		glUseProgram(GetShader());
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
 	}
 
 	void Renderer::InitShaders() {
@@ -47,6 +77,12 @@ namespace Graficos1 {
 
 		glBindVertexArray(0);
 		glUseProgram(0);
+	}
+
+	void Renderer::UpdateModel(glm::mat4 model) {
+		uniformModel = glGetUniformLocation(GetShader(), "model");
+		glUseProgram(GetShader());
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	}
 
 	uint Renderer::GetShader() {

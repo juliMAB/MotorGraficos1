@@ -30,65 +30,49 @@ namespace Graficos1 {
 	};
 
 	typedef unsigned int uint;
-	static uint VAO;
-	static uint VBO;
-	static uint uniformModel;
 
 	uint typeOfShape;
+
+	uint tamVerts;
 
 	Shape::Shape() : Entity2D() { }
 	Shape::Shape(Renderer* rend, Material* mat) : Entity2D(rend, mat) {	}
 	Shape::~Shape() {
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &VBO);
+		glDeleteVertexArrays(1, &_vao);
+		glDeleteBuffers(1, &_vbo);
 	}
 	void Shape::InitShape(uint type) {
 		typeOfShape = type;
-	}
-	void Shape::CreateShape() {
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
+		if (type == GL_TRIANGLES) {
+			_vb = triangleVertices;
+			tamVerts = sizeof(triangleVertices);
 
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-		glBufferData(GL_ARRAY_BUFFER, GetVerticesTam(), GetVertices(), GL_STATIC_DRAW);
-
-		if (typeOfShape == GL_QUADS) {
-			unsigned int ibo;
-			glGenBuffers(1, &ibo);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, GetIndexTam(), GetIndexs(), GL_STATIC_DRAW);
-		}
-
-		unsigned int posLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-		glEnableVertexAttribArray(posLocation);
-
-		unsigned int colorLocation = glGetAttribLocation(_renderer->GetShader(), "colorrrr");
-		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(colorLocation);
-
-		unsigned int uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
-		glUseProgram(_renderer->GetShader());
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
-	void Shape::DrawShape() {
-		unsigned int uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
-		glUseProgram(_renderer->GetShader());
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-
-		if (typeOfShape == GL_TRIANGLES) {
-			_renderer->Draw(typeOfShape, 3, VAO);
 			return;
 		}
 
-		_renderer->Draw(typeOfShape, 6, VAO);
+		_vb = quadVertices;
+		tamVerts = sizeof(quadVertices);
 	}
-	void Shape::SetColor(float c1[3], float c2[3], float c3[3]){
+	void Shape::CreateShape() {
+		_renderer->SetAttribs(GetVerticesTam(), _vb, _vbo, _vao, model);
+		//if (typeOfShape == GL_QUADS) {
+		//	unsigned int ibo;
+		//	glGenBuffers(1, &ibo);
+		//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, GetIndexTam(), GetIndexs(), GL_STATIC_DRAW);
+		//}
+	}
+	void Shape::DrawShape() {
+		_renderer->UpdateModel(model);
+
+		if (typeOfShape == GL_TRIANGLES) {
+			_renderer->Draw(typeOfShape, 3, _vao);
+			return;
+		}
+
+		_renderer->Draw(typeOfShape, 6, _vao);
+	}
+	void Shape::SetColor(float c1[3], float c2[3], float c3[3]) {
 		if (typeOfShape == GL_TRIANGLES) {
 			triangleVertices[3] = c1[0];
 			triangleVertices[4] = c1[1];
@@ -102,28 +86,11 @@ namespace Graficos1 {
 			triangleVertices[16] = c3[1];
 			triangleVertices[17] = c3[2];
 
-			glGenVertexArrays(1, &VAO);
-			glBindVertexArray(VAO);
-
-			glGenBuffers(1, &VBO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-			glBufferData(GL_ARRAY_BUFFER, GetVerticesTam(), GetVertices(), GL_STATIC_DRAW);
-
-			unsigned int posLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
-			glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-			glEnableVertexAttribArray(posLocation);
-
-			unsigned int colorLocation = glGetAttribLocation(_renderer->GetShader(), "colorrrr");
-			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(colorLocation);
-
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindVertexArray(0);
+			_renderer->SetAttribs(GetVerticesTam(), _vb, _vbo, _vao, model);
 
 			return;
 		}
-		
+
 		quadVertices[3] = c1[0];
 		quadVertices[4] = c1[1];
 		quadVertices[5] = c1[2];
@@ -135,58 +102,44 @@ namespace Graficos1 {
 		quadVertices[15] = c3[0];
 		quadVertices[16] = c3[1];
 		quadVertices[17] = c3[2];
-		
+
 		quadVertices[21] = 0.0f;
 		quadVertices[22] = 0.0f;
 		quadVertices[23] = 0.0f;
 
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
+		unsigned int ibo;
+		glGenBuffers(1, &ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, GetIndexTam(), GetIndexs(), GL_STATIC_DRAW);
 
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-		glBufferData(GL_ARRAY_BUFFER, GetVerticesTam(), GetVertices(), GL_STATIC_DRAW);
-
-			unsigned int ibo;
-			glGenBuffers(1, &ibo);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, GetIndexTam(), GetIndexs(), GL_STATIC_DRAW);
-		
-		unsigned int posLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-		glEnableVertexAttribArray(posLocation);
-
-		unsigned int colorLocation = glGetAttribLocation(_renderer->GetShader(), "colorrrr");
-		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(colorLocation);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+		_renderer->SetAttribs(GetVerticesTam(), _vb, _vbo, _vao, model);
 	}
 	int Shape::GetVerticesArrLenght() {
-		if (typeOfShape == GL_TRIANGLES)
-			return (sizeof(triangleVertices) / sizeof(triangleVertices[0]));
-
-		return (sizeof(quadVertices) / sizeof(quadVertices[0]));
+		return tamVerts / sizeof(float);
+		
+		//if (typeOfShape == GL_TRIANGLES)
+		//	return (sizeof(triangleVertices) / sizeof(triangleVertices[0]));
+		//
+		//return (sizeof(quadVertices) / sizeof(quadVertices[0]));
 	}
 	int Shape::GetVerticesTam() {
-		if (typeOfShape == GL_TRIANGLES)
-			return sizeof(triangleVertices);
-
-		return sizeof(quadVertices);
+		return tamVerts;
 	}
 	float* Shape::GetVertices() {
-		if (typeOfShape == GL_TRIANGLES)
-			return triangleVertices;
-
-		return quadVertices;
+		return _vb;
+		
+		//if (typeOfShape == GL_TRIANGLES)
+		//	return triangleVertices;
+		//
+		//return quadVertices;
 	}
 	float Shape::GetVertexIndex(int ind) {
-		if (typeOfShape == GL_TRIANGLES)
-			return triangleVertices[ind];
+		return _vb[ind];
 
-		return quadVertices[ind];
+	//	if (typeOfShape == GL_TRIANGLES)
+	//		return triangleVertices[ind];
+	//
+	//	return quadVertices[ind];
 	}
 	uint Shape::GetType() {
 		return typeOfShape;
