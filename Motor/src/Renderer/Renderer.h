@@ -16,7 +16,9 @@ namespace Graficos1 {
 		Renderer();
 		~Renderer();
 		int InitGlew();
-		void SetAttribs(int tam, float* verts, uint& vbo, uint& vao, glm::mat4 model);
+		void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
+		void SetQuadThings(int tam, uint* indexs);
+		void SetAttribs(glm::mat4 model);
 		void InitShaders();
 		void UpdateModel(glm::mat4 model);
 		void StopShaders();

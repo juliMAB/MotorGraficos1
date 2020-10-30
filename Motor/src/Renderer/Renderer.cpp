@@ -29,8 +29,7 @@ namespace Graficos1 {
 
 		return 1;
 	}
-
-	void Renderer::SetAttribs(int tam, float* verts, uint& vbo, uint& vao, glm::mat4 model) {
+	void Renderer::SetBuffers(int tam, float* verts, uint& vbo, uint& vao) {
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
@@ -39,6 +38,14 @@ namespace Graficos1 {
 
 		glBufferData(GL_ARRAY_BUFFER, tam, verts, GL_STATIC_DRAW);
 
+	}
+	void Renderer::SetQuadThings(int tam, uint* indexs) {
+		unsigned int ibo;
+		glGenBuffers(1, &ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
+	}
+	void Renderer::SetAttribs(glm::mat4 model) {
 		posLocation = glGetAttribLocation(GetShader(), "pos");
 		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
 		glEnableVertexAttribArray(posLocation);

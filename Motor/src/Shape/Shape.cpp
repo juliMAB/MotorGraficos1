@@ -54,17 +54,13 @@ namespace Graficos1 {
 		tamVerts = sizeof(quadVertices);
 	}
 	void Shape::CreateShape() {
-		_renderer->SetAttribs(GetVerticesTam(), _vb, _vbo, _vao, model);
-		//if (typeOfShape == GL_QUADS) {
-		//	unsigned int ibo;
-		//	glGenBuffers(1, &ibo);
-		//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, GetIndexTam(), GetIndexs(), GL_STATIC_DRAW);
-		//}
+		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
+		if (typeOfShape == GL_QUADS)
+			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+		_renderer->SetAttribs(model);
 	}
 	void Shape::DrawShape() {
 		_renderer->UpdateModel(model);
-
 		if (typeOfShape == GL_TRIANGLES) {
 			_renderer->Draw(typeOfShape, 3, _vao);
 			return;
@@ -86,8 +82,10 @@ namespace Graficos1 {
 			triangleVertices[16] = c3[1];
 			triangleVertices[17] = c3[2];
 
-			_renderer->SetAttribs(GetVerticesTam(), _vb, _vbo, _vao, model);
-
+			_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
+			if (typeOfShape == GL_QUADS)
+				_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+			_renderer->SetAttribs(model);
 			return;
 		}
 
@@ -107,12 +105,10 @@ namespace Graficos1 {
 		quadVertices[22] = 0.0f;
 		quadVertices[23] = 0.0f;
 
-		unsigned int ibo;
-		glGenBuffers(1, &ibo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, GetIndexTam(), GetIndexs(), GL_STATIC_DRAW);
-
-		_renderer->SetAttribs(GetVerticesTam(), _vb, _vbo, _vao, model);
+		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
+		if (typeOfShape == GL_QUADS)
+			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+		_renderer->SetAttribs(model);
 	}
 	int Shape::GetVerticesArrLenght() {
 		return tamVerts / sizeof(float);

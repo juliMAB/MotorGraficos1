@@ -156,6 +156,7 @@ namespace Graficos1 {
 					_shape->SetRotZ((rotZ / 180.0f));
 					_shape->SetScale(scaleX, scaleY, scaleZ);
 				}
+
 				if (_shape != NULL)
 					_shape->DrawShape();
 
