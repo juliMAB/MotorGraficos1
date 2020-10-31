@@ -25,6 +25,9 @@
   <ItemGroup>
     <ClInclude Include="src\Game\Game.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\yd.jpg" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{428FA7CF-3ECE-4B7C-8AB5-0A24A005055E}</ProjectGuid>

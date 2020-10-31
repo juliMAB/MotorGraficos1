@@ -4,14 +4,17 @@
 #include <glew.h>
 #include <glfw/glfw3.h>
 
+
 #include "../src/Input/Input.h"
+#include "../src/Sprite/Sprite.h"
 
 namespace Graficos1 {
-
+	Sprite* tex;
 	GameBase::GameBase() {
 		srand(time(0));
 		_window = new Window();
 		_renderer = new Renderer();
+		
 	}
 	GameBase::~GameBase() {
 		if (_window != NULL)
@@ -20,6 +23,8 @@ namespace Graficos1 {
 			delete _renderer;
 		if (_shape != NULL)
 			delete _shape;
+		if (tex != NULL)
+			delete tex;
 	}
 	int GameBase::Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 		if (!glfwInit()) {
@@ -53,10 +58,12 @@ namespace Graficos1 {
 		if (_renderer != NULL)
 			_renderer->InitShaders();
 
+		tex = new Sprite(_renderer, nullptr);
 		_shape = new Shape(_renderer, nullptr);
 		if (_shape != NULL) {
-			_shape->InitShape(GL_TRIANGLES);
+			_shape->InitShape(GL_QUADS, TypeShader::Texture);
 			_shape->CreateShape();
+			tex->LoadTexture("res/textures/theolean.jpg");
 		}
 
 		double oldTimer = clock();
@@ -79,7 +86,7 @@ namespace Graficos1 {
 		float c1[3];
 		float c2[3];
 		float c3[3];
-		std::cout << glGetString(GL_VERSION) << std::endl;
+
 		bool buttonPressed = false;
 		if (_shape != NULL) {
 			for (int i = 0; i < 3; i++) {
@@ -89,14 +96,29 @@ namespace Graficos1 {
 			}
 			_shape->SetColor(c1, c2, c3);
 		}
+
 		if (_window != NULL) {
 			while (_window->CheckIfWindowIsOpen()) {
 				glClear(GL_COLOR_BUFFER_BIT);
-				glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+				glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 				double timer = clock();
 				float dt = (float)((timer - oldTimer) / 1000.0f);
 				oldTimer = timer;
+
+				if (Input::GetKeyDown(_window->GetWindow(), Keycode::R)) {
+					posX = 0;
+					posY = 0;
+					posZ = 0;
+
+					rotX = 0;
+					rotY = 0;
+					rotZ = 0;
+
+					scaleX = 1;
+					scaleY = 1;
+					scaleZ = 1;
+				}
 
 				if (Input::GetKey(_window->GetWindow(), Keycode::W))
 					posY += speed * dt;
@@ -159,6 +181,7 @@ namespace Graficos1 {
 
 				if (_shape != NULL)
 					_shape->DrawShape();
+				tex->UseTexture();
 
 				if (_window != NULL)
 					_window->SwapBuffers();

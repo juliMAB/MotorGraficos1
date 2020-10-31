@@ -15,7 +15,7 @@ namespace Graficos1 {
 		Shape();
 		Shape(Renderer* rend, Material* mat);
 		~Shape();
-		void InitShape(uint type);
+		void InitShape(uint type, TypeShader t);
 		void CreateShape();
 		void DrawShape();
 		void SetColor(float c1[3], float c2[3], float c3[3]);

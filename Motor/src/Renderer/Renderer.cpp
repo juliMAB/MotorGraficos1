@@ -5,6 +5,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include "../src/Shaders/VertexShader.h"
 #include "../src/Shaders/FragmentShader.h"
+
 namespace Graficos1 {
 
 	typedef unsigned int uint;
@@ -46,14 +47,24 @@ namespace Graficos1 {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
 	}
 	void Renderer::SetAttribs(glm::mat4 model) {
-		posLocation = glGetAttribLocation(GetShader(), "pos");
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-		glEnableVertexAttribArray(posLocation);
 	
-		unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
-		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(colorLocation);
-	
+		if (_typeShader == TypeShader::Colour) {
+			posLocation = glGetAttribLocation(GetShader(), "pos");
+			glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+			glEnableVertexAttribArray(posLocation);
+			unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(colorLocation);
+		}
+		else {
+			posLocation = glGetAttribLocation(GetShader(), "pos");
+			glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
+			glEnableVertexAttribArray(posLocation);
+
+			unsigned int texLocation = glGetAttribLocation(GetShader(), "tex");
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(texLocation);
+		}
 		unsigned int uniformModel = glGetUniformLocation(GetShader(), "model");
 		glUseProgram(GetShader());
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -61,7 +72,9 @@ namespace Graficos1 {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
-
+	void Renderer::SetTypeOfShader(TypeShader t) {
+		_typeShader = t;
+	}
 	void Renderer::InitShaders() {
 		CompileShaders();
 	}
@@ -75,7 +88,9 @@ namespace Graficos1 {
 
 		switch (shape) {
 		case GL_QUADS:
+			glEnable(GL_TEXTURE_2D);
 			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
+			glDisable(GL_TEXTURE_2D);
 			break;
 		case GL_TRIANGLES:
 			glDrawArrays(GL_TRIANGLES, 0, verts);
@@ -119,7 +134,6 @@ namespace Graficos1 {
 			std::cout << "Error compiling the " << type << " program: " << eLog << std::endl;
 			return;
 		}
-
 		glAttachShader(program, theShader);
 	}
 
@@ -131,7 +145,7 @@ namespace Graficos1 {
 		}
 
 		AddShader(_shader, vShader, GL_VERTEX_SHADER);
-		AddShader(_shader, fShader, GL_FRAGMENT_SHADER);
+		AddShader(_shader, fShaderTex, GL_FRAGMENT_SHADER);
 
 		int result = 0;
 		char eLog[1024] = { 0 };
