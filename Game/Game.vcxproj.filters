@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="res">
-      <UniqueIdentifier>{0fb01e84-c747-4ff5-a729-c80e403cde99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="res\textures">
-      <UniqueIdentifier>{8ea89c01-d727-44c5-8f1d-3710981841d8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -32,10 +26,5 @@
     <ClInclude Include="src\Game\Game.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\textures\yd.jpg">
-      <Filter>res\textures</Filter>
-    </Image>
   </ItemGroup>
 </Project>

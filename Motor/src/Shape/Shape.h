@@ -5,7 +5,11 @@
 #include "../src/Entity2D/Entity2D.h"
 #include "../src/Material/Material.h"
 
+#define TRIANGLE 0x0004
+#define QUAD 0x0007
+
 namespace Graficos1 {
+
 	typedef unsigned int uint;
 	class GraficosEngine_API Shape : public Entity2D {
 		float* _vb;

@@ -8,8 +8,10 @@ namespace Graficos1 {
 		_mat = mat;
 	}
 	Entity2D::~Entity2D() {
-		if (_mat != NULL)
+		if (_mat != NULL) {
 			delete _mat;
+			_mat = NULL;
+		}
 	}
 
 	void Entity2D::SetMaterial(Material* mat) {

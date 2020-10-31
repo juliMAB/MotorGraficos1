@@ -5,6 +5,7 @@
 #include "../src/Window/Window.h"
 #include "../src/Renderer/Renderer.h"
 #include "../src/Shape/Shape.h"
+#include "../src/Sprite/Sprite.h"
 struct GLFWmonitor;
 
 namespace Graficos1 {
@@ -12,12 +13,20 @@ namespace Graficos1 {
 	class GraficosEngine_API GameBase {
 		Window* _window;
 		Renderer* _renderer;
-		Shape* _shape;
 	public:
 		GameBase();
 		~GameBase();
-		int Play(int width, int height, const char* windowName, GLFWmonitor* fullScreen);
-		void Stop();
+
+		int StartEngine();
+		void UpdateEngine();
+		void EndEngine();
+
+		Window* GetWindow();
+		Renderer* GetRenderer();
+
+		virtual void Start() = 0;
+		virtual void Update() = 0;
+		void virtual End() = 0;
 	};
 
 }

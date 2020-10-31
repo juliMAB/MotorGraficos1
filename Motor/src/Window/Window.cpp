@@ -15,6 +15,7 @@ namespace Graficos1 {
 
 	int Window::MakeWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 		_window = glfwCreateWindow(width, height, windowName, fullScreen, NULL);
+		
 		if (!_window) {
 			std::cout << "Fail to create GLFW window" << std::endl;
 			return 0;
@@ -24,6 +25,11 @@ namespace Graficos1 {
 
 	void Window::InitWindow() {
 		glfwMakeContextCurrent(_window);
+	}
+
+	void Window::ClearWindow(float r, float g, float b, float a) {
+		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(r,g,b,a);
 	}
 
 	int Window::CheckIfWindowIsOpen() {

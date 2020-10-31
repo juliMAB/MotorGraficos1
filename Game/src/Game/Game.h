@@ -3,13 +3,17 @@
 #include "GameBase/GameBase.h"
 
 namespace Graficos1 {
+	
 	class Game : GameBase {
-		GameBase* gb;
+		Shape* _shape;
+		Sprite* _shapeSprite;
 	public:
 		Game();
 		~Game();
 		void Play();
-		void Stop();
+		void Start() override;
+		void Update() override;
+		void End() override;
 	};
 
 }
