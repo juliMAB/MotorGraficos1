@@ -1,6 +1,5 @@
 #include "Game/Game.h"
 using namespace Graficos1;
-#include <iostream>
 int main(void) {
 	Game* g = new Game();
 	if (g) {
@@ -9,7 +8,4 @@ int main(void) {
 		g->End();
 		delete g;
 	}
-	std::cin.get();
-	std::cin.get();
-	std::cin.get();
 }

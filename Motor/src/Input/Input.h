@@ -129,11 +129,12 @@ namespace Graficos1 {
 		MENU = 348
 	};
 
-	class GraficosEngine_API Input	{
+	class GraficosEngine_API Input {
 	public:
-		static bool GetKeyDown(GLFWwindow* w, Keycode k);
-		static bool GetKeyUp(GLFWwindow* w, Keycode k);
-		static bool GetKey(GLFWwindow* w, Keycode k);
+		static bool GetKeyDown(Keycode k);
+		static bool GetKeyUp(Keycode k);
+		static bool GetKey(Keycode k);
+		static void SetWindow(GLFWwindow* w);
 	};
 }
 

@@ -17,6 +17,9 @@ namespace Graficos1 {
 	void TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels) {
 
 		stbi_set_flip_vertically_on_load(true);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		data = stbi_load(path, &width, &height, &channels, 0);
 		if (!data) {
 			std::cout << "No Carga Textura" << std::endl;
@@ -24,7 +27,6 @@ namespace Graficos1 {
 		}
 
 		glGenTextures(1, &texture);
-		//glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -32,7 +34,7 @@ namespace Graficos1 {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA4, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);

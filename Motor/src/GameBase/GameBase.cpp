@@ -4,7 +4,6 @@
 #include <glew.h>
 #include <glfw/glfw3.h>
 
-
 #include "../src/Input/Input.h"
 #include "../src/Sprite/Sprite.h"
 
@@ -34,12 +33,13 @@ namespace Graficos1 {
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 		_window->MakeWindow(1366, 768, "Coco", NULL);
-		
+
 		int bufferWidth;
 		int bufferHeight;
 		glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
 
 		_window->InitWindow();
+		_input->SetWindow(_window->GetWindow());
 
 		if (!_renderer->InitGlew()) {
 			glfwTerminate();
@@ -49,7 +49,7 @@ namespace Graficos1 {
 		_renderer->InitShaders();
 	}
 
-	void GameBase::UpdateEngine()	{
+	void GameBase::UpdateEngine() {
 		while (_window->CheckIfWindowIsOpen()) {
 			Update();
 			glfwPollEvents();
@@ -65,5 +65,8 @@ namespace Graficos1 {
 	}
 	Renderer* GameBase::GetRenderer() {
 		return _renderer;
+	}
+	Input* GameBase::GetInput() {
+		return _input;
 	}
 }

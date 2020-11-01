@@ -16,7 +16,6 @@ namespace Graficos1 {
 		glBindTexture(GL_TEXTURE_2D, _texture);
 	}
 
-
 	int	 Sprite::GetWidth() {
 		return _width;
 	}	 

@@ -7,6 +7,9 @@ namespace Graficos1 {
 	class Game : GameBase {
 		Shape* _shape;
 		Sprite* _shapeSprite;
+
+		Shape* _shape2;
+		Sprite* _shapeSprite2;
 	public:
 		Game();
 		~Game();

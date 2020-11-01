@@ -11,9 +11,6 @@ namespace Graficos1 {
 	class GraficosEngine_API Entity {
 	private:
 	protected:
-		glm::vec3 positionVec;
-		glm::vec3 rotationVec;
-		glm::vec3 scaleVec;
 
 		glm::mat4 model;
 		glm::mat4 translate;
@@ -27,6 +24,9 @@ namespace Graficos1 {
 		Entity();
 		Entity(Renderer* rend);
 		~Entity();
+		glm::vec3 positionVec;
+		glm::vec3 rotationVec;
+		glm::vec3 scaleVec;
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
 		void SetPos(float x, float y, float z);
