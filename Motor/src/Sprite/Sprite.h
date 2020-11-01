@@ -4,6 +4,7 @@
 #include "../src/Exports/Exports.h"
 #include "../src/Entity2D/Entity2D.h"
 #include "../src/TextureImporter/TextureImporter.h"
+#include "../src/Animation/Animation.h"
 
 namespace Graficos1 {
 	typedef unsigned int uint;
@@ -14,12 +15,17 @@ namespace Graficos1 {
 		int _channels;
 		unsigned char* _data;
 		uint _texture;
+		Animation* _animation;
+
+		float* _vb;
+		uint _vbo;
+		uint _vao;
 	public:
 		Sprite(Renderer* rend);
 		Sprite(Renderer* rend, Material* mat);
 		~Sprite();
 		void LoadTexture(const char* path, bool transparent);
-		void UseTexture();
+		void DrawTexture();
 		int GetWidth();
 		int GetHeight();
 		int GetChannels();

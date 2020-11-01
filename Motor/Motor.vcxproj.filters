@@ -54,6 +54,9 @@
     <ClCompile Include="src\TextureImporter\stb_image.cpp">
       <Filter>Archivos de encabezado</Filter>
     </ClCompile>
+    <ClCompile Include="src\Animation\Animation.cpp">
+      <Filter>Archivos de encabezado</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entity\Entity.h">
@@ -90,6 +93,9 @@
       <Filter>Archivos de origen</Filter>
     </ClInclude>
     <ClInclude Include="src\TextureImporter\TextureImporter.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation\Animation.h">
       <Filter>Archivos de origen</Filter>
     </ClInclude>
   </ItemGroup>

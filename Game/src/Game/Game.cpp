@@ -6,33 +6,22 @@ namespace Graficos1 {
 
 	}
 	Game::~Game() {
-		if (_shape != NULL) {
-			delete _shape;
-			_shape = NULL;
-		}
-		if (_shapeSprite != NULL) {
-			delete _shapeSprite;
-			_shapeSprite = NULL;
+		if (_sprite != NULL) {
+			delete _sprite;
+			_sprite = NULL;
 		}
 	}
 	void Game::Start() {
 		StartEngine();
-		_shape = new Shape(GetRenderer(), NULL);
-		_shapeSprite = new Sprite(GetRenderer(), NULL);
-		_shape2 = new Shape(GetRenderer(), NULL);
-		_shapeSprite2 = new Sprite(GetRenderer(), NULL);
+		_sprite = new Sprite(GetRenderer(), NULL);
 
-		_shape->InitShape(QUAD, TypeShader::Texture);
-		_shape->CreateShape();
-		_shapeSprite->LoadTexture("res/textures/yd.png", false);
+
+		//_shape->InitShape(QUAD, TypeShader::Texture);
+		//_shape->CreateShape();
+		//_shapeSprite->LoadTexture("res/textures/yd.png", false);
 	
-		_shape2->InitShape(QUAD, TypeShader::Texture);
-		_shape2->CreateShape();
-		_shapeSprite2->LoadTexture("res/textures/Sun.png", true);
-		_shapeSprite2->BlendSprite();
-
-		_shape2->SetPos(-0.5f, _shape2->positionVec.y, 0);
-		_shape->SetPos(0.5f, _shape->positionVec.y, 0);
+		_sprite->LoadTexture("res/textures/player.png", true);
+		_sprite->BlendSprite();
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -48,14 +37,11 @@ namespace Graficos1 {
 		float dt = (float)((timer - oldTimer) / 1000.0f);
 		oldTimer = timer;
 
-		if (Input::GetKey(Keycode::D))
-			_shape->SetPos(_shape->positionVec.x + (speed * dt), _shape->positionVec.y, _shape->positionVec.z);
 
-		_shape->DrawShape();
-		_shapeSprite->UseTexture();
+		//_shape->DrawShape();
+		//_shapeSprite->UseTexture();
 
-		_shape2->DrawShape();
-		_shapeSprite2->UseTexture();
+		_sprite->DrawTexture();
 
 		GetWindow()->SwapBuffers();
 	}

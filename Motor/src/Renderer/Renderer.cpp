@@ -145,7 +145,7 @@ namespace Graficos1 {
 		}
 
 		AddShader(_shader, vShader, GL_VERTEX_SHADER);
-		AddShader(_shader, fShaderTex, GL_FRAGMENT_SHADER);
+			AddShader(_shader, fShaderTex, GL_FRAGMENT_SHADER);
 
 		int result = 0;
 		char eLog[1024] = { 0 };
