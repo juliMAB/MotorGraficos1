@@ -22,10 +22,14 @@ namespace Graficos1 {
 		_shape2 = new Shape(GetRenderer(), NULL);
 		_shapeSprite2 = new Sprite(GetRenderer(), NULL);
 
+		_shape->InitShape(QUAD, TypeShader::Texture);
+		_shape->CreateShape();
+		_shapeSprite->LoadTexture("res/textures/yd.png", false);
 	
 		_shape2->InitShape(QUAD, TypeShader::Texture);
 		_shape2->CreateShape();
-		_shapeSprite2->LoadTexture("res/textures/Sun.png");
+		_shapeSprite2->LoadTexture("res/textures/Sun.png", true);
+		_shapeSprite2->BlendSprite();
 
 		_shape2->SetPos(-0.5f, _shape2->positionVec.y, 0);
 		_shape->SetPos(0.5f, _shape->positionVec.y, 0);
@@ -46,6 +50,9 @@ namespace Graficos1 {
 
 		if (Input::GetKey(Keycode::D))
 			_shape->SetPos(_shape->positionVec.x + (speed * dt), _shape->positionVec.y, _shape->positionVec.z);
+
+		_shape->DrawShape();
+		_shapeSprite->UseTexture();
 
 		_shape2->DrawShape();
 		_shapeSprite2->UseTexture();

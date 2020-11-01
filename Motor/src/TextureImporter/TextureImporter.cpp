@@ -14,11 +14,8 @@ namespace Graficos1 {
 	}
 	TextureImporter::~TextureImporter() {
 	}
-	void TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels) {
-
+	void TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels, bool transparent) {
 		stbi_set_flip_vertically_on_load(true);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		data = stbi_load(path, &width, &height, &channels, 0);
 		if (!data) {
@@ -33,8 +30,12 @@ namespace Graficos1 {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); 
+	
+		if(transparent)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		else
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA4, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);

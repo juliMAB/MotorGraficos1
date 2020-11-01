@@ -10,7 +10,7 @@ namespace Graficos1 {
 	public:
 		TextureImporter();
 		~TextureImporter();
-		void LoadTexture(const char* path, unsigned char* data ,uint& texture, int width, int height, int channels);
+		void LoadTexture(const char* path, unsigned char* data ,uint& texture, int width, int height, int channels, bool transparent);
 	};
 		
 

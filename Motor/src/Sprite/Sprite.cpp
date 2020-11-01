@@ -7,9 +7,11 @@ namespace Graficos1 {
 
 	Sprite::Sprite(Renderer* rend, Material* mat) : Entity2D(rend, mat) {}
 	Sprite::Sprite(Renderer* rend) : Entity2D(rend, NULL) {	}
-	Sprite::~Sprite() { glDeleteTextures(1, &_texture); }
-	void Sprite::LoadTexture(const char* path) {
-		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels);
+	Sprite::~Sprite() { 
+		glDeleteTextures(1, &_texture); 
+	}
+	void Sprite::LoadTexture(const char* path, bool transparent) {
+		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, transparent);
 	}
 	void Sprite::UseTexture() {
 		glActiveTexture(GL_TEXTURE0);
@@ -25,7 +27,8 @@ namespace Graficos1 {
 	int	 Sprite::GetChannels(){
 		return _channels;
 	}	 
-	void Sprite::BindSprite() {
-		
+	void Sprite::BlendSprite() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }

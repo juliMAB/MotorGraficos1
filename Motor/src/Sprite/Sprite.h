@@ -18,12 +18,12 @@ namespace Graficos1 {
 		Sprite(Renderer* rend);
 		Sprite(Renderer* rend, Material* mat);
 		~Sprite();
-		void LoadTexture(const char* path);
+		void LoadTexture(const char* path, bool transparent);
 		void UseTexture();
 		int GetWidth();
 		int GetHeight();
 		int GetChannels();
-		void BindSprite();
+		void BlendSprite();
 	};
 		
 
