@@ -14,13 +14,9 @@ namespace Graficos1 {
 	void Game::Start() {
 		StartEngine();
 		_sprite = new Sprite(GetRenderer(), NULL);
-
-
-		//_shape->InitShape(QUAD, TypeShader::Texture);
-		//_shape->CreateShape();
-		//_shapeSprite->LoadTexture("res/textures/yd.png", false);
 	
 		_sprite->LoadTexture("res/textures/player.png", true);
+		_sprite->SetAnimation(6,0.05f);
 		_sprite->BlendSprite();
 	}
 	void Game::Play() {
@@ -29,20 +25,11 @@ namespace Graficos1 {
 
 	float speed = 10;
 
-		double oldTimer = clock();
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.0f, 0.0f, 1.0f, 1.0f);
 
-		double timer = clock();
-		float dt = (float)((timer - oldTimer) / 1000.0f);
-		oldTimer = timer;
-
-
-		//_shape->DrawShape();
-		//_shapeSprite->UseTexture();
-
+		_sprite->UpdateAnimation();
 		_sprite->DrawTexture();
-
 		GetWindow()->SwapBuffers();
 	}
 	void Game::End() {

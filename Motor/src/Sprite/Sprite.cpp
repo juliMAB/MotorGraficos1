@@ -2,14 +2,15 @@
 #include <glew.h>
 #include <GLFW/glfw3.h>
 #include <glm\gtc\type_ptr.hpp>
+#include <iostream>
 
 namespace Graficos1 {
 
 	float texVertices[] = {
-		1.0f, 1.0f, 0.0f, 1.0f, 1.0f,   // top right
-		1.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // bottom right
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,   // bottom left
-		-1.0f, 1.0f, 0.0f, 0.0f, 1.0f    // top left 
+		 0.16667f,  1.0f, 0.0f, 0.5f, 1.0f,   // top right
+		 0.16667f, -1.0f, 0.0f, 0.5f, 0.0f,   // bottom right
+		-0.16667f, -1.0f, 0.0f, 0.333334f, 0.0f,   // bottom left
+		-0.16667f,  1.0f, 0.0f, 0.333334f, 1.0f    // top left 
 	};
 
 	unsigned int posIndexsTex[] = {
@@ -36,9 +37,18 @@ namespace Graficos1 {
 		glDeleteTextures(1, &_texture); 
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
+
+		if (_animation != NULL) {
+			delete _animation;
+			_animation = NULL;
+		}
 	}
 	void Sprite::LoadTexture(const char* path, bool transparent) {
 		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, transparent);
+	}
+	void Sprite::SetAnimation(int cantFrames, float timeBetweenFrames) {
+		_animation = new Animation();
+		_animation->SetAnimationValues(cantFrames, timeBetweenFrames, _width, _height, texVertices);
 	}
 	void Sprite::DrawTexture() {
 		_renderer->UpdateModel(model);
@@ -46,7 +56,15 @@ namespace Graficos1 {
 		glBindTexture(GL_TEXTURE_2D, _texture);
 		_renderer->Draw(GL_QUADS, 6, _vao);
 	}
-
+	void Sprite::UpdateAnimation() {
+		_animation->UpdateAnimation();
+		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
+		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
+		_renderer->SetAttribs(model);
+	}
+	float* Sprite::GetVerts() {
+		return texVertices;
+	}
 	int	 Sprite::GetWidth() {
 		return _width;
 	}	 

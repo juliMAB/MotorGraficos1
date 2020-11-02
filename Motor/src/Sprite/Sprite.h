@@ -25,7 +25,10 @@ namespace Graficos1 {
 		Sprite(Renderer* rend, Material* mat);
 		~Sprite();
 		void LoadTexture(const char* path, bool transparent);
+		void SetAnimation(int cantFrames, float timeBetweenFrames);
 		void DrawTexture();
+		void UpdateAnimation();
+		float* GetVerts();
 		int GetWidth();
 		int GetHeight();
 		int GetChannels();
