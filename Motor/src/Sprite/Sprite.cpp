@@ -6,12 +6,12 @@
 
 namespace Graficos1 {
 
-	float texVertices[] = {
-		 0.16667f,  1.0f, 0.0f, 0.5f, 1.0f,   // top right
-		 0.16667f, -1.0f, 0.0f, 0.5f, 0.0f,   // bottom right
-		-0.16667f, -1.0f, 0.0f, 0.333334f, 0.0f,   // bottom left
-		-0.16667f,  1.0f, 0.0f, 0.333334f, 1.0f    // top left 
-	};
+	//static float texVertices[] = {
+	//	 1.0f,  1.0f, 0.0f, 1.0f,0.0f,1.0f, 1.0f, 1.0f,   // top right
+	//	 1.0f, -1.0f, 0.0f, 1.0f,0.0f,1.0f, 1.0f, 0.0f,   // bottom right
+	//	-1.0f, -1.0f, 0.0f, 1.0f,0.0f,1.0f, 0.0f, 0.0f,   // bottom left
+	//	-1.0f,  1.0f, 0.0f, 1.0f,0.0f,1.0f, 0.0f, 1.0f    // top left 
+	//};
 
 	unsigned int posIndexsTex[] = {
 		0, 1, 2,
@@ -19,15 +19,14 @@ namespace Graficos1 {
 	};
 
 	typedef unsigned int uint;
-	uint tamVertsTex;
+	static uint tamVertsTex;
 
 	Sprite::Sprite(Renderer* rend, Material* mat) : Entity2D(rend, mat) {
 		tamVertsTex = sizeof(texVertices);
 		_vb = texVertices;
-		_renderer->SetTypeOfShader(TypeShader::Texture);
 		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
 		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
-		_renderer->SetAttribs(model);
+		_renderer->SetAttribs(model,TypeShader::Texture);
 	}
 	Sprite::Sprite(Renderer* rend) : Entity2D(rend, NULL) {
 		tamVertsTex = sizeof(texVertices);
@@ -51,16 +50,21 @@ namespace Graficos1 {
 		_animation->SetAnimationValues(cantFrames, timeBetweenFrames, _width, _height, texVertices);
 	}
 	void Sprite::DrawTexture() {
+		glEnable(GL_TEXTURE_2D);
+
+		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
+		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
+		_renderer->SetAttribs(model,TypeShader::Texture);
+
 		_renderer->UpdateModel(model);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);
 		_renderer->Draw(GL_QUADS, 6, _vao);
+
+		glDisable(GL_TEXTURE_2D);
 	}
 	void Sprite::UpdateAnimation() {
 		_animation->UpdateAnimation();
-		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
-		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
-		_renderer->SetAttribs(model);
 	}
 	float* Sprite::GetVerts() {
 		return texVertices;
@@ -77,5 +81,8 @@ namespace Graficos1 {
 	void Sprite::BlendSprite() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+	void Sprite::UnBlendSprite() {
+		glDisable(GL_BLEND);
 	}
 }

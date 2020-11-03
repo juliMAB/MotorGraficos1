@@ -16,7 +16,12 @@ namespace Graficos1 {
 		unsigned char* _data;
 		uint _texture;
 		Animation* _animation;
-
+		float texVertices[32] = {
+			1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // top right
+			1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,   // bottom right
+			-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // bottom left
+			-1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f    // top left 
+		};
 		float* _vb;
 		uint _vbo;
 		uint _vao;
@@ -33,6 +38,7 @@ namespace Graficos1 {
 		int GetHeight();
 		int GetChannels();
 		void BlendSprite();
+		void UnBlendSprite();
 	};
 		
 

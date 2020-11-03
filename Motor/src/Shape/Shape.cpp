@@ -6,30 +6,17 @@
 
 namespace Graficos1 {
 
-	float triangleVerticesCol[] = {
-		 0.0f,  0.5f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,
-		 0.5f, -0.5f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f
+	float triangleVerticesCol[24] = {
+		0.0f, 1.0f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f
 	};
 
-	float triangleVerticesTex[] = {
-		0.0f, 0.5f, 0.0f,	/**/ 0.0f, 0.0f,
-		0.5f, -0.5f, 0.0f,	/**/ 0.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f,	/**/ 0.0f, 0.0f
-	};
-
-	float quadVerticesCol[] = {
-		/* 0 */	-0.5,  0.5, 0.0f, /**/ 1.0f, 0.0f, 0.0f,
-		/* 1 */	-0.5, -0.5, 0.0f, /**/ 0.0f, 1.0f, 0.0f,
-		/* 2 */	 0.5, -0.5, 0.0f, /**/ 0.0f, 0.0f, 1.0f,
-		/* 3 */	 0.5,  0.5, 0.0f, /**/ 0.0f, 0.0f, 0.0f
-	};
-
-	float quadVerticesTex[] = {
-		 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,   // top right
-		 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // bottom right
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,   // bottom left
-		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f    // top left 
+	float quadVerticesCol[32] = {
+		-1.0, 1.0, 1.0f, /**/ 1.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,
+		-1.0, -1.0, 1.0f, /**/ 0.0f, 1.0f, 0.0f,/**/ 0.0f, 0.0f,
+		1.0, -1.0, 1.0f, /**/ 0.0f, 0.0f, 1.0f,/**/ 0.0f, 0.0f,
+		1.0, 1.0, 1.0f, /**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f
 	};
 
 	unsigned int posIndexs[] = {
@@ -53,34 +40,26 @@ namespace Graficos1 {
 		typeOfShape = type;
 		typeShader = t;
 		if (type == GL_TRIANGLES) {
-			if (t == TypeShader::Colour) {
-				_vb = triangleVerticesCol;
-				tamVerts = sizeof(triangleVerticesCol);
-			}
-			else {
-				_vb = triangleVerticesTex;
-				tamVerts = sizeof(triangleVerticesTex);
-			}
+			_vb = triangleVerticesCol;
+			tamVerts = sizeof(triangleVerticesCol);
+
 			return;
 		}
 
-		if (t == TypeShader::Colour) {
-			_vb = quadVerticesCol;
-			tamVerts = sizeof(quadVerticesCol);
-		}
-		else {
-			_vb = quadVerticesTex;
-			tamVerts = sizeof(quadVerticesTex);
-		}
+		_vb = quadVerticesCol;
+		tamVerts = sizeof(quadVerticesCol);
 	}
 	void Shape::CreateShape() {
-		_renderer->SetTypeOfShader(typeShader);
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
 		if (typeOfShape == GL_QUADS)
 			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
-		_renderer->SetAttribs(model);
+		_renderer->SetAttribs(model, TypeShader::Colour);
 	}
 	void Shape::DrawShape() {
+		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
+		if (typeOfShape == GL_QUADS)
+			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+		_renderer->SetAttribs(model, TypeShader::Colour);
 		_renderer->UpdateModel(model);
 		if (typeOfShape == GL_TRIANGLES) {
 			_renderer->Draw(typeOfShape, 3, _vao);
@@ -95,18 +74,16 @@ namespace Graficos1 {
 			triangleVerticesCol[4] = c1[1];
 			triangleVerticesCol[5] = c1[2];
 
-			triangleVerticesCol[9] = c2[0];
-			triangleVerticesCol[10] = c2[1];
-			triangleVerticesCol[11] = c2[2];
+			triangleVerticesCol[11] = c2[0];
+			triangleVerticesCol[12] = c2[1];
+			triangleVerticesCol[13] = c2[2];
 
-			triangleVerticesCol[15] = c3[0];
-			triangleVerticesCol[16] = c3[1];
-			triangleVerticesCol[17] = c3[2];
+			triangleVerticesCol[19] = c3[0];
+			triangleVerticesCol[20] = c3[1];
+			triangleVerticesCol[21] = c3[2];
 
 			_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-			if (typeOfShape == GL_QUADS)
-				_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
-			_renderer->SetAttribs(model);
+			_renderer->SetAttribs(model, TypeShader::Colour);
 			return;
 		}
 
@@ -114,22 +91,21 @@ namespace Graficos1 {
 		quadVerticesCol[4] = c1[1];
 		quadVerticesCol[5] = c1[2];
 
-		quadVerticesCol[9] = c2[0];
-		quadVerticesCol[10] = c2[1];
-		quadVerticesCol[11] = c2[2];
-					
-		quadVerticesCol[15] = c3[0];
-		quadVerticesCol[16] = c3[1];
-		quadVerticesCol[17] = c3[2];
-					
-		quadVerticesCol[21] = 0.0f;
-		quadVerticesCol[22] = 0.0f;
-		quadVerticesCol[23] = 0.0f;
+		quadVerticesCol[11] = c2[0];
+		quadVerticesCol[12] = c2[1];
+		quadVerticesCol[13] = c2[2];
+
+		quadVerticesCol[19] = c3[0];
+		quadVerticesCol[20] = c3[1];
+		quadVerticesCol[21] = c3[2];
+
+		quadVerticesCol[27] = 0.0f;
+		quadVerticesCol[28] = 0.0f;
+		quadVerticesCol[29] = 0.0f;
 
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-		if (typeOfShape == GL_QUADS)
-			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
-		_renderer->SetAttribs(model);
+		_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+		_renderer->SetAttribs(model, TypeShader::Colour);
 	}
 	int Shape::GetVerticesArrLenght() {
 		return tamVerts / sizeof(float);

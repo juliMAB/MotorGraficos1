@@ -19,7 +19,7 @@ out vec2 TexCoord;									\n\
 void main(){										\n\
 	gl_Position =  model * vec4(pos, 1.0f);			\n\
 	vColor = vec4(colorrrr, 1.0f);					\n\
-TexCoord = tex;										\n\
+	TexCoord = tex;									\n\
 }";
 
 

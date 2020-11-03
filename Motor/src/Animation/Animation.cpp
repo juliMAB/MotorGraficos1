@@ -28,9 +28,9 @@ namespace Graficos1 {
 		_spriteHeight = _spriteSheetHeight;
 
 		_spriteVerts[0] = _spriteWidth  /_spriteSheetWidth;
-		_spriteVerts[5] = _spriteWidth  /_spriteSheetWidth;
-		_spriteVerts[10] = -_spriteWidth/_spriteSheetWidth;
-		_spriteVerts[15] = -_spriteWidth/_spriteSheetWidth;
+		_spriteVerts[8] = _spriteWidth  /_spriteSheetWidth;
+		_spriteVerts[16] = -_spriteWidth/_spriteSheetWidth;
+		_spriteVerts[24] = -_spriteWidth/_spriteSheetWidth;
 	}
 	
 	double oldT = clock();
@@ -49,9 +49,9 @@ namespace Graficos1 {
 		}
 	}
 	void Animation::ChangeAnimation() {
-		_spriteVerts[3] =  (_spriteWidth * (_actualFrame+1)	)/_spriteSheetWidth;
-		_spriteVerts[8] =  (_spriteWidth * (_actualFrame+1)	)/_spriteSheetWidth;
-		_spriteVerts[13] = (_spriteWidth * _actualFrame		)/_spriteSheetWidth;
-		_spriteVerts[18] = (_spriteWidth * _actualFrame		)/_spriteSheetWidth;
+		_spriteVerts[6] =  (_spriteWidth * (_actualFrame+1)	)/_spriteSheetWidth;
+		_spriteVerts[14] =  (_spriteWidth * (_actualFrame+1)	)/_spriteSheetWidth;
+		_spriteVerts[22] = (_spriteWidth * _actualFrame		)/_spriteSheetWidth;
+		_spriteVerts[30] = (_spriteWidth * _actualFrame		)/_spriteSheetWidth;
 	}
 }

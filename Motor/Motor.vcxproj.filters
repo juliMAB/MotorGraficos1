@@ -106,8 +106,5 @@
     <None Include="src\Shaders\VertexShader.shader">
       <Filter>res\shaders</Filter>
     </None>
-    <None Include="src\Shaders\FragmentShaderTex.shader">
-      <Filter>res\shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>

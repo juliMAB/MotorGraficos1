@@ -1,5 +1,4 @@
 #include "Material.h"
-#include "../src/Shaders/VertexShader.h"
 namespace Graficos1 {
 
 	Material::Material() {
