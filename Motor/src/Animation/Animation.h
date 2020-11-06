@@ -1,10 +1,13 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
+#include "../src/Exports/Exports.h"
+
 namespace Graficos1 {
 
-	class Animation {
+	class GraficosEngine_API Animation {
 		int _cantFrames;
+		int _cantFramesImg;
 		int _actualFrame;
 		float _timeBetweenFrames;
 		float _timer;
@@ -13,10 +16,12 @@ namespace Graficos1 {
 		int _spriteSheetHeight;
 		float _spriteHeight;
 		float* _spriteVerts;
+		int _rows;
+		int _actualRow;
 	public:
 		Animation();
 		~Animation();
-		void SetAnimationValues(int cantFrames, float timeBetweenFrames, int width, int height, float* verts);
+		void SetAnimationValues(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int width, int height, int rows, int actualRow, float* verts);
 		void UpdateAnimation();
 		void ChangeAnimation();
 	};

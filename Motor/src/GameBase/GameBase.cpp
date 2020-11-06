@@ -40,7 +40,7 @@ namespace Graficos1 {
 
 		_window->InitWindow();
 		_input->SetWindow(_window->GetWindow());
-
+		
 		if (!_renderer->InitGlew()) {
 			glfwTerminate();
 			return 0;

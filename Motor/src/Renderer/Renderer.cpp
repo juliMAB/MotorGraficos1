@@ -45,26 +45,24 @@ namespace Graficos1 {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
 	}
 	void Renderer::SetAttribs(glm::mat4 model, TypeShader t) {
-		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
-		glUseProgram(GetShader());
-		if (t == TypeShader::Colour) {
-			glUniform1i(useTextureLoc, false);
-		}
-		else {
-			glUniform1i(useTextureLoc, true);
-		}
-
 		posLocation = glGetAttribLocation(GetShader(), "pos");
 		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
 		glEnableVertexAttribArray(posLocation);
 
-		unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
-		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(colorLocation);
-
-		unsigned int texLocation = glGetAttribLocation(GetShader(), "tex");
-		glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-		glEnableVertexAttribArray(texLocation);
+		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
+		glUseProgram(GetShader());
+		if (t == TypeShader::Colour) {
+			glUniform1i(useTextureLoc, false);
+			unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(colorLocation);
+		}
+		else {
+			glUniform1i(useTextureLoc, true);
+			unsigned int texLocation = glGetAttribLocation(GetShader(), "tex");
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			glEnableVertexAttribArray(texLocation);
+		}
 
 		unsigned int uniformModel = glGetUniformLocation(GetShader(), "model");
 		glUseProgram(GetShader());

@@ -43,13 +43,16 @@ namespace Graficos1 {
 		}
 	}
 	void Sprite::LoadTexture(const char* path, bool transparent) {
-		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, transparent);
+		_transparent = transparent;
+		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, _transparent);
 	}
-	void Sprite::SetAnimation(int cantFrames, float timeBetweenFrames) {
+	void Sprite::SetAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow) {
 		_animation = new Animation();
-		_animation->SetAnimationValues(cantFrames, timeBetweenFrames, _width, _height, texVertices);
+		_animation->SetAnimationValues(cantFramesAnim, cantFramesImg, timeBetweenFrames, _width, _height, rows, actualRow,texVertices);
 	}
 	void Sprite::DrawTexture() {
+		if (_transparent)
+			BlendSprite();
 		glEnable(GL_TEXTURE_2D);
 
 		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
@@ -62,6 +65,9 @@ namespace Graficos1 {
 		_renderer->Draw(GL_QUADS, 6, _vao);
 
 		glDisable(GL_TEXTURE_2D);
+
+		if (_transparent)
+			UnBlendSprite();
 	}
 	void Sprite::UpdateAnimation() {
 		_animation->UpdateAnimation();
@@ -69,12 +75,6 @@ namespace Graficos1 {
 	float* Sprite::GetVerts() {
 		return texVertices;
 	}
-	int	 Sprite::GetWidth() {
-		return _width;
-	}	 
-	int	 Sprite::GetHeight() {
-		return _height;
-	}	 
 	int	 Sprite::GetChannels(){
 		return _channels;
 	}	 

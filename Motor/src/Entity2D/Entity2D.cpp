@@ -2,10 +2,12 @@
 
 namespace Graficos1 {
 
-	Entity2D::Entity2D() : Entity() {	}
+	Entity2D::Entity2D() : Entity() {
+
+	}
 
 	Entity2D::Entity2D(Renderer* rend, Material* mat) : Entity(rend) {
-		_mat = mat;
+
 	}
 	Entity2D::~Entity2D() {
 		if (_mat != NULL) {

@@ -5,7 +5,7 @@
 #include "../src/Shaders/VertexShader.shader"
 #include "../src/Shaders/FragmentShader.shader"
 #include <glm/mat4x4.hpp>
-
+#include "../src/Window/Window.h"
 namespace Graficos1 {
 	typedef unsigned int uint;
 	static enum TypeShader {

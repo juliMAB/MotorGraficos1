@@ -15,7 +15,7 @@ namespace Graficos1 {
 
 	int Window::MakeWindow(int width, int height, const char* windowName, GLFWmonitor* fullScreen) {
 		_window = glfwCreateWindow(width, height, windowName, fullScreen, NULL);
-		
+
 		if (!_window) {
 			std::cout << "Fail to create GLFW window" << std::endl;
 			return 0;

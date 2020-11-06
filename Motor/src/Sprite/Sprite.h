@@ -15,12 +15,13 @@ namespace Graficos1 {
 		int _channels;
 		unsigned char* _data;
 		uint _texture;
+		bool _transparent;
 		Animation* _animation;
 		float texVertices[32] = {
-			1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // top right
-			1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,   // bottom right
-			-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,   // bottom left
-			-1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f    // top left 
+			 1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	1.0f, 1.0f,   // top right
+			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	1.0f, 0.0f,   // bottom right
+			-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	0.0f, 0.0f,   // bottom left
+			-1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	0.0f, 1.0f    // top left 
 		};
 		float* _vb;
 		uint _vbo;
@@ -30,12 +31,10 @@ namespace Graficos1 {
 		Sprite(Renderer* rend, Material* mat);
 		~Sprite();
 		void LoadTexture(const char* path, bool transparent);
-		void SetAnimation(int cantFrames, float timeBetweenFrames);
+		void SetAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow);
 		void DrawTexture();
 		void UpdateAnimation();
 		float* GetVerts();
-		int GetWidth();
-		int GetHeight();
 		int GetChannels();
 		void BlendSprite();
 		void UnBlendSprite();
