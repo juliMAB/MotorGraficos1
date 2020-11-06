@@ -66,13 +66,18 @@ namespace Graficos1 {
 	}
 
 	float speed = 10;
-
+	int actualAnim = 0;
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.0f, 0.0f, 1.0f, 1.0f);
 
 		_sprite->UpdateAnimation();
-
-		if (Input::GetKeyDown(Keycode::D)) {
+		if (Input::GetKeyDown(Keycode::W)) {
+			actualAnim++;
+			if (actualAnim >= 4)
+				actualAnim = 0;
+			_sprite->ChangeAnimation(9, 9, 0.1f, 4, actualAnim);
+		}
+		if (Input::GetKey(Keycode::D)) {
 			if (_sprite->positionVec.x >= 1.0f)
 				_sprite->positionVec.x = -1.0f;
 

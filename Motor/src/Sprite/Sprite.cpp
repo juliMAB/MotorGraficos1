@@ -55,15 +55,13 @@ namespace Graficos1 {
 			BlendSprite();
 		glEnable(GL_TEXTURE_2D);
 
-		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
-		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
-		_renderer->SetAttribs(model,TypeShader::Texture);
-
 		_renderer->UpdateModel(model);
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);
-		_renderer->Draw(GL_QUADS, 6, _vao);
 
+		_renderer->Draw(GL_QUADS, 6, _vao, _vbo, texVertices, tamVertsTex);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisable(GL_TEXTURE_2D);
 
 		if (_transparent)
@@ -71,6 +69,9 @@ namespace Graficos1 {
 	}
 	void Sprite::UpdateAnimation() {
 		_animation->UpdateAnimation();
+	}
+	void Sprite::ChangeAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow) {
+		_animation->SetAnimationValues(cantFramesAnim, cantFramesImg, timeBetweenFrames, _width, _height, rows, actualRow, texVertices);
 	}
 	float* Sprite::GetVerts() {
 		return texVertices;

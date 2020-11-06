@@ -56,17 +56,13 @@ namespace Graficos1 {
 		_renderer->SetAttribs(model, TypeShader::Colour);
 	}
 	void Shape::DrawShape() {
-		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-		if (typeOfShape == GL_QUADS)
-			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
-		_renderer->SetAttribs(model, TypeShader::Colour);
 		_renderer->UpdateModel(model);
 		if (typeOfShape == GL_TRIANGLES) {
-			_renderer->Draw(typeOfShape, 3, _vao);
+			_renderer->Draw(typeOfShape, 3, _vao,_vbo,triangleVerticesCol, tamVerts);
 			return;
 		}
 
-		_renderer->Draw(typeOfShape, 6, _vao);
+		_renderer->Draw(typeOfShape, 6, _vao,_vbo,quadVerticesCol, tamVerts);
 	}
 	void Shape::SetColor(float c1[3], float c2[3], float c3[3]) {
 		if (typeOfShape == GL_TRIANGLES) {

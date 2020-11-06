@@ -26,7 +26,7 @@ namespace Graficos1 {
 		void InitShaders();
 		void UpdateModel(glm::mat4 model);
 		void StopShaders();
-		void Draw(uint shape, int verts, uint vao);
+		void Draw(uint shape, int verts, uint vao, uint vbo, float* vertexs, float tamVertexs);
 		uint GetShader();
 	};
 

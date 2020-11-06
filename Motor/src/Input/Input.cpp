@@ -4,8 +4,19 @@
 #include <iostream>
 namespace Graficos1 {
 	static GLFWwindow* _window;
+	static bool keyPressed = false;
+	static Keycode keyP = Keycode::GRAVE_ACCENT;
 	bool Input::GetKeyDown(Keycode k) {
-		return (glfwGetKey(_window, k) == GLFW_PRESS);
+		if (k != keyP && glfwGetKey(_window, k) == GLFW_PRESS) {
+			keyP = k;
+			return (glfwGetKey(_window, k) == GLFW_PRESS);
+		}
+		else if (k == keyP && glfwGetKey(_window, k) == GLFW_PRESS) 
+			return false;
+		else if (!glfwGetKey(_window, k) == GLFW_PRESS) {
+			keyP = Keycode::GRAVE_ACCENT;
+			return false;
+		}
 	}
 	bool Input::GetKeyUp(Keycode k) {
 		return (glfwGetKey(_window, k) == GLFW_RELEASE);

@@ -80,8 +80,10 @@ namespace Graficos1 {
 		glDeleteProgram(_shader);
 	}
 
-	void Renderer::Draw(uint shape, int verts, uint vao){
+	void Renderer::Draw(uint shape, int verts, uint vao, uint vbo, float* vertexs, float tamVertexs){
 		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
 
 		switch (shape) {
 		case GL_QUADS:
