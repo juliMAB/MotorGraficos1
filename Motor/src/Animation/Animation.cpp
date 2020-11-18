@@ -9,6 +9,7 @@ namespace Graficos1 {
 		_actualFrame = 0;
 		_cantFrames = 0;
 		_cantAnims = 0;
+		_actualAnim = 3;
 		_timeBetweenFrames = 0;
 		_timer = 0;
 		_spriteSheetWidth = 0;
@@ -33,6 +34,7 @@ namespace Graficos1 {
 
 			_spriteWidth = _spriteSheetWidth / columns;
 			_spriteHeight = _spriteSheetHeight / rows;
+			_animations[_cantAnims].cantFrames = 0;
 			_cantAnims++;
 		}
 		else {
@@ -57,14 +59,14 @@ namespace Graficos1 {
 			_animations[animation].uv.V2[frame] = (_spriteHeight / _spriteSheetHeight) * (frameY - 1);
 			_animations[animation].uv.V3[frame] = (_spriteHeight / _spriteSheetHeight) * (frameY - 1);
 			_animations[animation].uv.V4[frame] = (_spriteHeight / _spriteSheetHeight) *  frameY;
-			_cantFrames++;
+			_animations[animation].cantFrames++;
 		}
 		else {
 			std::cout << "Max Frames in Animation Reached" << std::endl;
 		}
 	}
 
-	void Animation::UpdateAnimation(int anim) {
+	void Animation::UpdateAnimation() {
 		float t = 0;
 		Timer::DeltaTime(t);
 		_timer += t;
@@ -73,24 +75,29 @@ namespace Graficos1 {
 			while (_timer > _timeBetweenFrames) {
 				_timer -= _timeBetweenFrames;
 				_actualFrame++;
-				if (_actualFrame >= _cantFrames)
+				if (_actualFrame >= _animations[_actualAnim].cantFrames)
 					_actualFrame = 0;
 			}
-			ChangeFrame(anim);
+			ChangeFrame();
 			_timer = t;
 		}
 	}
 
-	void Animation::ChangeFrame(int a) {
-		_spriteVerts[6] =  _animations[a].uv.U1[_actualFrame]; 
-		_spriteVerts[14] = _animations[a].uv.U2[_actualFrame]; 
-		_spriteVerts[22] = _animations[a].uv.U3[_actualFrame]; 
-		_spriteVerts[30] = _animations[a].uv.U4[_actualFrame]; 
-	
-		_spriteVerts[7]  = _animations[a].uv.V1[_actualFrame];
-		_spriteVerts[15] = _animations[a].uv.V2[_actualFrame];
-		_spriteVerts[23] = _animations[a].uv.V3[_actualFrame];
-		_spriteVerts[31] = _animations[a].uv.V4[_actualFrame];
+	void Animation::ChangeFrame() {
+		_spriteVerts[6] = _animations[_actualAnim].uv.U1[_actualFrame];
+		_spriteVerts[14] = _animations[_actualAnim].uv.U2[_actualFrame];
+		_spriteVerts[22] = _animations[_actualAnim].uv.U3[_actualFrame];
+		_spriteVerts[30] = _animations[_actualAnim].uv.U4[_actualFrame];
+
+		_spriteVerts[7] = _animations[_actualAnim].uv.V1[_actualFrame];
+		_spriteVerts[15] = _animations[_actualAnim].uv.V2[_actualFrame];
+		_spriteVerts[23] = _animations[_actualAnim].uv.V3[_actualFrame];
+		_spriteVerts[31] = _animations[_actualAnim].uv.V4[_actualFrame];
+	}
+
+	void Animation::ChangeAnimation(int a) {
+		_actualAnim = a;
+		ChangeFrame();
 	}
 
 }

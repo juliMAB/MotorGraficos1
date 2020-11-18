@@ -65,7 +65,7 @@ namespace Graficos1 {
 			return;
 		}
 		_settedAnimsValues = true;
-		_animation->SetAnimationValues(columns, rows, framesPerSeconds, _width, _height,texVertices);
+		_animation->SetAnimationValues(columns, rows, framesPerSeconds, _width, _height, texVertices);
 	}
 	void Sprite::AddFrameToAnimation(int frameX, int frameY, int animation, int frame) {
 		if (_animation == NULL) {
@@ -96,7 +96,7 @@ namespace Graficos1 {
 		if (_transparent)
 			UnBlendSprite();
 	}
-	void Sprite::UpdateAnimation(int anim) {
+	void Sprite::UpdateAnimation() {
 		if (_animation == NULL) {
 			std::cout << "You can't use this UpdateAnimation without use StartUseAnimation" << std::endl;
 			return;
@@ -105,7 +105,18 @@ namespace Graficos1 {
 			std::cout << "You can't use this UpdateAnimation without use SetAnimationValues" << std::endl;
 			return;
 		}
-		_animation->UpdateAnimation(anim);
+		_animation->UpdateAnimation();
+	}
+	void Sprite::ChangeAnimation(int anim) {
+		if (_animation == NULL) {
+			std::cout << "You can't use this ChangeAnimation without use StartUseAnimation" << std::endl;
+			return;
+		}
+		else if (!_settedAnimsValues) {
+			std::cout << "You can't use this ChangeAnimation without use SetAnimationValues" << std::endl;
+			return;
+		}
+		_animation->ChangeAnimation(anim);
 	}
 	float* Sprite::GetVerts() {
 		return texVertices;

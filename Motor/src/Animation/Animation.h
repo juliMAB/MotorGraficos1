@@ -17,12 +17,14 @@ namespace Graficos1 {
 	};
 	struct Anim {
 		UV uv;
+		int cantFrames;
 	};
 	class GraficosEngine_API Animation {
 		Anim _animations[16];
 		int _actualFrame;
 		int _cantFrames;
 		int _cantAnims;
+		int _actualAnim;
 
 		float _timeBetweenFrames;
 		float _timer;
@@ -40,8 +42,9 @@ namespace Graficos1 {
 		~Animation();
 		void SetAnimationValues(int columns, int rows, float framesPerSecond, int width, int height, float* verts);
 		void AddFrame(int frameX, int frameY, int animation, int frame);
-		void UpdateAnimation(int anim);
-		void ChangeFrame(int a);
+		void UpdateAnimation();
+		void ChangeFrame();
+		void ChangeAnimation(int a);
 	};
 
 }

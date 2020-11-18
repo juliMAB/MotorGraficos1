@@ -21,11 +21,22 @@ namespace Graficos1 {
 
 
 		_sprite = new Sprite(GetRenderer(), NULL);
-		_sprite->LoadTexture("res/textures/sprite2.png", true);
+		_sprite->LoadTexture("res/textures/sprite.png", true);
 		_sprite->StartUseAnimation();
-		_sprite->SetAnimation(8, 4, 8);
-		for (int i = 0; i < 8; i++)
-			_sprite->AddFrameToAnimation(i,0, 0, i);
+		_sprite->SetAnimation(7, 4, 16);
+		_sprite->SetAnimation(7, 4, 16);
+		_sprite->SetAnimation(9, 4, 16);
+		_sprite->SetAnimation(9, 4, 16);
+
+		for (int i = 0; i < 7; i++)
+			_sprite->AddFrameToAnimation(i, 0, 0, i);
+		for (int i = 0; i < 9; i++)
+			_sprite->AddFrameToAnimation(i, 1, 1, i);
+		for (int i = 0; i < 9; i++)
+			_sprite->AddFrameToAnimation(i, 2, 2, i);
+		for (int i = 0; i < 7; i++)
+			_sprite->AddFrameToAnimation(i, 3, 3, i);
+
 		_sprite->SetScale(0.33f, 0.33f, 0.33f);
 		_sprite->SetPos(0.5f, _sprite->positionVec.y, _sprite->positionVec.z);
 		_sprite->SetBoxCollider(0.5f, 0.75f, 0.0f);
@@ -46,17 +57,24 @@ namespace Graficos1 {
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.0f, 0.0f, 1.0f, 1.0f);
 
-		_sprite->UpdateAnimation(0);
+		_sprite->UpdateAnimation();
 
-		if (Input::GetKeyDown(Keycode::A)) 
+		if (Input::GetKeyDown(Keycode::A)) {
 			_sprite->SetPos(_sprite->positionVec.x - speed, _sprite->positionVec.y, _sprite->positionVec.z);
-		else if (Input::GetKeyDown(Keycode::D)) 
+			_sprite->ChangeAnimation(1);
+		}
+		else if (Input::GetKeyDown(Keycode::D)) {
 			_sprite->SetPos(_sprite->positionVec.x + speed, _sprite->positionVec.y, _sprite->positionVec.z);
-
-		if (Input::GetKeyDown(Keycode::W)) 
+			_sprite->ChangeAnimation(2);
+		}
+		else if (Input::GetKeyDown(Keycode::W)) {
 			_sprite->SetPos(_sprite->positionVec.x, _sprite->positionVec.y + speed, _sprite->positionVec.z);
-		else if (Input::GetKeyDown(Keycode::S)) 
+			_sprite->ChangeAnimation(0);
+		}
+		else if (Input::GetKeyDown(Keycode::S)) {
 			_sprite->SetPos(_sprite->positionVec.x, _sprite->positionVec.y - speed, _sprite->positionVec.z);
+			_sprite->ChangeAnimation(3);
+		}
 
 		if (Input::GetKeyDown(Keycode::ENTER))
 			system("cls");

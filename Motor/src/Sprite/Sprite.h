@@ -36,7 +36,8 @@ namespace Graficos1 {
 		void SetAnimation(int columns, int rows, float framesPerSeconds);
 		void AddFrameToAnimation(int frameX, int frameY, int animation, int frame);
 		void DrawTexture();
-		void UpdateAnimation(int anim);
+		void UpdateAnimation();
+		void ChangeAnimation(int anim);
 		float* GetVerts();
 		int GetChannels();
 		void BlendSprite();
