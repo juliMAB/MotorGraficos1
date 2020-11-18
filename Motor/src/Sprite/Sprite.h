@@ -17,6 +17,7 @@ namespace Graficos1 {
 		uint _texture;
 		bool _transparent;
 		Animation* _animation;
+		bool _settedAnimsValues;
 		float texVertices[32] = {
 			 1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	1.0f, 1.0f,   // top right
 			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	1.0f, 0.0f,   // bottom right
@@ -31,10 +32,11 @@ namespace Graficos1 {
 		Sprite(Renderer* rend, Material* mat);
 		~Sprite();
 		void LoadTexture(const char* path, bool transparent);
-		void SetAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow);
+		void StartUseAnimation();
+		void SetAnimation(int columns, int rows, float framesPerSeconds);
+		void AddFrameToAnimation(int frameX, int frameY, int animation, int frame);
 		void DrawTexture();
-		void UpdateAnimation();
-		void ChangeAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow);
+		void UpdateAnimation(int anim);
 		float* GetVerts();
 		int GetChannels();
 		void BlendSprite();

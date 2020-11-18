@@ -6,7 +6,6 @@
 
 #include "../src/Input/Input.h"
 #include "../src/Sprite/Sprite.h"
-
 namespace Graficos1 {
 	GameBase::GameBase() {
 		srand(time(0));

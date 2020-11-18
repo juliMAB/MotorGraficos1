@@ -58,11 +58,11 @@ namespace Graficos1 {
 	void Shape::DrawShape() {
 		_renderer->UpdateModel(model);
 		if (typeOfShape == GL_TRIANGLES) {
-			_renderer->Draw(typeOfShape, 3, _vao,_vbo,triangleVerticesCol, tamVerts);
+			_renderer->Draw(typeOfShape, 3, _vao,_vbo,triangleVerticesCol, tamVerts, TypeShader::Colour);
 			return;
 		}
 
-		_renderer->Draw(typeOfShape, 6, _vao,_vbo,quadVerticesCol, tamVerts);
+		_renderer->Draw(typeOfShape, 6, _vao,_vbo,quadVerticesCol, tamVerts, TypeShader::Colour);
 	}
 	void Shape::SetColor(float c1[3], float c2[3], float c3[3]) {
 		if (typeOfShape == GL_TRIANGLES) {

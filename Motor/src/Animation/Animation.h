@@ -4,26 +4,44 @@
 #include "../src/Exports/Exports.h"
 
 namespace Graficos1 {
+	struct UV {
+		float U1[32];
+		float U2[32];
+		float U3[32];
+		float U4[32];
 
+		float V1[32];
+		float V2[32];
+		float V3[32];
+		float V4[32];
+	};
+	struct Anim {
+		UV uv;
+	};
 	class GraficosEngine_API Animation {
-		int _cantFrames;
-		int _cantFramesImg;
+		Anim _animations[16];
 		int _actualFrame;
+		int _cantFrames;
+		int _cantAnims;
+
 		float _timeBetweenFrames;
 		float _timer;
+
 		int _spriteSheetWidth;
 		float _spriteWidth;
 		int _spriteSheetHeight;
 		float _spriteHeight;
+
 		float* _spriteVerts;
 		int _rows;
-		int _actualRow;
+		int _columns;
 	public:
 		Animation();
 		~Animation();
-		void SetAnimationValues(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int width, int height, int rows, int actualRow, float* verts);
-		void UpdateAnimation();
-		void ChangeAnimation();
+		void SetAnimationValues(int columns, int rows, float framesPerSecond, int width, int height, float* verts);
+		void AddFrame(int frameX, int frameY, int animation, int frame);
+		void UpdateAnimation(int anim);
+		void ChangeFrame(int a);
 	};
 
 }

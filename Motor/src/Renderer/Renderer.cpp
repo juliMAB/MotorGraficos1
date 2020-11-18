@@ -80,10 +80,25 @@ namespace Graficos1 {
 		glDeleteProgram(_shader);
 	}
 
-	void Renderer::Draw(uint shape, int verts, uint vao, uint vbo, float* vertexs, float tamVertexs){
+	void Renderer::Draw(uint shape, int verts, uint vao, uint vbo, float* vertexs, float tamVertexs, TypeShader t){
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
+
+		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
+		glUseProgram(GetShader());
+		if (t == TypeShader::Colour) {
+			glUniform1i(useTextureLoc, false);
+			unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			glEnableVertexAttribArray(colorLocation);
+		}
+		else {
+			glUniform1i(useTextureLoc, true);
+			unsigned int texLocation = glGetAttribLocation(GetShader(), "tex");
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			glEnableVertexAttribArray(texLocation);
+		}
 
 		switch (shape) {
 		case GL_QUADS:
@@ -95,6 +110,7 @@ namespace Graficos1 {
 		}
 
 		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glUseProgram(0);
 	}
 

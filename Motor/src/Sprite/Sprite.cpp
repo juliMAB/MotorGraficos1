@@ -27,10 +27,14 @@ namespace Graficos1 {
 		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
 		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
 		_renderer->SetAttribs(model,TypeShader::Texture);
+		_animation = NULL;
+		_settedAnimsValues = false;
 	}
 	Sprite::Sprite(Renderer* rend) : Entity2D(rend, NULL) {
 		tamVertsTex = sizeof(texVertices);
 		_vb = texVertices;
+		_animation = NULL;
+		_settedAnimsValues = false;
 	}
 	Sprite::~Sprite() { 
 		glDeleteTextures(1, &_texture); 
@@ -46,9 +50,34 @@ namespace Graficos1 {
 		_transparent = transparent;
 		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, _transparent);
 	}
-	void Sprite::SetAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow) {
-		_animation = new Animation();
-		_animation->SetAnimationValues(cantFramesAnim, cantFramesImg, timeBetweenFrames, _width, _height, rows, actualRow,texVertices);
+	void Sprite::StartUseAnimation() {
+		if (_animation == NULL) {
+			_animation = new Animation();
+			return;
+		}
+			
+		std::cout << "You can't use again this Function in this Sprite" << std::endl;
+	}
+
+	void Sprite::SetAnimation(int columns, int rows, float framesPerSeconds) {
+		if (_animation == NULL) {
+			std::cout << "You can't use this Function without use StartUseAnimation" << std::endl;
+			return;
+		}
+		_settedAnimsValues = true;
+		_animation->SetAnimationValues(columns, rows, framesPerSeconds, _width, _height,texVertices);
+	}
+	void Sprite::AddFrameToAnimation(int frameX, int frameY, int animation, int frame) {
+		if (_animation == NULL) {
+			std::cout << "You can't use this Function without use StartUseAnimation" << std::endl;
+			return;
+		}
+		else if (!_settedAnimsValues) {
+			std::cout << "You can't use this Function without use SetAnimationValues" << std::endl;
+			return;
+		}
+
+		_animation->AddFrame(frameX, frameY, animation, frame);
 	}
 	void Sprite::DrawTexture() {
 		if (_transparent)
@@ -60,18 +89,15 @@ namespace Graficos1 {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);
 
-		_renderer->Draw(GL_QUADS, 6, _vao, _vbo, texVertices, tamVertsTex);
+		_renderer->Draw(GL_QUADS, 6, _vao, _vbo, texVertices, tamVertsTex,TypeShader::Texture);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisable(GL_TEXTURE_2D);
 
 		if (_transparent)
 			UnBlendSprite();
 	}
-	void Sprite::UpdateAnimation() {
-		_animation->UpdateAnimation();
-	}
-	void Sprite::ChangeAnimation(int cantFramesAnim, int cantFramesImg, float timeBetweenFrames, int rows, int actualRow) {
-		_animation->SetAnimationValues(cantFramesAnim, cantFramesImg, timeBetweenFrames, _width, _height, rows, actualRow, texVertices);
+	void Sprite::UpdateAnimation(int anim) {
+		_animation->UpdateAnimation(anim);
 	}
 	float* Sprite::GetVerts() {
 		return texVertices;
