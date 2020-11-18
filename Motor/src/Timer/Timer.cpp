@@ -4,13 +4,10 @@
 namespace Graficos1 {
 
 	double oldT = clock();
-	float Timer::DeltaTime(){
+	void Timer::DeltaTime(float& time){
 		double t = clock();
 		float dt = (float)((t - oldT) / 1000.0f);
 		oldT = t;
-		return dt;
-	}
-	int Timer::GetFPS() {
-		return (int)(1.0f / DeltaTime());
+		time = dt;
 	}
 }

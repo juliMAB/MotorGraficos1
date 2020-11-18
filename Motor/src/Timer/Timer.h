@@ -6,8 +6,7 @@ namespace Graficos1{
 
 	class GraficosEngine_API Timer {
 	public:
-		static float DeltaTime();
-		static int GetFPS();
+		static void DeltaTime(float& time);
 	};
 
 }

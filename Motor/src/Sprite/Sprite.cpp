@@ -56,12 +56,12 @@ namespace Graficos1 {
 			return;
 		}
 			
-		std::cout << "You can't use again this Function in this Sprite" << std::endl;
+		std::cout << "You can't use again StartUseAnimation in this Sprite" << std::endl;
 	}
 
 	void Sprite::SetAnimation(int columns, int rows, float framesPerSeconds) {
 		if (_animation == NULL) {
-			std::cout << "You can't use this Function without use StartUseAnimation" << std::endl;
+			std::cout << "You can't use this SetAnimation without use StartUseAnimation" << std::endl;
 			return;
 		}
 		_settedAnimsValues = true;
@@ -69,11 +69,11 @@ namespace Graficos1 {
 	}
 	void Sprite::AddFrameToAnimation(int frameX, int frameY, int animation, int frame) {
 		if (_animation == NULL) {
-			std::cout << "You can't use this Function without use StartUseAnimation" << std::endl;
+			std::cout << "You can't use this AddFrameToAnimation without use StartUseAnimation" << std::endl;
 			return;
 		}
 		else if (!_settedAnimsValues) {
-			std::cout << "You can't use this Function without use SetAnimationValues" << std::endl;
+			std::cout << "You can't use this AddFrameToAnimation without use SetAnimationValues" << std::endl;
 			return;
 		}
 
@@ -97,6 +97,14 @@ namespace Graficos1 {
 			UnBlendSprite();
 	}
 	void Sprite::UpdateAnimation(int anim) {
+		if (_animation == NULL) {
+			std::cout << "You can't use this UpdateAnimation without use StartUseAnimation" << std::endl;
+			return;
+		}
+		else if (!_settedAnimsValues) {
+			std::cout << "You can't use this UpdateAnimation without use SetAnimationValues" << std::endl;
+			return;
+		}
 		_animation->UpdateAnimation(anim);
 	}
 	float* Sprite::GetVerts() {

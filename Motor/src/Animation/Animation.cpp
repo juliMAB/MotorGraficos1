@@ -1,6 +1,7 @@
 #include "Animation.h"
 #include <time.h>
 #include <iostream>
+#include "../src/Timer/Timer.h"
 
 namespace Graficos1 {
 	static int animsCreated = 0;
@@ -63,12 +64,11 @@ namespace Graficos1 {
 		}
 	}
 
-	double oldT = clock();
 	void Animation::UpdateAnimation(int anim) {
-		double t = clock();
-		float dt = (float)((t - oldT) / 1000.0f);
-		oldT = t;
-		_timer += dt;
+		float t = 0;
+		Timer::DeltaTime(t);
+		_timer += t;
+		std::cout << t << std::endl;
 
 		if (_timer >= _timeBetweenFrames) {
 			while (_timer > _timeBetweenFrames) {
@@ -76,12 +76,9 @@ namespace Graficos1 {
 				_actualFrame++;
 				if (_actualFrame >= _cantFrames)
 					_actualFrame = 0;
-
-				std::cout << _actualFrame << std::endl;
 			}
-			std::cout << std::endl;
 			ChangeFrame(anim);
-			_timer = dt;
+			_timer = t;
 		}
 	}
 
