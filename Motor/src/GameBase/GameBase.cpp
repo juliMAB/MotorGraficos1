@@ -17,6 +17,10 @@ namespace Graficos1 {
 			delete _window;
 		if (_renderer != NULL)
 			delete _renderer;
+		if (_input != NULL)
+			delete _input;
+		if (_collisionManager != NULL)
+			delete _collisionManager;
 	}
 
 	int GameBase::StartEngine() {

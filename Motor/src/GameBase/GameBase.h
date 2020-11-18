@@ -7,6 +7,7 @@
 #include "../src/Shape/Shape.h"
 #include "../src/Sprite/Sprite.h"
 #include "../src/Input/Input.h"
+#include "../src/CollisionManager/CollisionManager.h"
 struct GLFWmonitor;
 
 namespace Graficos1 {
@@ -15,6 +16,7 @@ namespace Graficos1 {
 		Window* _window;
 		Renderer* _renderer;
 		Input* _input;
+		CollisionManager* _collisionManager;
 	public:
 		GameBase();
 		~GameBase();

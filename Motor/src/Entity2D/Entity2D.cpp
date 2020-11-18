@@ -3,11 +3,15 @@
 namespace Graficos1 {
 
 	Entity2D::Entity2D() : Entity() {
-
+		_bc2D.x = 1;
+		_bc2D.y = 1;
+		_bc2D.z = 1;
 	}
 
 	Entity2D::Entity2D(Renderer* rend, Material* mat) : Entity(rend) {
-
+		_bc2D.x = 1;
+		_bc2D.y = 1;
+		_bc2D.z = 1;
 	}
 	Entity2D::~Entity2D() {
 		if (_mat != NULL) {
@@ -15,7 +19,14 @@ namespace Graficos1 {
 			_mat = NULL;
 		}
 	}
-
+	void Entity2D::SetBoxCollider(float x, float y, float z) {
+		_bc2D.x = x;
+		_bc2D.y = y;
+		_bc2D.z = z;
+	}
+	glm::vec3 Entity2D::GetBoxCollider() {
+		return _bc2D;
+	}
 	void Entity2D::SetMaterial(Material* mat) {
 		_mat = mat;
 	}

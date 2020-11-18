@@ -7,12 +7,12 @@
 namespace Graficos1 {
 
 	class GraficosEngine_API CollisionManager {
-		bool RectangleCollision(Entity2D* f, Entity2D* s);
+		static bool RectangleCollision(Entity2D* f, Entity2D* s, glm::vec3 bcF, glm::vec3 bcS);
 	public:
 		CollisionManager();
 		~CollisionManager();
 
-		bool OnTiggerEnter(Entity2D* first, Entity2D* second);
+		static bool OnTiggerEnter(Entity2D* first, Entity2D* second);
 	};
 
 }

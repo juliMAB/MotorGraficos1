@@ -68,7 +68,6 @@ namespace Graficos1 {
 		float t = 0;
 		Timer::DeltaTime(t);
 		_timer += t;
-		std::cout << t << std::endl;
 
 		if (_timer >= _timeBetweenFrames) {
 			while (_timer > _timeBetweenFrames) {
