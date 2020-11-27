@@ -18,6 +18,7 @@ namespace Graficos1 {
 		glm::mat4 rotationY;
 		glm::mat4 rotationZ;
 		glm::mat4 scale;
+		glm::vec3 lastPos;
 		Renderer* _renderer;
 		void UpdateMatrixData();
 	public:
@@ -27,13 +28,19 @@ namespace Graficos1 {
 		glm::vec3 positionVec;
 		glm::vec3 rotationVec;
 		glm::vec3 scaleVec;
+		glm::vec3 forcesVec;
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
 		void SetPos(float x, float y, float z);
 		void SetRotX(float x);
 		void SetRotY(float y);
 		void SetRotZ(float z);
+		void SetLastPos();
 		void SetScale(float x, float y, float z);
+		void AddForce(float x, float y, float z);
+		void SetForces(float x, float y, float z);
+		void UpdateForces();
+		void ResetPos();
 	};
 
 }

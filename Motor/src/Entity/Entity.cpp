@@ -4,6 +4,7 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/scalar_constants.hpp>
 
+#include <iostream>
 
 namespace Graficos1 {
 	Entity::Entity() {
@@ -19,6 +20,8 @@ namespace Graficos1 {
 		SetRotY(0.0f);
 		SetRotZ(0.0f);
 		SetScale(1.0f, 1.0f, 1.0f);
+		SetForces(0.0f, 0.0f, 0.0f);
+		lastPos = positionVec;
 	}
 	Entity::Entity(Renderer* rend) {
 		_renderer = rend;
@@ -35,6 +38,8 @@ namespace Graficos1 {
 		SetRotY(0.0f);
 		SetRotZ(0.0f);
 		SetScale(1.0f, 1.0f, 1.0f);
+		SetForces(0.0f, 0.0f, 0.0f);
+		lastPos = positionVec;
 	}
 	Entity::~Entity() {
 
@@ -73,5 +78,44 @@ namespace Graficos1 {
 		scale = glm::scale(glm::mat4(1.0f), scaleVec);
 		UpdateMatrixData();
 	}
+	void Entity::SetLastPos() {
+		lastPos = positionVec;
+	}
+	void Entity::AddForce(float x, float y, float z) {
+		forcesVec.x += x;
+		forcesVec.y += y;
+		forcesVec.z += z;
+	}
+	void Entity::SetForces(float x, float y, float z) {
+		forcesVec.x = x;
+		forcesVec.y = y;
+		forcesVec.z = z;
+	}
+	void Entity::UpdateForces() {
+		if (forcesVec.x > 0.0001f)
+			forcesVec.x -= 0.0001f;
+		else if (forcesVec.x < -0.0001)
+			forcesVec.x += 0.0001f;
+		else
+			forcesVec.x =0.0f;
 
+		if (forcesVec.y > 0.0001f)
+			forcesVec.y -= 0.0001f;
+		else if (forcesVec.y < -0.0001)
+			forcesVec.y += 0.0001f;
+		else
+			forcesVec.y = 0;
+
+		if (forcesVec.z > 0.0001f)
+			forcesVec.z -= 0.0001f;
+		else if (forcesVec.z < -0.0001)
+			forcesVec.z += 0.0001f;
+		else
+			forcesVec.z = 0.0f;
+
+		SetPos(positionVec.x + forcesVec.x, positionVec.y + forcesVec.y, positionVec.z + forcesVec.z);
+	}
+	void Entity::ResetPos() {
+		SetPos(lastPos.x, lastPos.y, lastPos.z);
+	}
 }

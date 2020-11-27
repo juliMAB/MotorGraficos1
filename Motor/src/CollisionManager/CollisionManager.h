@@ -13,6 +13,7 @@ namespace Graficos1 {
 		~CollisionManager();
 
 		static bool OnTiggerEnter(Entity2D* first, Entity2D* second);
+		static bool OnCollisionEnter(Entity2D* first, Entity2D* second, bool firstReject, bool secondReject);
 	};
 
 }

@@ -84,12 +84,12 @@ namespace Graficos1 {
 	}
 
 	void Animation::ChangeFrame() {
-		_spriteVerts[6] = _animations[_actualAnim].uv.U1[_actualFrame];
+		_spriteVerts[6]  = _animations[_actualAnim].uv.U1[_actualFrame];
 		_spriteVerts[14] = _animations[_actualAnim].uv.U2[_actualFrame];
 		_spriteVerts[22] = _animations[_actualAnim].uv.U3[_actualFrame];
 		_spriteVerts[30] = _animations[_actualAnim].uv.U4[_actualFrame];
 
-		_spriteVerts[7] = _animations[_actualAnim].uv.V1[_actualFrame];
+		_spriteVerts[7]  = _animations[_actualAnim].uv.V1[_actualFrame];
 		_spriteVerts[15] = _animations[_actualAnim].uv.V2[_actualFrame];
 		_spriteVerts[23] = _animations[_actualAnim].uv.V3[_actualFrame];
 		_spriteVerts[31] = _animations[_actualAnim].uv.V4[_actualFrame];
