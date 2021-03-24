@@ -80,7 +80,7 @@ namespace Graficos1 {
 		glDeleteProgram(_shader);
 	}
 
-	void Renderer::Draw(uint shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t, TypeOfModel tom){
+	void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -101,18 +101,20 @@ namespace Graficos1 {
 			glEnableVertexAttribArray(texLocation);
 		}
 
-		if (tom == TypeOfModel::ThirdDimension) {
+
+		switch (shape) {
+		case TypeShape::Quad:
+			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
+			break;
+		case TypeShape::Triangle:
+			glDrawArrays(GL_TRIANGLES, 0, verts);
+			break;
+		case TypeShape::Pyramid:
 			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
-		}
-		else {
-			switch (shape) {
-			case GL_QUADS:
-				glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
-				break;
-			case GL_TRIANGLES:
-				glDrawArrays(GL_TRIANGLES, 0, verts);
-				break;
-			}
+			break;
+		case TypeShape::Cube:
+			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+			break;
 		}
 
 		glBindVertexArray(0);

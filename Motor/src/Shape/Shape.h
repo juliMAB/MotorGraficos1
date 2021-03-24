@@ -16,13 +16,12 @@ namespace Graficos1 {
 		uint _vbo;
 		uint _vao;
 		uint _ibo;
-		TypeOfModel _typeOfModel;
 		
 	public:
 		Shape();
 		Shape(Renderer* rend, Material* mat);
 		~Shape();
-		void InitShape(uint type, TypeShader t, TypeOfModel tom);
+		void InitShape(TypeShape type, TypeShader t);
 		void CreateShape();
 		void DrawShape();
 		void SetColor(float c1[3], float c2[3], float c3[3]);
@@ -32,7 +31,6 @@ namespace Graficos1 {
 		float GetVertexIndex(int ind);
 		uint GetType();
 		int GetIndexTam();
-		TypeOfModel GetTypeOfModel();
 		unsigned int* GetIndexs();
 	};
 

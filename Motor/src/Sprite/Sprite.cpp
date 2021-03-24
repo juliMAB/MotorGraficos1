@@ -89,7 +89,7 @@ namespace Graficos1 {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);
 
-		_renderer->Draw(GL_QUADS, 6, _vao, _vbo, _ibo, texVertices, tamVertsTex,TypeShader::Texture, TypeOfModel::SecondDimension);
+		_renderer->Draw(TypeShape::Quad, 6, _vao, _vbo, _ibo, texVertices, tamVertsTex,TypeShader::Texture);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisable(GL_TEXTURE_2D);
 

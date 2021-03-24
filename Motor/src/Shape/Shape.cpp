@@ -26,11 +26,37 @@ namespace Graficos1 {
 		0.0f, 1.0f, 0.0f,   /**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f
 	};
 
-	uint indices[] = {
-		0,3,1, 
-		1,3,2,
-		2,3,0,
-		0,1,2
+	float cubeVerticesCol[64]{
+		-1.0, -1.0, 1.0,/**/  1.0f, 0.0f, 0.0f,/**/0.0f, 0.0f,
+		1.0, -1.0, 1.0,	/**/  0.0f, 1.0f, 0.0f,/**/0.0f, 0.0f,
+		1.0, 1.0, 1.0,	/**/  0.0f, 0.0f, 1.0f,/**/0.0f, 0.0f,
+		-1.0, 1.0, 1.0,	/**/  1.0f, 0.0f, 0.0f,/**/0.0f, 0.0f,
+		-1.0, -1.0, -1.0,/**/ 0.0f, 1.0f, 0.0f,/**/0.0f, 0.0f,
+		1.0, -1.0, -1.0, /**/ 0.0f, 0.0f, 1.0f,/**/0.0f, 0.0f,
+		1.0, 1.0, -1.0,	 /**/ 1.0f, 0.0f, 0.0f,/**/0.0f, 0.0f,
+		-1.0, 1.0, -1.0, /**/ 0.0f, 1.0f, 0.0f,/**/0.0f, 0.0f
+	};
+
+	uint indexsPyramid[] = {
+		0, 3, 1,
+		1, 3, 2,
+		2, 3, 0,
+		0, 1, 2
+	};
+
+	uint indexsCube[] = {
+		0, 1, 2,
+		2, 3, 0,
+		1, 5, 6,
+		6, 2, 1,
+		7, 6, 5,
+		5, 4, 7,
+		4, 0, 3,
+		3, 7, 4,
+		4, 5, 1,
+		1, 0, 4,
+		3, 2, 6,
+		6, 7, 3
 	};
 
 	unsigned int posIndexs[] = {
@@ -40,7 +66,7 @@ namespace Graficos1 {
 
 	typedef unsigned int uint;
 
-	uint typeOfShape;
+	TypeShape typeOfShape;
 	TypeShader typeShader;
 	uint tamVerts;
 
@@ -50,56 +76,53 @@ namespace Graficos1 {
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
 	}
-	void Shape::InitShape(uint type, TypeShader t, TypeOfModel tom) {
+	void Shape::InitShape(TypeShape type, TypeShader t) {
 		typeOfShape = type;
 		typeShader = t;
-		_typeOfModel = tom;
 
-		if (tom == TypeOfModel::ThirdDimension){
-			_vb = pyramidVerticesCol;
-			tamVerts = sizeof(pyramidVerticesCol);
-			std::cout << "Entra 1" << std::endl;
-
-			return;
-		}
-
-		if (type == GL_TRIANGLES) {
+		switch (type) {
+		case TypeShape::Triangle:
 			_vb = triangleVerticesCol;
 			tamVerts = sizeof(triangleVerticesCol);
-
-			return;
+			break;
+		case TypeShape::Quad:
+			_vb = quadVerticesCol;
+			tamVerts = sizeof(quadVerticesCol); break;
+		case TypeShape::Pyramid:
+			_vb = pyramidVerticesCol;
+			tamVerts = sizeof(pyramidVerticesCol);
+			break;
+		case TypeShape::Cube:
+			_vb = cubeVerticesCol;
+			tamVerts = sizeof(cubeVerticesCol);
+			break;
 		}
-		
-
-		_vb = quadVerticesCol;
-		tamVerts = sizeof(quadVerticesCol);
 	}
 	void Shape::CreateShape() {
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-		if (typeOfShape == GL_QUADS || _typeOfModel == TypeOfModel::ThirdDimension) {
+		if (typeOfShape != TypeShape::Triangle) {
 			_renderer->SetIndexThings(GetVerticesTam(), GetIndexs(), _ibo);
-			std::cout << "Entra 2" << std::endl;
 		}
 		_renderer->SetAttribs(model, TypeShader::Colour);
-		
+
 	}
 	void Shape::DrawShape() {
 		_renderer->UpdateModel(model);
 
-		if (_typeOfModel == TypeOfModel::ThirdDimension) {
-
-			_renderer->Draw(typeOfShape, 12, _vao, _vbo, _ibo, pyramidVerticesCol, tamVerts, TypeShader::Colour, _typeOfModel);
-			std::cout << "Entra 3" << std::endl;
-
-			return;
+		switch (typeOfShape) {
+		case TypeShape::Triangle:
+			_renderer->Draw(typeOfShape, 3, _vao, _vbo, _ibo, triangleVerticesCol, tamVerts, TypeShader::Colour);
+			break;
+		case TypeShape::Quad:
+			_renderer->Draw(typeOfShape, 6, _vao, _vbo, _ibo, quadVerticesCol, tamVerts, TypeShader::Colour);
+			break;
+		case TypeShape::Pyramid:
+			_renderer->Draw(typeOfShape, 12, _vao, _vbo, _ibo, pyramidVerticesCol, tamVerts, TypeShader::Colour);
+			break;
+		case TypeShape::Cube:
+			_renderer->Draw(typeOfShape, 36, _vao, _vbo, _ibo, cubeVerticesCol, tamVerts, TypeShader::Colour);
+			break;
 		}
-
-		if (typeOfShape == GL_TRIANGLES) {
-			_renderer->Draw(typeOfShape, 3, _vao, _vbo, _ibo, triangleVerticesCol, tamVerts, TypeShader::Colour, _typeOfModel);
-			return;
-		}
-
-		_renderer->Draw(typeOfShape, 6, _vao, _vbo, _ibo, quadVerticesCol, tamVerts, TypeShader::Colour, _typeOfModel);
 	}
 	void Shape::SetColor(float c1[3], float c2[3], float c3[3]) {
 		if (typeOfShape == GL_TRIANGLES) {
@@ -155,19 +178,30 @@ namespace Graficos1 {
 	uint Shape::GetType() {
 		return typeOfShape;
 	}
-	TypeOfModel Shape::GetTypeOfModel() {
-		return _typeOfModel;
-	}
 	int Shape::GetIndexTam() {
-		if (_typeOfModel == TypeOfModel::ThirdDimension)
-			return sizeof(indices);
-
-		return sizeof(posIndexs);
+		switch (typeOfShape) {
+		case TypeShape::Pyramid:
+			return sizeof(indexsPyramid);
+			break;
+		case TypeShape::Cube:
+			return sizeof(indexsCube);
+			break;
+		default:
+			return sizeof(posIndexs);
+			break;
+		}
 	}
 	unsigned int* Shape::GetIndexs() {
-		if (_typeOfModel == TypeOfModel::ThirdDimension)
-			return indices;
-		
-		return posIndexs;
+		switch (typeOfShape) {
+		case TypeShape::Pyramid:
+			return indexsPyramid;
+			break;
+		case TypeShape::Cube:
+			return indexsCube;
+			break;
+		default:
+			return posIndexs;
+			break;
+		}
 	}
 }

@@ -25,7 +25,6 @@ namespace Graficos1 {
 	void Game::Start() {
 		StartEngine();
 
-
 		//_sprite = new Sprite(GetRenderer(), NULL);
 		//_sprite->LoadTexture("res/textures/sprite2.png", true);
 		//_sprite->StartUseAnimation();
@@ -56,7 +55,7 @@ namespace Graficos1 {
 		//_sprite2->SetLastPos();
 
 		_shape = new Shape(GetRenderer(), NULL);
-		_shape->InitShape(TRIANGLE, TypeShader::Colour, TypeOfModel::ThirdDimension);
+		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
 		_shape->CreateShape();
 		_shape->SetScale(0.33f, 0.33f, 0.33f);
 	}
@@ -114,6 +113,7 @@ namespace Graficos1 {
 		//_sprite2->DrawTexture();
 		
 		_shape->SetRotY(_shape->rotationVec.y + 0.01f);
+		_shape->SetRotX(_shape->rotationVec.x + 0.01f);
 		
 		_shape->DrawShape();
 

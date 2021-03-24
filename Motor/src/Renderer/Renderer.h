@@ -12,8 +12,11 @@ namespace Graficos1 {
 		Colour,
 		Texture
 	};
-	enum TypeOfModel {
-		ThirdDimension, SecondDimension
+	//enum TypeOfModel {
+	//	ThirdDimension, SecondDimension
+	//};
+	enum TypeShape {
+		Triangle, Quad, Cube, Pyramid
 	};
 	class GraficosEngine_API  Renderer {
 		uint _shader;
@@ -29,7 +32,7 @@ namespace Graficos1 {
 		void InitShaders();
 		void UpdateModel(glm::mat4 model);
 		void StopShaders();
-		void Draw(uint shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t, TypeOfModel tom);
+		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 		uint GetShader();
 	};
 
