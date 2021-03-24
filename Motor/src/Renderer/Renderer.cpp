@@ -38,8 +38,7 @@ namespace Graficos1 {
 		glBufferData(GL_ARRAY_BUFFER, tam, verts, GL_STATIC_DRAW);
 
 	}
-	void Renderer::SetQuadThings(int tam, uint* indexs) {
-		unsigned int ibo;
+	void Renderer::SetIndexThings(int tam, uint* indexs, uint& ibo) {
 		glGenBuffers(1, &ibo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
@@ -69,6 +68,7 @@ namespace Graficos1 {
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
 
@@ -80,9 +80,10 @@ namespace Graficos1 {
 		glDeleteProgram(_shader);
 	}
 
-	void Renderer::Draw(uint shape, int verts, uint vao, uint vbo, float* vertexs, float tamVertexs, TypeShader t){
+	void Renderer::Draw(uint shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t, TypeOfModel tom){
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
@@ -100,17 +101,23 @@ namespace Graficos1 {
 			glEnableVertexAttribArray(texLocation);
 		}
 
-		switch (shape) {
-		case GL_QUADS:
-			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
-			break;
-		case GL_TRIANGLES:
-			glDrawArrays(GL_TRIANGLES, 0, verts);
-			break;
+		if (tom == TypeOfModel::ThirdDimension) {
+			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+		}
+		else {
+			switch (shape) {
+			case GL_QUADS:
+				glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
+				break;
+			case GL_TRIANGLES:
+				glDrawArrays(GL_TRIANGLES, 0, verts);
+				break;
+			}
 		}
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glUseProgram(0);
 	}
 

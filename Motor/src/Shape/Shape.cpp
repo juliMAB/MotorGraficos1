@@ -19,6 +19,20 @@ namespace Graficos1 {
 		1.0, 1.0, 1.0f, /**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f
 	};
 
+	float pyramidVerticesCol[32]{
+		-1.0f, -1.0f, 0.0f, /**/ 1.0f, 0.0f, 0.0f, /**/0.0f, 0.0f,
+		0.0f, -1.0f, 1.0f,  /**/ 0.0f, 1.0f, 0.0f, /**/0.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 1.0f, /**/0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,   /**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f
+	};
+
+	uint indices[] = {
+		0,3,1, 
+		1,3,2,
+		2,3,0,
+		0,1,2
+	};
+
 	unsigned int posIndexs[] = {
 		0, 1, 2,
 		2, 3, 0
@@ -36,33 +50,56 @@ namespace Graficos1 {
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
 	}
-	void Shape::InitShape(uint type, TypeShader t) {
+	void Shape::InitShape(uint type, TypeShader t, TypeOfModel tom) {
 		typeOfShape = type;
 		typeShader = t;
+		_typeOfModel = tom;
+
+		if (tom == TypeOfModel::ThirdDimension){
+			_vb = pyramidVerticesCol;
+			tamVerts = sizeof(pyramidVerticesCol);
+			std::cout << "Entra 1" << std::endl;
+
+			return;
+		}
+
 		if (type == GL_TRIANGLES) {
 			_vb = triangleVerticesCol;
 			tamVerts = sizeof(triangleVerticesCol);
 
 			return;
 		}
+		
 
 		_vb = quadVerticesCol;
 		tamVerts = sizeof(quadVerticesCol);
 	}
 	void Shape::CreateShape() {
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-		if (typeOfShape == GL_QUADS)
-			_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+		if (typeOfShape == GL_QUADS || _typeOfModel == TypeOfModel::ThirdDimension) {
+			_renderer->SetIndexThings(GetVerticesTam(), GetIndexs(), _ibo);
+			std::cout << "Entra 2" << std::endl;
+		}
 		_renderer->SetAttribs(model, TypeShader::Colour);
+		
 	}
 	void Shape::DrawShape() {
 		_renderer->UpdateModel(model);
-		if (typeOfShape == GL_TRIANGLES) {
-			_renderer->Draw(typeOfShape, 3, _vao,_vbo,triangleVerticesCol, tamVerts, TypeShader::Colour);
+
+		if (_typeOfModel == TypeOfModel::ThirdDimension) {
+
+			_renderer->Draw(typeOfShape, 12, _vao, _vbo, _ibo, pyramidVerticesCol, tamVerts, TypeShader::Colour, _typeOfModel);
+			std::cout << "Entra 3" << std::endl;
+
 			return;
 		}
 
-		_renderer->Draw(typeOfShape, 6, _vao,_vbo,quadVerticesCol, tamVerts, TypeShader::Colour);
+		if (typeOfShape == GL_TRIANGLES) {
+			_renderer->Draw(typeOfShape, 3, _vao, _vbo, _ibo, triangleVerticesCol, tamVerts, TypeShader::Colour, _typeOfModel);
+			return;
+		}
+
+		_renderer->Draw(typeOfShape, 6, _vao, _vbo, _ibo, quadVerticesCol, tamVerts, TypeShader::Colour, _typeOfModel);
 	}
 	void Shape::SetColor(float c1[3], float c2[3], float c3[3]) {
 		if (typeOfShape == GL_TRIANGLES) {
@@ -100,7 +137,7 @@ namespace Graficos1 {
 		quadVerticesCol[29] = 0.0f;
 
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-		_renderer->SetQuadThings(GetVerticesTam(), GetIndexs());
+		_renderer->SetIndexThings(GetVerticesTam(), GetIndexs(), _ibo);
 		_renderer->SetAttribs(model, TypeShader::Colour);
 	}
 	int Shape::GetVerticesArrLenght() {
@@ -118,10 +155,19 @@ namespace Graficos1 {
 	uint Shape::GetType() {
 		return typeOfShape;
 	}
+	TypeOfModel Shape::GetTypeOfModel() {
+		return _typeOfModel;
+	}
 	int Shape::GetIndexTam() {
+		if (_typeOfModel == TypeOfModel::ThirdDimension)
+			return sizeof(indices);
+
 		return sizeof(posIndexs);
 	}
 	unsigned int* Shape::GetIndexs() {
+		if (_typeOfModel == TypeOfModel::ThirdDimension)
+			return indices;
+		
 		return posIndexs;
 	}
 }

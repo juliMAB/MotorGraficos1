@@ -1,0 +1,20 @@
+Unidad 1: Conceptos de programación de gráficos 3D
+    • Proyección en perspectiva
+    • Cámaras en primera y tercera persona
+    • Geometría indexada
+Unidad 2: Iluminación
+    • Conceptos de iluminación
+    • Tipos de luces
+    • Materiales
+Unidad 3: Importación de formatos
+    • Conceptos de importación
+    • Formatos conocidos
+Unidad 4: Transformaciones
+    • Conceptos de transformación
+    • Espacios de coordenadas
+    • Matrices de transformación
+Unidad 5: Scenegraph
+    • Jerarquía de transformaciones
+    • Patrón de diseño: Composite
+    • Recorrido
+    • Integración al importador

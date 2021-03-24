@@ -27,6 +27,7 @@ namespace Graficos1 {
 		float* _vb;
 		uint _vbo;
 		uint _vao;
+		uint _ibo;
 	public:
 		Sprite(Renderer* rend);
 		Sprite(Renderer* rend, Material* mat);

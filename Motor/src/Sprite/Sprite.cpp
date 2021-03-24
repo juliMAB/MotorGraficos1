@@ -25,7 +25,7 @@ namespace Graficos1 {
 		tamVertsTex = sizeof(texVertices);
 		_vb = texVertices;
 		_renderer->SetBuffers(tamVertsTex, _vb, _vbo, _vao);
-		_renderer->SetQuadThings(tamVertsTex, posIndexsTex);
+		_renderer->SetIndexThings(tamVertsTex, posIndexsTex, _ibo);
 		_renderer->SetAttribs(model,TypeShader::Texture);
 		_animation = NULL;
 		_settedAnimsValues = false;
@@ -89,7 +89,7 @@ namespace Graficos1 {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);
 
-		_renderer->Draw(GL_QUADS, 6, _vao, _vbo, texVertices, tamVertsTex,TypeShader::Texture);
+		_renderer->Draw(GL_QUADS, 6, _vao, _vbo, _ibo, texVertices, tamVertsTex,TypeShader::Texture, TypeOfModel::SecondDimension);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisable(GL_TEXTURE_2D);
 

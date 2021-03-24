@@ -14,10 +14,12 @@ layout(location = 0) in vec3 pos;					\n\
 layout(location = 1) in vec3 colorrrr;				\n\
 layout(location = 2) in vec2 tex;					\n\
 uniform mat4 model;									\n\
+uniform mat4 projection;							\n\
+uniform mat4 view;									\n\
 out vec4 vColor;									\n\
 out vec2 TexCoord;									\n\
 void main(){										\n\
-	gl_Position =  model * vec4(pos, 1.0f);			\n\
+	gl_Position = model * vec4(pos, 1.0f);			\n\
 	vColor = vec4(colorrrr, 1.0f);					\n\
 	TexCoord = tex;									\n\
 }";
