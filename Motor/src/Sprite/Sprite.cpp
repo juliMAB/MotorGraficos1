@@ -84,7 +84,7 @@ namespace Graficos1 {
 			BlendSprite();
 		glEnable(GL_TEXTURE_2D);
 
-		_renderer->UpdateModel(model);
+		_renderer->UpdateModel(model, projection);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);

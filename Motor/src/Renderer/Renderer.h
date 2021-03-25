@@ -30,7 +30,7 @@ namespace Graficos1 {
 		void SetIndexThings(int tam, uint* indexs, uint& ibo);
 		void SetAttribs(glm::mat4 model, TypeShader t);
 		void InitShaders();
-		void UpdateModel(glm::mat4 model);
+		void UpdateModel(glm::mat4 model, glm::mat4 projection);
 		void StopShaders();
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 		uint GetShader();

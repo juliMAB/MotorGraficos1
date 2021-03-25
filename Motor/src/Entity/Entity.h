@@ -11,8 +11,8 @@ namespace Graficos1 {
 	class GraficosEngine_API Entity {
 	private:
 	protected:
-
 		glm::mat4 model;
+		glm::mat4 projection = glm::perspective(45.0f, 1366.0f / 768.0f, 0.1f, 100.0f);
 		glm::mat4 translate;
 		glm::mat4 rotationX;
 		glm::mat4 rotationY;
@@ -31,6 +31,7 @@ namespace Graficos1 {
 		glm::vec3 forcesVec;
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
+		void SetProjection(glm::mat4 proj);
 		void SetPos(float x, float y, float z);
 		void SetRotX(float x);
 		void SetRotY(float y);

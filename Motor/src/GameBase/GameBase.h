@@ -21,7 +21,7 @@ namespace Graficos1 {
 		GameBase();
 		~GameBase();
 
-		int StartEngine();
+		int StartEngine(int width, int height, const char* windowName);
 		void UpdateEngine();
 		void EndEngine();
 

@@ -23,7 +23,7 @@ namespace Graficos1 {
 			delete _collisionManager;
 	}
 
-	int GameBase::StartEngine() {
+	int GameBase::StartEngine(int width, int height, const char* windowName) {
 		if (!glfwInit()) {
 			std::cout << "GLFW Initialization failed" << std::endl;
 			glfwTerminate();
@@ -35,7 +35,7 @@ namespace Graficos1 {
 
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-		_window->MakeWindow(1366, 768, "Coco", NULL);
+		_window->MakeWindow(width, height, windowName, NULL);
 
 		int bufferWidth;
 		int bufferHeight;

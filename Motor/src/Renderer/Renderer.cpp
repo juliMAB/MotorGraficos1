@@ -11,6 +11,7 @@ namespace Graficos1 {
 	static uint posLocation;
 	static uint colorLocation;
 	static uint uniformModel;
+	static uint uniformProjection;
 
 	Renderer::Renderer() {
 
@@ -123,10 +124,13 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::UpdateModel(glm::mat4 model) {
+	void Renderer::UpdateModel(glm::mat4 model, glm::mat4 projection) {
 		uniformModel = glGetUniformLocation(GetShader(), "model");
+		uniformProjection = glGetUniformLocation(GetShader(), "projection");
+		
 		glUseProgram(GetShader());
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 	}
 
 	uint Renderer::GetShader() {
