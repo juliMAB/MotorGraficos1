@@ -1,11 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 #include "GameBase/GameBase.h"
-
 namespace Graficos1 {
 	
 	class Game : GameBase {
 		Shape* _shape;
+		Shape* _shape2;
+		Camera* _camera;
 	public:
 		Game();
 		~Game();

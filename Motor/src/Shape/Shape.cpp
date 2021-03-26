@@ -107,7 +107,7 @@ namespace Graficos1 {
 
 	}
 	void Shape::DrawShape() {
-		_renderer->UpdateModel(model, projection);
+		_renderer->UpdateModel(model);
 
 		switch (typeOfShape) {
 		case TypeShape::Triangle:

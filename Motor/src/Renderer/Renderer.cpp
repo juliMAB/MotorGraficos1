@@ -12,12 +12,15 @@ namespace Graficos1 {
 	static uint colorLocation;
 	static uint uniformModel;
 	static uint uniformProjection;
+	static uint uniformView;
 
+	static glm::mat4 projection = glm::perspective(45.0f, 1366.0f / 768.0f, 0.1f, 100.0f);
+	static glm::mat4 view = glm::mat4(1.0f);
 	Renderer::Renderer() {
 
 	}
 	Renderer::~Renderer() {
-
+	
 	}
 	int Renderer::InitGlew() {
 		glewExperimental = GL_TRUE;
@@ -124,13 +127,15 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::UpdateModel(glm::mat4 model, glm::mat4 projection) {
+	void Renderer::UpdateModel(glm::mat4 model) {
 		uniformModel = glGetUniformLocation(GetShader(), "model");
 		uniformProjection = glGetUniformLocation(GetShader(), "projection");
+		uniformView = glGetUniformLocation(GetShader(), "view");
 		
 		glUseProgram(GetShader());
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
 	}
 
 	uint Renderer::GetShader() {
@@ -194,5 +199,14 @@ namespace Graficos1 {
 			return;
 		}
 	}
+	void Renderer::SetProjection(glm::mat4 p) {
+		projection = p;
+	}
+	void Renderer::SetView(glm::mat4 v) {
+		view = v;
+	}
 
+	glm::mat4 Renderer::GetView() {
+		return view;
+	}
 }

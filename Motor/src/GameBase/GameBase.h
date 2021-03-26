@@ -8,6 +8,7 @@
 #include "../src/Sprite/Sprite.h"
 #include "../src/Input/Input.h"
 #include "../src/CollisionManager/CollisionManager.h"
+#include "../src/Camera/Camera.h"
 struct GLFWmonitor;
 
 namespace Graficos1 {

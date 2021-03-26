@@ -26,14 +26,18 @@ namespace Graficos1 {
 		Renderer();
 		~Renderer();
 		int InitGlew();
+		void SetProjection(glm::mat4 p);
+		void SetView(glm::mat4 v);
 		void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
 		void SetIndexThings(int tam, uint* indexs, uint& ibo);
 		void SetAttribs(glm::mat4 model, TypeShader t);
 		void InitShaders();
-		void UpdateModel(glm::mat4 model, glm::mat4 projection);
+		void UpdateModel(glm::mat4 model);
 		void StopShaders();
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 		uint GetShader();
+
+		glm::mat4 GetView();
 	};
 
 }

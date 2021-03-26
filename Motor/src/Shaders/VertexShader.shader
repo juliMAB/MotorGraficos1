@@ -19,7 +19,7 @@ uniform mat4 view;									\n\
 out vec4 vColor;									\n\
 out vec2 TexCoord;									\n\
 void main(){										\n\
-	gl_Position = projection * model * vec4(pos, 1.0f);			\n\
+	gl_Position = projection * view * model * vec4(pos, 1.0f);			\n\
 	vColor = vec4(colorrrr, 1.0f);					\n\
 	TexCoord = tex;									\n\
 }";
