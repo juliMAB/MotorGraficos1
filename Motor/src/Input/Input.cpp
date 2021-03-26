@@ -28,5 +28,7 @@ namespace Graficos1 {
 	void Input::SetWindow(GLFWwindow* w) {
 		_window = w;
 	}
-
+	bool Input::GetMouseButtonDown(MouseButtons mb) {
+		return (glfwGetMouseButton(_window, mb) == GLFW_PRESS);
+	}
 }

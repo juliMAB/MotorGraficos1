@@ -30,4 +30,18 @@ namespace Graficos1 {
 		_right = glm::normalize(glm::cross(_front, _worldUp));
 		_up = glm::normalize(glm::cross(_right, _front));
 	}
+	void Camera::SetPitch(float p) {
+		_pitch = p;
+		UpdateCamera();
+	}
+	void Camera::SetYaw(float y) {
+		_yaw = y;
+		UpdateCamera();
+	}
+	float Camera::GetPitch() {
+		return _pitch;
+	}
+	float Camera::GetYaw() {
+		return _yaw;
+	}
 }

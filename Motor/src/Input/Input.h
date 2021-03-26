@@ -128,13 +128,17 @@ namespace Graficos1 {
 		RIGHT_SUPER = 347,
 		MENU = 348
 	};
-
+	static enum MouseButtons {
+		LEFT_MOUSE_BUTTON = 0,
+		RIGHT_MOUSE_BUTTON = 1
+	};
 	class GraficosEngine_API Input {
 	public:
 		static bool GetKeyDown(Keycode k);
 		static bool GetKeyUp(Keycode k);
 		static bool GetKey(Keycode k);
 		static void SetWindow(GLFWwindow* w);
+		static bool GetMouseButtonDown(MouseButtons mb);
 	};
 }
 
