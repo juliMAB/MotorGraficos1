@@ -20,6 +20,8 @@ namespace Graficos1 {
 	static uint uniformAmbientIntensity;
 	static uint uniformAmbientColour;
 	static bool usingLight = false;
+	static glm::vec3 colourLight;
+	static float colourIntensity;
 	Renderer::Renderer() {
 
 	}
@@ -102,7 +104,9 @@ namespace Graficos1 {
 
 		uint useLightLoc = glGetUniformLocation(GetShader(), "useLight");
 		glUniform1i(useLightLoc, usingLight);
-	
+		glUniform3f(uniformAmbientColour, colourLight.x, colourLight.y, colourLight.z);
+		glUniform1f(uniformAmbientIntensity, colourIntensity);
+
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
 		if (t == TypeShader::Colour) {
@@ -142,8 +146,8 @@ namespace Graficos1 {
 
 	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour) {
 		usingLight = true;
-		glUniform3f(uniformAmbientColour, colour.x, colour.y, colour.z);
-		glUniform1f(uniformAmbientIntensity, ambientIntensity);
+		colourLight = colour;
+		colourIntensity = ambientIntensity;
 	}
 	void Renderer::StopLight() {
 		usingLight = false;

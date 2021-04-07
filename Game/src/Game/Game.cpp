@@ -2,6 +2,7 @@
 #include <time.h>
 #include <iostream>
 #include "../src/Timer/Timer.h"
+#include <time.h>
 
 namespace Graficos1 {
 
@@ -27,6 +28,7 @@ namespace Graficos1 {
 	}
 	void Game::Start() {
 		StartEngine(1366, 768, "Coco");
+		srand(time(NULL));
 
 		_camera = new Camera();
 		_camera->InitCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
@@ -45,7 +47,11 @@ namespace Graficos1 {
 		_shape2->SetScale(0.33f, 0.33f, 0.33f);
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 
-		_light = new Light(GetRenderer(), 1.0f, 0.0f, 0.0f, 0.2f);
+		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float intensity = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		_light = new Light(GetRenderer(), r,g,b,intensity);
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -69,6 +75,11 @@ namespace Graficos1 {
 			timerLight = 0.0f;
 			usingLight = !usingLight;
 			std::cout << "UsingLight: " << usingLight << std::endl;
+			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			float intensity = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			_light->SetColorsLight(r, g, b, intensity);
 		}
 
 		if (usingLight) 

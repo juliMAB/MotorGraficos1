@@ -15,6 +15,7 @@ namespace Graficos1 {
 		~Light();
 		void UseLight();
 		void TurnOffLight();
+		void SetColorsLight(float r, float g, float b, float ambientIntensity);
 	};
 
 }

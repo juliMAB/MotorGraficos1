@@ -3,16 +3,13 @@
 namespace Graficos1 {
 
 	Light::Light() : Entity(NULL) {
-		_colour = glm::vec3(1.0f, 1.0f, 1.0f);
-		_ambientIntensity = 1.0f;
+		SetColorsLight(1.0f,1.0f,1.0f,1.0f);
 	}
 	Light::Light(Renderer* rend) : Entity (rend){
-		_colour = glm::vec3(1.0f, 1.0f, 1.0f);
-		_ambientIntensity = 1.0f;
+		SetColorsLight(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 	Light::Light(Renderer* rend,float r, float g, float b, float ambientIntensity) : Entity(rend) {
-		_colour = glm::vec3(r, g, b);
-		_ambientIntensity = ambientIntensity;
+		SetColorsLight(r, g, b, ambientIntensity);
 	}
 	Light::~Light() {
 
@@ -22,6 +19,10 @@ namespace Graficos1 {
 	}
 	void Light::TurnOffLight() {
 		_renderer->StopLight();
+	}
+	void Light::SetColorsLight(float r, float g, float b, float ambientIntensity) {
+		_colour = glm::vec3(r, g, b);
+		_ambientIntensity = ambientIntensity;
 	}
 	
 
