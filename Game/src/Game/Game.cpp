@@ -44,44 +44,73 @@ namespace Graficos1 {
 	void Game::Play() {
 		UpdateEngine();
 	}
+
 	float speed = 5.0f;
 	float speedRotationCamera = 50.0f;
 	float timer = 0.0f;
+
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
 		Timer::DeltaTime(timer);
 
-		if (Input::GetKeyDown(Keycode::W)) 
+		if (Input::GetKeyDown(Keycode::W)) {
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y + (speed * timer), _camera->positionVec.z);
-		else if (Input::GetKeyDown(Keycode::S)) 
+			std::cout << "Y: " << _camera->positionVec.y << std::endl;
+		}
+		else if (Input::GetKeyDown(Keycode::S)) {
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y - (speed * timer), _camera->positionVec.z);
-		
+			std::cout << "Y: " << _camera->positionVec.y << std::endl;
+		}
 
-		if (Input::GetKeyDown(Keycode::A)) 
+		if (Input::GetKeyDown(Keycode::A)) {
 			_camera->SetPos(_camera->positionVec.x - (speed * timer), _camera->positionVec.y, _camera->positionVec.z);
-		else if (Input::GetKeyDown(Keycode::D)) 
+			std::cout << "X: " << _camera->positionVec.x << std::endl;
+		}
+		else if (Input::GetKeyDown(Keycode::D)) {
 			_camera->SetPos(_camera->positionVec.x + (speed * timer), _camera->positionVec.y, _camera->positionVec.z);
-	
-		if (Input::GetKeyDown(Keycode::Q)) 
+			std::cout << "X: " << _camera->positionVec.x << std::endl;
+		}
+		if (Input::GetKeyDown(Keycode::Q)) {
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z + (speed * timer));
-		else if (Input::GetKeyDown(Keycode::E)) 
+			std::cout << "Z: " << _camera->positionVec.z << std::endl;
+		}
+		else if (Input::GetKeyDown(Keycode::E)) {
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z - (speed * timer));
+			std::cout << "Z: " << _camera->positionVec.z << std::endl;
+		}
+		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON)) {
+			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * timer));
+			std::cout << "Pitch: " << _camera->GetPitch() << std::endl;
+		}
+		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON)) {
+			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * timer));
+			std::cout << "Pitch: " << _camera->GetPitch() << std::endl;
+		}
 
-		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON)) 
-			_camera->SetPitch(_camera->GetPitch() + (speed * timer));
-		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON)) 
-			_camera->SetPitch(_camera->GetPitch() - (speed * timer));
-
-		if (Input::GetKeyDown(Keycode::R))
+		if (Input::GetKeyDown(Keycode::R)) {
 			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * timer));
-		else if (Input::GetKeyDown(Keycode::T))
+			std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
+		}
+		else if (Input::GetKeyDown(Keycode::T)) {
 			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * timer));
+			std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
+		}
+
+
+		if (Input::GetKeyDown(Keycode::ENTER))
+			system("cls");
+		if (Input::GetKeyDown(Keycode::ALPHA0)) {
+			_camera->SetPos(0.0f, 0.0f, 0.0f);
+			_camera->SetPitch(0.0f);
+			_camera->SetYaw(-90.0f);
+		}
+		
 
 		_shape->DrawShape();
 		_shape2->DrawShape();
-		
+
 		GetWindow()->SwapBuffers();
 	}
 	void Game::End() {

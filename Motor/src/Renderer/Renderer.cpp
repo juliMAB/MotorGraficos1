@@ -14,7 +14,7 @@ namespace Graficos1 {
 	static uint uniformProjection;
 	static uint uniformView;
 
-	static glm::mat4 projection = glm::perspective(45.0f, 1366.0f / 768.0f, 0.1f, 100.0f);
+	static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 	static glm::mat4 view = glm::mat4(1.0f);
 	Renderer::Renderer() {
 

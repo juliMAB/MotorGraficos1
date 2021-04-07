@@ -48,7 +48,7 @@ namespace Graficos1 {
 			glfwTerminate();
 			return 0;
 		}
-
+		glEnable(GL_DEPTH);
 		_renderer->InitShaders();
 	}
 
