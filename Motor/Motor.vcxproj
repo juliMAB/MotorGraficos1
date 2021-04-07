@@ -26,6 +26,7 @@
     <ClCompile Include="src\Entity\Entity.cpp" />
     <ClCompile Include="src\GameBase\GameBase.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
+    <ClCompile Include="src\Light\Light.cpp" />
     <ClCompile Include="src\Material\Material.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Shape\Shape.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="src\Exports\Exports.h" />
     <ClInclude Include="src\GameBase\GameBase.h" />
     <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Light\Light.h" />
     <ClInclude Include="src\Material\Material.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shape\Shape.h" />

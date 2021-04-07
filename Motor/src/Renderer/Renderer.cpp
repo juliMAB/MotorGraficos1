@@ -16,6 +16,10 @@ namespace Graficos1 {
 
 	static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 	static glm::mat4 view = glm::mat4(1.0f);
+
+	static uint uniformAmbientIntensity;
+	static uint uniformAmbientColour;
+	static bool usingLight = false;
 	Renderer::Renderer() {
 
 	}
@@ -51,6 +55,12 @@ namespace Graficos1 {
 		posLocation = glGetAttribLocation(GetShader(), "pos");
 		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
 		glEnableVertexAttribArray(posLocation);
+
+		uint useLightLoc = glGetUniformLocation(GetShader(), "useLight");
+		glUniform1i(useLightLoc, usingLight);
+
+		uniformAmbientColour = glGetUniformLocation(GetShader(), "directionalLight.colour");
+		uniformAmbientIntensity = glGetUniformLocation(GetShader(), "directionalLight.ambientIntensity");
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -90,6 +100,9 @@ namespace Graficos1 {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
 
+		uint useLightLoc = glGetUniformLocation(GetShader(), "useLight");
+		glUniform1i(useLightLoc, usingLight);
+	
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
 		if (t == TypeShader::Colour) {
@@ -125,6 +138,15 @@ namespace Graficos1 {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glUseProgram(0);
+	}
+
+	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour) {
+		usingLight = true;
+		glUniform3f(uniformAmbientColour, colour.x, colour.y, colour.z);
+		glUniform1f(uniformAmbientIntensity, ambientIntensity);
+	}
+	void Renderer::StopLight() {
+		usingLight = false;
 	}
 
 	void Renderer::UpdateModel(glm::mat4 model) {

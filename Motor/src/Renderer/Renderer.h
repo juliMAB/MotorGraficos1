@@ -35,6 +35,8 @@ namespace Graficos1 {
 		void UpdateModel(glm::mat4 model);
 		void StopShaders();
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
+		void UseLight(float ambientIntensity, glm::vec3 colour);
+		void StopLight();
 		uint GetShader();
 
 		glm::mat4 GetView();

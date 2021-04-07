@@ -7,6 +7,7 @@ namespace Graficos1 {
 		Shape* _shape;
 		Shape* _shape2;
 		Camera* _camera;
+		Light* _light;
 	public:
 		Game();
 		~Game();
