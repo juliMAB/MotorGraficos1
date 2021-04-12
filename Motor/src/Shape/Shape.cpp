@@ -6,36 +6,36 @@
 
 namespace Graficos1 {
 
-	float triangleVerticesCol[24] = {
+	static float triangleVerticesCol[24] = {
 		0.0f, 1.0f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,
 		1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,
 		-1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f
 	};
 
-	float quadVerticesCol[32] = {
+	static float quadVerticesCol[32] = {
 		-1.0, 1.0, 1.0f, /**/ 1.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,
 		-1.0, -1.0, 1.0f, /**/ 0.0f, 1.0f, 0.0f,/**/ 0.0f, 0.0f,
 		1.0, -1.0, 1.0f, /**/ 0.0f, 0.0f, 1.0f,/**/ 0.0f, 0.0f,
 		1.0, 1.0, 1.0f, /**/ 0.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f
 	};
 
-	float pyramidVerticesCol[32]{
-		-1.0f, -1.0f, 0.0f, /**/ 1.0f, 0.0f, 0.0f, /**/0.0f, 0.0f,
-		0.0f, -1.0f, 1.0f,  /**/ 0.0f, 1.0f, 0.0f, /**/0.0f, 0.0f,
-		1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 1.0f, /**/0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,   /**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f
+	static float pyramidVerticesCol[44]{
+		-1.0f, -1.0f, 0.0f, /**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,
+		0.0f, -1.0f, 1.0f,  /**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,   /**/ 0.0f, 0.0f, 0.0f, /**/0.0f, 0.0f,	/**/ 0.0f, 0.0f, 0.0f
 	};
 
-	float cubeVerticesCol[64]{
-		-1.0, -1.0, 1.0,/**/  1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		1.0, -1.0, 1.0,	/**/  1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		1.0, 1.0, 1.0,	/**/  1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		-1.0, 1.0, 1.0,	/**/  1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		-1.0, -1.0, -1.0,/**/ 1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		1.0, -1.0, -1.0, /**/ 1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		1.0, 1.0, -1.0,	 /**/ 1.0f,1.0f,1.0f,/**/0.0f, 0.0f,
-		-1.0, 1.0, -1.0, /**/ 1.0f,1.0f,1.0f,/**/0.0f, 0.0f
-	};
+	//static float cubeVerticesCol[88]{
+	//	-1.0, -1.0, 1.0,/**/  1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/ 0.0f, 0.0f, 0.0f,
+	//	1.0, -1.0, 1.0,	/**/  1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+	//	1.0, 1.0, 1.0,	/**/  1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+	//	-1.0, 1.0, 1.0,	/**/  1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+	//	-1.0, -1.0, -1.0,/**/ 1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+	//	1.0, -1.0, -1.0, /**/ 1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+	//	1.0, 1.0, -1.0,	 /**/ 1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+	//	-1.0, 1.0, -1.0, /**/ 1.0f, 1.0f, 1.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f
+	//};
 
 	uint indexsPyramid[] = {
 		0, 3, 1,
@@ -70,8 +70,8 @@ namespace Graficos1 {
 	TypeShader typeShader;
 	uint tamVerts;
 
-	Shape::Shape() : Entity2D() { }
-	Shape::Shape(Renderer* rend, Material* mat) : Entity2D(rend, mat) {	}
+	Shape::Shape() : Entity2D() {}
+	Shape::Shape(Renderer* rend, Material* mat) : Entity2D(rend, mat) {}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
@@ -80,6 +80,7 @@ namespace Graficos1 {
 		typeOfShape = type;
 		typeShader = t;
 
+
 		switch (type) {
 		case TypeShape::Triangle:
 			_vb = triangleVerticesCol;
@@ -87,7 +88,8 @@ namespace Graficos1 {
 			break;
 		case TypeShape::Quad:
 			_vb = quadVerticesCol;
-			tamVerts = sizeof(quadVerticesCol); break;
+			tamVerts = sizeof(quadVerticesCol);
+			break;
 		case TypeShape::Pyramid:
 			_vb = pyramidVerticesCol;
 			tamVerts = sizeof(pyramidVerticesCol);
@@ -97,6 +99,7 @@ namespace Graficos1 {
 			tamVerts = sizeof(cubeVerticesCol);
 			break;
 		}
+		CalcAverageNormals(GetIndexs(), 36, _vb, 88, 11, 8);
 	}
 	void Shape::CreateShape() {
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
@@ -108,60 +111,7 @@ namespace Graficos1 {
 	}
 	void Shape::DrawShape() {
 		_renderer->UpdateModel(model);
-
-		switch (typeOfShape) {
-		case TypeShape::Triangle:
-			_renderer->Draw(typeOfShape, 3, _vao, _vbo, _ibo, triangleVerticesCol, tamVerts, TypeShader::Colour);
-			break;
-		case TypeShape::Quad:
-			_renderer->Draw(typeOfShape, 6, _vao, _vbo, _ibo, quadVerticesCol, tamVerts, TypeShader::Colour);
-			break;
-		case TypeShape::Pyramid:
-			_renderer->Draw(typeOfShape, 12, _vao, _vbo, _ibo, pyramidVerticesCol, tamVerts, TypeShader::Colour);
-			break;
-		case TypeShape::Cube:
-			_renderer->Draw(typeOfShape, 36, _vao, _vbo, _ibo, cubeVerticesCol, tamVerts, TypeShader::Colour);
-			break;
-		}
-	}
-	void Shape::SetColor(float c1[3], float c2[3], float c3[3]) {
-		if (typeOfShape == GL_TRIANGLES) {
-			triangleVerticesCol[3] = c1[0];
-			triangleVerticesCol[4] = c1[1];
-			triangleVerticesCol[5] = c1[2];
-
-			triangleVerticesCol[11] = c2[0];
-			triangleVerticesCol[12] = c2[1];
-			triangleVerticesCol[13] = c2[2];
-
-			triangleVerticesCol[19] = c3[0];
-			triangleVerticesCol[20] = c3[1];
-			triangleVerticesCol[21] = c3[2];
-
-			_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-			_renderer->SetAttribs(model, TypeShader::Colour);
-			return;
-		}
-
-		quadVerticesCol[3] = c1[0];
-		quadVerticesCol[4] = c1[1];
-		quadVerticesCol[5] = c1[2];
-
-		quadVerticesCol[11] = c2[0];
-		quadVerticesCol[12] = c2[1];
-		quadVerticesCol[13] = c2[2];
-
-		quadVerticesCol[19] = c3[0];
-		quadVerticesCol[20] = c3[1];
-		quadVerticesCol[21] = c3[2];
-
-		quadVerticesCol[27] = 0.0f;
-		quadVerticesCol[28] = 0.0f;
-		quadVerticesCol[29] = 0.0f;
-
-		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
-		_renderer->SetIndexThings(GetVerticesTam(), GetIndexs(), _ibo);
-		_renderer->SetAttribs(model, TypeShader::Colour);
+		_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
 	}
 	int Shape::GetVerticesArrLenght() {
 		return tamVerts / sizeof(float);
@@ -181,13 +131,13 @@ namespace Graficos1 {
 	int Shape::GetIndexTam() {
 		switch (typeOfShape) {
 		case TypeShape::Pyramid:
-			return sizeof(indexsPyramid);
+			return sizeof(indexsPyramid) / sizeof(float);
 			break;
 		case TypeShape::Cube:
-			return sizeof(indexsCube);
+			return sizeof(indexsCube) / sizeof(float);
 			break;
 		default:
-			return sizeof(posIndexs);
+			return sizeof(posIndexs) / sizeof(float);
 			break;
 		}
 	}
@@ -202,6 +152,29 @@ namespace Graficos1 {
 		default:
 			return posIndexs;
 			break;
+		}
+	}
+	void Shape::CalcAverageNormals(uint * indices, uint indiceCount, float * vertices, uint verticeCount, uint vLength, uint normalOffset) {
+		for (int i = 0; i < indiceCount; i += 3) {
+			unsigned int in0 = indices[i] * vLength;
+			unsigned int in1 = indices[i + 1] * vLength;
+			unsigned int in2 = indices[i + 2] * vLength;
+			glm::vec3 v1(vertices[in1] - vertices[in0], vertices[in1 + 1] - vertices[in0 + 1], vertices[in1 + 2] - vertices[in0 + 2]);
+			glm::vec3 v2(vertices[in2] - vertices[in0], vertices[in2 + 1] - vertices[in0 + 1], vertices[in2 + 2] - vertices[in0 + 2]);
+			glm::vec3 normal = glm::cross(v1, v2);
+			normal = glm::normalize(normal);
+
+			in0 += normalOffset; in1 += normalOffset; in2 += normalOffset;
+			vertices[in0] += normal.x; vertices[in0 + 1] += normal.y; vertices[in0 + 2] += normal.z;
+			vertices[in1] += normal.x; vertices[in1 + 1] += normal.y; vertices[in1 + 2] += normal.z;
+			vertices[in2] += normal.x; vertices[in2 + 1] += normal.y; vertices[in2 + 2] += normal.z;
+		}
+
+		for (int i = 0; i < verticeCount / vLength; i++) {
+			unsigned int nOffset = i * vLength + normalOffset;
+			glm::vec3 vec(vertices[nOffset], vertices[nOffset + 1], vertices[nOffset + 2]);
+			vec = glm::normalize(vec);
+			vertices[nOffset] = vec.x; vertices[nOffset + 1] = vec.y; vertices[nOffset + 2] = vec.z;
 		}
 	}
 }

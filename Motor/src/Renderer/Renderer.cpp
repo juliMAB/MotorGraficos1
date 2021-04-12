@@ -10,6 +10,7 @@ namespace Graficos1 {
 	
 	static uint posLocation;
 	static uint colorLocation;
+	static uint texLocation;
 	static uint uniformModel;
 	static uint uniformProjection;
 	static uint uniformView;
@@ -19,9 +20,15 @@ namespace Graficos1 {
 
 	static uint uniformAmbientIntensity;
 	static uint uniformAmbientColour;
+	static uint uniformDiffuseDirection;
+	static uint uniformDiffuseIntensity;
+	static uint uniformNormalLocation;
+
 	static bool usingLight = false;
 	static glm::vec3 colourLight;
 	static float colourIntensity;
+	static glm::vec3 lightDirection;
+	static float diffuseLightIntensity;
 	Renderer::Renderer() {
 
 	}
@@ -55,7 +62,7 @@ namespace Graficos1 {
 	}
 	void Renderer::SetAttribs(glm::mat4 model, TypeShader t) {
 		posLocation = glGetAttribLocation(GetShader(), "pos");
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
+		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), 0);
 		glEnableVertexAttribArray(posLocation);
 
 		uint useLightLoc = glGetUniformLocation(GetShader(), "useLight");
@@ -63,23 +70,30 @@ namespace Graficos1 {
 
 		uniformAmbientColour = glGetUniformLocation(GetShader(), "directionalLight.colour");
 		uniformAmbientIntensity = glGetUniformLocation(GetShader(), "directionalLight.ambientIntensity");
+		uniformDiffuseIntensity = glGetUniformLocation(GetShader(), "directionalLight.diffuseIntensity");
+		uniformDiffuseDirection = glGetUniformLocation(GetShader(), "directionalLight.direction");
+
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
 		if (t == TypeShader::Colour) {
 			glUniform1i(useTextureLoc, false);
-			unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
-			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(colorLocation);
 		}
 		else {
 			glUniform1i(useTextureLoc, true);
-			unsigned int texLocation = glGetAttribLocation(GetShader(), "tex");
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			texLocation = glGetAttribLocation(GetShader(), "tex");
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
 			glEnableVertexAttribArray(texLocation);
 		}
 
-		unsigned int uniformModel = glGetUniformLocation(GetShader(), "model");
+		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
+		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+		glEnableVertexAttribArray(uniformNormalLocation);
+
+		uniformModel = glGetUniformLocation(GetShader(), "model");
 		glUseProgram(GetShader());
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -106,37 +120,33 @@ namespace Graficos1 {
 		glUniform1i(useLightLoc, usingLight);
 		glUniform3f(uniformAmbientColour, colourLight.x, colourLight.y, colourLight.z);
 		glUniform1f(uniformAmbientIntensity, colourIntensity);
+		
+		glUniform3f(uniformDiffuseDirection, lightDirection.x, lightDirection.y, lightDirection.z);
+		glUniform1f(uniformDiffuseIntensity, diffuseLightIntensity);
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
 		if (t == TypeShader::Colour) {
 			glUniform1i(useTextureLoc, false);
-			unsigned int colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
-			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+			colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
+			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(colorLocation);
 		}
 		else {
 			glUniform1i(useTextureLoc, true);
-			unsigned int texLocation = glGetAttribLocation(GetShader(), "tex");
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			texLocation = glGetAttribLocation(GetShader(), "tex");
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
 			glEnableVertexAttribArray(texLocation);
 		}
 
+		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
+		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+		glEnableVertexAttribArray(uniformNormalLocation);
 
-		switch (shape) {
-		case TypeShape::Quad:
-			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, nullptr);
-			break;
-		case TypeShape::Triangle:
+		if(shape == TypeShape::Triangle)
 			glDrawArrays(GL_TRIANGLES, 0, verts);
-			break;
-		case TypeShape::Pyramid:
+		else
 			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
-			break;
-		case TypeShape::Cube:
-			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
-			break;
-		}
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -144,10 +154,12 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour) {
+	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour, glm::vec3 direction, float diffuseIntensity) {
 		usingLight = true;
 		colourLight = colour;
 		colourIntensity = ambientIntensity;
+		lightDirection = direction;
+		diffuseLightIntensity = diffuseIntensity;
 	}
 	void Renderer::StopLight() {
 		usingLight = false;

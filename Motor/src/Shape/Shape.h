@@ -16,6 +16,17 @@ namespace Graficos1 {
 		uint _vbo;
 		uint _vao;
 		uint _ibo;
+
+		float cubeVerticesCol[88]{
+			-1.0, -1.0, 1.0,/**/  1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/ 0.0f, 0.0f, 0.0f,
+			1.0, -1.0, 1.0,	/**/  1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+			1.0, 1.0, 1.0,	/**/  1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+			-1.0, 1.0, 1.0,	/**/  1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+			-1.0, -1.0, -1.0,/**/ 1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+			1.0, -1.0, -1.0, /**/ 1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+			1.0, 1.0, -1.0,	 /**/ 1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
+			-1.0, 1.0, -1.0, /**/ 1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f
+		};
 		
 	public:
 		Shape();
@@ -24,7 +35,6 @@ namespace Graficos1 {
 		void InitShape(TypeShape type, TypeShader t);
 		void CreateShape();
 		void DrawShape();
-		void SetColor(float c1[3], float c2[3], float c3[3]);
 		int GetVerticesArrLenght();
 		int GetVerticesTam();
 		float* GetVertices();
@@ -32,6 +42,7 @@ namespace Graficos1 {
 		uint GetType();
 		int GetIndexTam();
 		unsigned int* GetIndexs();
+		void CalcAverageNormals(uint * indices, uint indiceCount, float * vertices, uint verticeCount, uint vLength, uint normalOffset);
 	};
 
 }

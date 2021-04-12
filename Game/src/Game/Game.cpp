@@ -46,12 +46,8 @@ namespace Graficos1 {
 		_shape2->CreateShape();
 		_shape2->SetScale(0.33f, 0.33f, 0.33f);
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
-
-		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float intensity = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		_light = new Light(GetRenderer(), r,g,b,intensity);
+		
+		_light = new Light(GetRenderer(), 1.0f, 1.0f, 1.0f, 0.2f, 0.0f,1.0f,0.0f, 1.0f);
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -67,26 +63,8 @@ namespace Graficos1 {
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
+		_light->UseLight();	
 		Timer::DeltaTime(timer);
-
-		timerLight += timer;
-
-		if (timerLight >= maxTimerLight) {
-			timerLight = 0.0f;
-			usingLight = !usingLight;
-			std::cout << "UsingLight: " << usingLight << std::endl;
-			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-			float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-			float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-			float intensity = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-			_light->SetColorsLight(r, g, b, intensity);
-		}
-
-		if (usingLight) 
-			_light->UseLight();	
-		else
-			_light->TurnOffLight();
-
 
 
 		if (Input::GetKeyDown(Keycode::W)) {
