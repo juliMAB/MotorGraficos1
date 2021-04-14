@@ -44,7 +44,7 @@ namespace Graficos1 {
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
 		_shinyMaterial = new Material(3.0f, 2.0f);
-		_dullMaterial = new Material(0.33f, 4.0f);
+		_dullMaterial = new Material(3.0f, 32.0f);
 
 		_shape = new Shape(GetRenderer());
 		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
@@ -58,15 +58,15 @@ namespace Graficos1 {
 		_shape2->CreateShape();
 		_shape2->SetScale(0.33f, 0.33f, 0.33f);
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
-		_shape->SetMaterial(_shinyMaterial);
+		_shape->SetMaterial(_dullMaterial);
 
-		_light = new Light(GetRenderer(), 0.1f,0.1f,0.1f, 1.0f, 0.0f,1.0f,0.0f, 1.0f);
+		_light = new Light(GetRenderer(), 0.1f, 0.1f, 0.1f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f);
 	}
 	void Game::Play() {
 		UpdateEngine();
 	}
 
-	float speed = 1.0f;
+	float speed = 5.0f;
 	float speedRotationCamera = 50.0f;
 	float timer = 0.0f;
 	bool usingLight = true;
@@ -77,7 +77,6 @@ namespace Graficos1 {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
-		_light->UseLight();	
 		Timer::DeltaTime(timer);
 
 
@@ -124,7 +123,6 @@ namespace Graficos1 {
 			//std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
 		}
 
-
 		if (Input::GetKeyDown(Keycode::ENTER))
 			system("cls");
 		if (Input::GetKeyDown(Keycode::ALPHA0)) {
@@ -132,8 +130,9 @@ namespace Graficos1 {
 			_camera->SetPitch(0.0f);
 			_camera->SetYaw(-90.0f);
 		}
-		
+
 		_camera->UpdateEyePosition();
+		_light->UseLight();
 
 		_shape->DrawShape();
 		_shape2->DrawShape();

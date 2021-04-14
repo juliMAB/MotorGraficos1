@@ -26,6 +26,7 @@ namespace Graficos1 {
 	static uint uniformSpecularIntensity;
 	static uint uniformShininess;
 	static uint uniformEyePosition;
+	static uint uniformLightPosition;
 
 	static bool usingLight = false;
 	static glm::vec3 colourLight;
@@ -35,6 +36,7 @@ namespace Graficos1 {
 	static float specularIntensity;
 	static float shininessLight;
 	static glm::vec3 eyePosition;
+	static glm::vec3 lightPosition;
 
 	Renderer::Renderer() {
 
@@ -83,6 +85,7 @@ namespace Graficos1 {
 		uniformSpecularIntensity = glGetUniformLocation(GetShader(), "material.specularIntensity");
 		uniformShininess = glGetUniformLocation(GetShader(), "material.shininess");
 		uniformEyePosition = glGetUniformLocation(GetShader(), "eyePosition");
+		uniformLightPosition = glGetUniformLocation(GetShader(), "posLight");
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -137,6 +140,7 @@ namespace Graficos1 {
 		glUniform1f(uniformSpecularIntensity, specularIntensity);
 		glUniform1f(uniformShininess, shininessLight);
 		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
+		glUniform3f(uniformLightPosition, lightPosition.x, lightPosition.y, lightPosition.z);
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -170,12 +174,13 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour, glm::vec3 direction, float diffuseIntensity) {
+	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour, glm::vec3 direction, float diffuseIntensity, glm::vec3 position) {
 		usingLight = true;
 		colourLight = colour;
 		colourIntensity = ambientIntensity;
 		lightDirection = direction;
 		diffuseLightIntensity = diffuseIntensity;
+		lightPosition = position;
 	}
 	void Renderer::StopLight() {
 		usingLight = false;

@@ -21,7 +21,7 @@ namespace Graficos1 {
 
 	}
 	void Light::UseLight() {
-		_renderer->UseLight(_ambientIntensity, _colour,_direction, _diffuseIntensity);
+		_renderer->UseLight(_ambientIntensity, _colour,_direction, _diffuseIntensity, positionVec);
 	}
 	void Light::TurnOffLight() {
 		_renderer->StopLight();

@@ -27,14 +27,16 @@ struct Material{									\n\
 uniform DirectionalLight directionalLight;			\n\
 uniform Material material;							\n\
 uniform vec3 eyePosition;							\n\
+uniform vec3 posLight;								\n\
 void main(){										\n\
 	vec4 ambientColour = vec4(directionalLight.colour, 1.0f) * directionalLight.ambientIntensity;			  \n\
-	float diffuseFactor = max(dot(normalize(Normal), normalize(directionalLight.direction)), 0.0f);			  \n\
+	vec3 lightDirection = normalize(posLight - FragPos);	\n\
+	float diffuseFactor = max(dot(normalize(Normal), lightDirection), 0.0f);			  \n\
 	vec4 diffuseColour = vec4(directionalLight.colour, 1.0f) * directionalLight.diffuseIntensity * diffuseFactor;	  \n\
 	vec4 specularColour = vec4(0, 0, 0, 0);															  \n\
 	if (diffuseFactor > 0.0f) {																								   \n\
 		vec3 fragToEye = normalize(eyePosition - FragPos);												  \n\
-		vec3 reflectedVertex = normalize(reflect(-directionalLight.direction, normalize(Normal)));		   \n\
+		vec3 reflectedVertex = normalize(reflect(-lightDirection, normalize(Normal)));		   \n\
 		float specularFactor = max(dot(fragToEye, reflectedVertex),0.0f);											   \n\
 		if (specularFactor > 0.0f) {																	  \n\
 			specularFactor = pow(specularFactor, material.shininess);									 \n\
