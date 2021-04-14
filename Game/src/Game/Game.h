@@ -8,6 +8,8 @@ namespace Graficos1 {
 		Shape* _shape2;
 		Camera* _camera;
 		Light* _light;
+		Material* _shinyMaterial;
+		Material* _dullMaterial;
 	public:
 		Game();
 		~Game();

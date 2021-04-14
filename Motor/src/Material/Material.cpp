@@ -2,22 +2,27 @@
 namespace Graficos1 {
 
 	Material::Material() {
-		_mat = { 0.0f, 0.0f, 0.0f, 1.0f };
+		_specularIntensity = 0.0f;
+		_shininess = 0.0f;
 	}
-	Material::Material(float r, float g, float b, float a) {
-		_mat = { r, g, b, a };
+	Material::Material(float sIntensity, float shine) {
+		_specularIntensity = sIntensity;
+		_shininess = shine;
 	}
 	Material::~Material() {
 
 	}
-	void Material::SetMaterial(float r, float g, float b, float a) {
-		_mat[0] = r;
-		_mat[1] = g;
-		_mat[2] = b;
-		_mat[3] = a;
+	float Material::GetSpecularIntensity() {
+		return _specularIntensity;
 	}
-	glm::vec4 Material::GetMaterial() {
-		return _mat;
+	float Material::GetShininess() {
+		return _shininess;
+	}
+	void Material::SetSpecularIntensity(float si) {
+		_specularIntensity = si;
+	}
+	void Material::SetShininess(float s) {
+		_shininess = s;
 	}
 
 }

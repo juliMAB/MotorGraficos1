@@ -2,18 +2,21 @@
 #define MATERIAL_H
 
 #include "../src/Exports/Exports.h"
-#include <glm/vec4.hpp>
 
 namespace Graficos1 {
 
-	class GraficosEngine_API  Material{
-		glm::vec4 _mat;
+	class GraficosEngine_API  Material {
+		float _specularIntensity;
+		float _shininess;
 	public:
 		Material();
-		Material(float r, float g, float b, float a);
+		Material(float sIntensity, float shine);
 		~Material();
-		void SetMaterial(float r, float g, float b, float a);
-		glm::vec4 GetMaterial();
+
+		float GetSpecularIntensity();
+		float GetShininess();
+		void SetSpecularIntensity(float si);
+		void SetShininess(float s);
 	};
 
 }

@@ -25,35 +25,48 @@ namespace Graficos1 {
 			delete _light;
 			_light = NULL;
 		}
+		if (_shinyMaterial != NULL) {
+			delete _shinyMaterial;
+			_shinyMaterial = NULL;
+		}
+		if (_dullMaterial != NULL) {
+			delete _dullMaterial;
+			_dullMaterial = NULL;
+		}
 	}
 	void Game::Start() {
 		StartEngine(1366, 768, "Coco");
 		srand(time(NULL));
 
-		_camera = new Camera();
+		_camera = new Camera(GetRenderer());
 		_camera->InitCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
 		_camera->SetPos(0.0f, 0.0f, 0.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
-		_shape = new Shape(GetRenderer(), NULL);
+		_shinyMaterial = new Material(3.0f, 2.0f);
+		_dullMaterial = new Material(0.33f, 4.0f);
+
+		_shape = new Shape(GetRenderer());
 		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
 		_shape->CreateShape();
 		_shape->SetScale(0.33f, 0.33f, 0.33f);
 		_shape->SetPos(0.0f, 0.0f, -3.0f);
+		_shape->SetMaterial(_shinyMaterial);
 
-		_shape2 = new Shape(GetRenderer(), NULL);
+		_shape2 = new Shape(GetRenderer());
 		_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
 		_shape2->CreateShape();
 		_shape2->SetScale(0.33f, 0.33f, 0.33f);
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
-		
-		_light = new Light(GetRenderer(), 1.0f, 1.0f, 1.0f, 0.2f, 0.0f,1.0f,0.0f, 1.0f);
+		_shape->SetMaterial(_shinyMaterial);
+
+		_light = new Light(GetRenderer(), 0.1f,0.1f,0.1f, 1.0f, 0.0f,1.0f,0.0f, 1.0f);
 	}
 	void Game::Play() {
 		UpdateEngine();
 	}
 
-	float speed = 5.0f;
+	float speed = 1.0f;
 	float speedRotationCamera = 50.0f;
 	float timer = 0.0f;
 	bool usingLight = true;
@@ -63,6 +76,7 @@ namespace Graficos1 {
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
+
 		_light->UseLight();	
 		Timer::DeltaTime(timer);
 
@@ -119,6 +133,7 @@ namespace Graficos1 {
 			_camera->SetYaw(-90.0f);
 		}
 		
+		_camera->UpdateEyePosition();
 
 		_shape->DrawShape();
 		_shape2->DrawShape();

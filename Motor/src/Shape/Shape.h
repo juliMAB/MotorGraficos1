@@ -2,7 +2,7 @@
 #define SHAPE_H
 
 #include "../src/Exports/Exports.h"
-#include "../src/Entity2D/Entity2D.h"
+#include "../src/Entity/Entity.h"
 #include "../src/Material/Material.h"
 
 #define TRIANGLE 0x0004
@@ -11,7 +11,7 @@
 namespace Graficos1 {
 
 	typedef unsigned int uint;
-	class GraficosEngine_API Shape : public Entity2D {
+	class GraficosEngine_API Shape : public Entity {
 		float* _vb;
 		uint _vbo;
 		uint _vao;
@@ -27,14 +27,17 @@ namespace Graficos1 {
 			1.0, 1.0, -1.0,	 /**/ 1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f,
 			-1.0, 1.0, -1.0, /**/ 1.0f,0.0f,0.0f,/**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f
 		};
-		
+
+		Material* _material;
 	public:
 		Shape();
-		Shape(Renderer* rend, Material* mat);
+		Shape(Renderer* rend);
 		~Shape();
 		void InitShape(TypeShape type, TypeShader t);
 		void CreateShape();
 		void DrawShape();
+		void SetMaterial(Material* m);
+		Material* GetMaterial();
 		int GetVerticesArrLenght();
 		int GetVerticesTam();
 		float* GetVertices();

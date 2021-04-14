@@ -7,6 +7,9 @@ namespace Graficos1 {
 	Camera::Camera() {
 
 	}
+	Camera::Camera(Renderer* r) : Entity(r){
+
+	}
 	Camera::~Camera() {
 
 	}
@@ -29,6 +32,9 @@ namespace Graficos1 {
 
 		_right = glm::normalize(glm::cross(_front, _worldUp));
 		_up = glm::normalize(glm::cross(_right, _front));
+	}
+	void Camera::UpdateEyePosition() {
+		_renderer->SetEyePosition(positionVec);
 	}
 	void Camera::SetPitch(float p) {
 		_pitch = p;

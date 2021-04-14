@@ -70,8 +70,8 @@ namespace Graficos1 {
 	TypeShader typeShader;
 	uint tamVerts;
 
-	Shape::Shape() : Entity2D() {}
-	Shape::Shape(Renderer* rend, Material* mat) : Entity2D(rend, mat) {}
+	Shape::Shape() : Entity() {}
+	Shape::Shape(Renderer* rend) : Entity(rend) {}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
@@ -80,6 +80,7 @@ namespace Graficos1 {
 		typeOfShape = type;
 		typeShader = t;
 
+		_material = NULL;
 
 		switch (type) {
 		case TypeShape::Triangle:
@@ -111,7 +112,16 @@ namespace Graficos1 {
 	}
 	void Shape::DrawShape() {
 		_renderer->UpdateModel(model);
+
+		if (_material != NULL) 
+			_renderer->UseMaterial(_material->GetSpecularIntensity(), _material->GetShininess());
 		_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
+	}
+	void Shape::SetMaterial(Material* m) {
+		_material = m;
+	}
+	Material* Shape::GetMaterial() {
+		return _material;
 	}
 	int Shape::GetVerticesArrLenght() {
 		return tamVerts / sizeof(float);

@@ -7,7 +7,7 @@
 namespace Graficos1 {
 
 	typedef unsigned int uint;
-	
+
 	static uint posLocation;
 	static uint colorLocation;
 	static uint texLocation;
@@ -23,17 +23,24 @@ namespace Graficos1 {
 	static uint uniformDiffuseDirection;
 	static uint uniformDiffuseIntensity;
 	static uint uniformNormalLocation;
+	static uint uniformSpecularIntensity;
+	static uint uniformShininess;
+	static uint uniformEyePosition;
 
 	static bool usingLight = false;
 	static glm::vec3 colourLight;
 	static float colourIntensity;
 	static glm::vec3 lightDirection;
 	static float diffuseLightIntensity;
+	static float specularIntensity;
+	static float shininessLight;
+	static glm::vec3 eyePosition;
+
 	Renderer::Renderer() {
 
 	}
 	Renderer::~Renderer() {
-	
+
 	}
 	int Renderer::InitGlew() {
 		glewExperimental = GL_TRUE;
@@ -73,6 +80,9 @@ namespace Graficos1 {
 		uniformDiffuseIntensity = glGetUniformLocation(GetShader(), "directionalLight.diffuseIntensity");
 		uniformDiffuseDirection = glGetUniformLocation(GetShader(), "directionalLight.direction");
 
+		uniformSpecularIntensity = glGetUniformLocation(GetShader(), "material.specularIntensity");
+		uniformShininess = glGetUniformLocation(GetShader(), "material.shininess");
+		uniformEyePosition = glGetUniformLocation(GetShader(), "eyePosition");
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -120,9 +130,13 @@ namespace Graficos1 {
 		glUniform1i(useLightLoc, usingLight);
 		glUniform3f(uniformAmbientColour, colourLight.x, colourLight.y, colourLight.z);
 		glUniform1f(uniformAmbientIntensity, colourIntensity);
-		
+
 		glUniform3f(uniformDiffuseDirection, lightDirection.x, lightDirection.y, lightDirection.z);
 		glUniform1f(uniformDiffuseIntensity, diffuseLightIntensity);
+
+		glUniform1f(uniformSpecularIntensity, specularIntensity);
+		glUniform1f(uniformShininess, shininessLight);
+		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -143,7 +157,9 @@ namespace Graficos1 {
 		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
 		glEnableVertexAttribArray(uniformNormalLocation);
 
-		if(shape == TypeShape::Triangle)
+		glEnable(GL_DEPTH_TEST);
+
+		if (shape == TypeShape::Triangle)
 			glDrawArrays(GL_TRIANGLES, 0, verts);
 		else
 			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
@@ -164,12 +180,18 @@ namespace Graficos1 {
 	void Renderer::StopLight() {
 		usingLight = false;
 	}
-
+	void Renderer::UseMaterial(float sIntensity, float shine) {
+		shininessLight = shine;
+		specularIntensity = sIntensity;
+	}
+	void Renderer::SetEyePosition(glm::vec3 eyePos) {
+		eyePosition = eyePos;
+	}
 	void Renderer::UpdateModel(glm::mat4 model) {
 		uniformModel = glGetUniformLocation(GetShader(), "model");
 		uniformProjection = glGetUniformLocation(GetShader(), "projection");
 		uniformView = glGetUniformLocation(GetShader(), "view");
-		
+
 		glUseProgram(GetShader());
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));

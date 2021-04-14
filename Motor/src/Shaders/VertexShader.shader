@@ -20,11 +20,13 @@ uniform mat4 view;									\n\
 out vec4 vColor;									\n\
 out vec2 TexCoord;									\n\
 out vec3 Normal;									\n\
+out vec3 FragPos;									\n\
 void main(){										\n\
 	gl_Position = projection * view * model * vec4(pos, 1.0f);			\n\
 	vColor = vec4(colorrrr, 1.0f);					\n\
 	TexCoord = tex;									\n\
 	Normal = mat3(transpose(inverse(model))) * norm;\n\
+	FragPos = (model * vec4(pos, 1.0)).xyz;		\n\
 }";
 
 

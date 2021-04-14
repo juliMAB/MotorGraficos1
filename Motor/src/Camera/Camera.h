@@ -16,10 +16,12 @@ namespace Graficos1 {
 		float _pitch;
 	public:
 		Camera();
+		Camera(Renderer* r);
 		~Camera();
 		void InitCamera(glm::vec3 pos, glm::vec3 up, float yaw, float pitch);
 		glm::mat4 CalculateViewMatrix();
 		void UpdateCamera();
+		void UpdateEyePosition();
 		void SetPitch(float p);
 		void SetYaw(float y);
 		float GetPitch();

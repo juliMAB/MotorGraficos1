@@ -37,6 +37,8 @@ namespace Graficos1 {
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 		void UseLight(float ambientIntensity, glm::vec3 colour, glm::vec3 direction, float diffuseIntensity);
 		void StopLight();
+		void SetEyePosition(glm::vec3 eyePos);
+		void UseMaterial(float sIntensity, float shine);
 		uint GetShader();
 
 		glm::mat4 GetView();
