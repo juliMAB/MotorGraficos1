@@ -7,7 +7,7 @@ namespace Graficos1 {
 		_diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
 		_specular = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
-	Material::~Material() {	}
+	Material::~Material() {}
 	void Material::SetAmbient(glm::vec3 amb) {
 		_ambient = amb;
 	}
@@ -32,5 +32,4 @@ namespace Graficos1 {
 	float Material::GetShininess() {
 		return _shininess;
 	}
-
 }

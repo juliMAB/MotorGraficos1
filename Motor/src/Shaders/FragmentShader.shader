@@ -41,7 +41,7 @@ void main(){										\n\
 	vec3 reflectDir = reflect(-lightDir,norm);		 \n\
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess); \n\
 	vec3 specular = light.specular * (spec * material.specular); \n\
-	vec3 result = ambient + diffuse + specular;	\n\
+	vec3 result = (ambient + diffuse + specular) * light.colour;	\n\
 	if(useTexture == false && useLight == true)		\n\
 		colour = vec4(result,1.0f);		\n\
 	else if(useTexture == false && useLight == false)	\n\

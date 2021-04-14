@@ -14,7 +14,6 @@ namespace Graficos1 {
 	public:
 		Material();
 		~Material();
-
 		void SetAmbient(glm::vec3 amb);
 		void SetDiffuse(glm::vec3 diff);
 		void SetSpecular(glm::vec3 spec);
