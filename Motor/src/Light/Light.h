@@ -7,19 +7,23 @@ namespace Graficos1 {
 
 	class GraficosEngine_API Light : public Entity {
 		glm::vec3 _colour;
-		float _ambientIntensity;
-		glm::vec3 _direction;
-		float _diffuseIntensity;
+		glm::vec3 _ambient;
+		glm::vec3 _diffuse;
+		glm::vec3 _specular;
 	public:
 		Light();
 		Light(Renderer* rend);
-		Light(Renderer* rend, float r, float g, float b, float ambientIntensity, float dirX, float dirY, float dirZ, float diffuseIntensity);
 		~Light();
 		void UseLight();
 		void TurnOffLight();
-		void SetColorsLight(float r, float g, float b, float ambientIntensity);
-		void SetDirection(float dirX, float dirY, float dirZ);
-		void SetDiffuseIntensity(float diffuseIntensity);
+		void SetColour(glm::vec3 c);
+		void SetAmbient(glm::vec3 a);
+		void SetDiffuse(glm::vec3 d);
+		void SetSpecular(glm::vec3 s);
+		glm::vec3 GetColour();
+		glm::vec3 GetAmbient();
+		glm::vec3 GetDiffuse();
+		glm::vec3 GetSpecular();
 	};
 
 }

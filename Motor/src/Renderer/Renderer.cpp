@@ -18,25 +18,34 @@ namespace Graficos1 {
 	static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 	static glm::mat4 view = glm::mat4(1.0f);
 
-	static uint uniformAmbientIntensity;
-	static uint uniformAmbientColour;
-	static uint uniformDiffuseDirection;
-	static uint uniformDiffuseIntensity;
-	static uint uniformNormalLocation;
-	static uint uniformSpecularIntensity;
-	static uint uniformShininess;
-	static uint uniformEyePosition;
+	static uint uniformLightColour;
+	static uint uniformLightAmbient;
+	static uint uniformLightDiffuse;
+	static uint uniformLightSpecular;
 	static uint uniformLightPosition;
+
+	static uint uniformNormalLocation;
+
+	static uint uniformEyePosition;
+
+	static uint uniformMaterialAmbient;
+	static uint uniformMaterialDiffuse;
+	static uint uniformMaterialSpecular;
+	static uint uniformShininess;
 
 	static bool usingLight = false;
 	static glm::vec3 colourLight;
-	static float colourIntensity;
-	static glm::vec3 lightDirection;
-	static float diffuseLightIntensity;
-	static float specularIntensity;
-	static float shininessLight;
-	static glm::vec3 eyePosition;
+	static glm::vec3 ambientLight;
+	static glm::vec3 diffuseLight;
+	static glm::vec3 specularLight;
 	static glm::vec3 lightPosition;
+
+	static glm::vec3 eyePosition;
+
+	static float shininessMaterial;
+	static glm::vec3 materialAmbient;
+	static glm::vec3 materialDiffuse;
+	static glm::vec3 materialSpecular;
 
 	Renderer::Renderer() {
 
@@ -71,39 +80,38 @@ namespace Graficos1 {
 	}
 	void Renderer::SetAttribs(glm::mat4 model, TypeShader t) {
 		posLocation = glGetAttribLocation(GetShader(), "pos");
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), 0);
+		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
 		glEnableVertexAttribArray(posLocation);
 
 		uint useLightLoc = glGetUniformLocation(GetShader(), "useLight");
 		glUniform1i(useLightLoc, usingLight);
 
-		uniformAmbientColour = glGetUniformLocation(GetShader(), "directionalLight.colour");
-		uniformAmbientIntensity = glGetUniformLocation(GetShader(), "directionalLight.ambientIntensity");
-		uniformDiffuseIntensity = glGetUniformLocation(GetShader(), "directionalLight.diffuseIntensity");
-		uniformDiffuseDirection = glGetUniformLocation(GetShader(), "directionalLight.direction");
+		uniformLightColour = glGetUniformLocation(GetShader(), "light.colour");
+		uniformLightAmbient = glGetUniformLocation(GetShader(), "light.ambient");
+		uniformLightDiffuse = glGetUniformLocation(GetShader(), "light.diffuse");
+		uniformLightSpecular = glGetUniformLocation(GetShader(), "light.specular");
 
-		uniformSpecularIntensity = glGetUniformLocation(GetShader(), "material.specularIntensity");
 		uniformShininess = glGetUniformLocation(GetShader(), "material.shininess");
+		uniformMaterialAmbient = glGetUniformLocation(GetShader(), "material.ambient");
+		uniformMaterialDiffuse = glGetUniformLocation(GetShader(), "material.diffuse");
+		uniformMaterialSpecular = glGetUniformLocation(GetShader(), "material.specular");
+		
 		uniformEyePosition = glGetUniformLocation(GetShader(), "eyePosition");
 		uniformLightPosition = glGetUniformLocation(GetShader(), "posLight");
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
-		if (t == TypeShader::Colour) {
+		if (t == TypeShader::Colour)
 			glUniform1i(useTextureLoc, false);
-			colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
-			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(colorLocation);
-		}
 		else {
 			glUniform1i(useTextureLoc, true);
 			texLocation = glGetAttribLocation(GetShader(), "tex");
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(texLocation);
 		}
 
 		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
-		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(uniformNormalLocation);
 
 		uniformModel = glGetUniformLocation(GetShader(), "model");
@@ -131,34 +139,33 @@ namespace Graficos1 {
 
 		uint useLightLoc = glGetUniformLocation(GetShader(), "useLight");
 		glUniform1i(useLightLoc, usingLight);
-		glUniform3f(uniformAmbientColour, colourLight.x, colourLight.y, colourLight.z);
-		glUniform1f(uniformAmbientIntensity, colourIntensity);
 
-		glUniform3f(uniformDiffuseDirection, lightDirection.x, lightDirection.y, lightDirection.z);
-		glUniform1f(uniformDiffuseIntensity, diffuseLightIntensity);
+		glUniform3f(uniformLightColour, colourLight.x, colourLight.y, colourLight.z);
+		glUniform3f(uniformLightAmbient, ambientLight.x, ambientLight.y, ambientLight.z);
+		glUniform3f(uniformLightDiffuse, diffuseLight.x, diffuseLight.y, diffuseLight.z);
+		glUniform3f(uniformLightSpecular, specularLight.x, specularLight.y, specularLight.z);
 
-		glUniform1f(uniformSpecularIntensity, specularIntensity);
-		glUniform1f(uniformShininess, shininessLight);
+		glUniform3f(uniformMaterialAmbient, materialAmbient.x, materialAmbient.y, materialAmbient.z);
+		glUniform3f(uniformMaterialSpecular, materialDiffuse.x, materialDiffuse.y, materialDiffuse.z);
+		glUniform3f(uniformMaterialDiffuse, materialSpecular.x, materialSpecular.y, materialSpecular.z);
+		
+		glUniform1f(uniformShininess, shininessMaterial);
 		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
 		glUniform3f(uniformLightPosition, lightPosition.x, lightPosition.y, lightPosition.z);
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
-		if (t == TypeShader::Colour) {
+		if (t == TypeShader::Colour) 
 			glUniform1i(useTextureLoc, false);
-			colorLocation = glGetAttribLocation(GetShader(), "colorrrr");
-			glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(colorLocation);
-		}
 		else {
 			glUniform1i(useTextureLoc, true);
 			texLocation = glGetAttribLocation(GetShader(), "tex");
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(texLocation);
 		}
 
 		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
-		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(uniformNormalLocation);
 
 		glEnable(GL_DEPTH_TEST);
@@ -174,20 +181,22 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::UseLight(float ambientIntensity, glm::vec3 colour, glm::vec3 direction, float diffuseIntensity, glm::vec3 position) {
+	void Renderer::UseLight(glm::vec3 colour, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position) {
 		usingLight = true;
 		colourLight = colour;
-		colourIntensity = ambientIntensity;
-		lightDirection = direction;
-		diffuseLightIntensity = diffuseIntensity;
+		ambientLight = ambient;
+		diffuseLight = diffuse;
+		specularLight = specular;
 		lightPosition = position;
 	}
 	void Renderer::StopLight() {
 		usingLight = false;
 	}
-	void Renderer::UseMaterial(float sIntensity, float shine) {
-		shininessLight = shine;
-		specularIntensity = sIntensity;
+	void Renderer::UseMaterial(glm::vec3 amb, glm::vec3 spec, glm::vec3 diff, float shine) {
+		materialAmbient = amb;
+		materialSpecular = spec;
+		materialDiffuse = diff;
+		shininessMaterial = shine * 128.0f;
 	}
 	void Renderer::SetEyePosition(glm::vec3 eyePos) {
 		eyePosition = eyePos;

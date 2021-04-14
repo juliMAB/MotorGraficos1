@@ -100,7 +100,7 @@ namespace Graficos1 {
 			tamVerts = sizeof(cubeVerticesCol);
 			break;
 		}
-		CalcAverageNormals(GetIndexs(), 36, _vb, 88, 11, 8);
+		CalcAverageNormals(GetIndexs(), 36, _vb, 64, 8, 5);
 	}
 	void Shape::CreateShape() {
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
@@ -114,7 +114,7 @@ namespace Graficos1 {
 		_renderer->UpdateModel(model);
 
 		if (_material != NULL) 
-			_renderer->UseMaterial(_material->GetSpecularIntensity(), _material->GetShininess());
+			_renderer->UseMaterial(_material->GetAmbient(),_material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess());
 		_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
 	}
 	void Shape::SetMaterial(Material* m) {

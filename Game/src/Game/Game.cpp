@@ -43,8 +43,11 @@ namespace Graficos1 {
 		_camera->SetPos(0.0f, 0.0f, 0.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
-		_shinyMaterial = new Material(3.0f, 2.0f);
-		_dullMaterial = new Material(3.0f, 32.0f);
+		_shinyMaterial = new Material();
+		_shinyMaterial->SetAmbient(glm::vec3(0.24725f, 0.1995f, 0.0745f));
+		_shinyMaterial->SetDiffuse(glm::vec3(0.75164f, 0.60648f, 0.22648f));
+		_shinyMaterial->SetSpecular(glm::vec3(0.628281f, 0.555802f, 0.366065f));
+		_shinyMaterial->SetShininess(0.4f);
 
 		_shape = new Shape(GetRenderer());
 		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
@@ -58,9 +61,13 @@ namespace Graficos1 {
 		_shape2->CreateShape();
 		_shape2->SetScale(0.33f, 0.33f, 0.33f);
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
-		_shape->SetMaterial(_dullMaterial);
+		_shape->SetMaterial(_shinyMaterial);
 
-		_light = new Light(GetRenderer(), 0.1f, 0.1f, 0.1f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f);
+		_light = new Light(GetRenderer());
+		_light->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
+		_light->SetAmbient(glm::vec3( 1.0f,1.0f,1.0f));
+		_light->SetDiffuse(glm::vec3( 1.0f,1.0f,1.0f));
+		_light->SetSpecular(glm::vec3(2.0f,2.0f,2.0f));
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -122,6 +129,13 @@ namespace Graficos1 {
 			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * timer));
 			//std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
 		}
+
+		glm::vec3 lp = _light->positionVec;
+
+		if (Input::GetKeyDown(Keycode::UP))
+			_light->SetPos(lp.x, lp.y + (speed * timer), lp.z);
+		if (Input::GetKeyDown(Keycode::DOWN))
+			_light->SetPos(lp.x, lp.y - (speed * timer), lp.z);
 
 		if (Input::GetKeyDown(Keycode::ENTER))
 			system("cls");
