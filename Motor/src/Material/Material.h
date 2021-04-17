@@ -2,17 +2,25 @@
 #define MATERIAL_H
 
 #include "../src/Exports/Exports.h"
+#include "../Renderer/Renderer.h"
 #include "glm/vec3.hpp"
 namespace Graficos1 {
-
+	typedef unsigned int uint;
 	class GraficosEngine_API  Material {
 		float _specularIntensity;
 		float _shininess;
 		glm::vec3 _ambient;
 		glm::vec3 _diffuse;
 		glm::vec3 _specular;
+
+		uint _uniformShininess;
+		uint _uniformAmbient;
+		uint _uniformDiffuse;
+		uint _uniformSpecular;
+
+		Renderer* _renderer;
 	public:
-		Material();
+		Material(Renderer* rend);
 		~Material();
 		void SetAmbient(glm::vec3 amb);
 		void SetDiffuse(glm::vec3 diff);
@@ -22,6 +30,10 @@ namespace Graficos1 {
 		glm::vec3 GetDiffuse();
 		glm::vec3 GetSpecular();
 		float GetShininess();
+		uint GetUniformShininess();
+		uint GetUniformAmbient();
+		uint GetUniformDiffuse();
+		uint GetUniformSpecular();
 	};
 
 }

@@ -7,22 +7,6 @@
 #include <iostream>
 
 namespace Graficos1 {
-	Entity::Entity() {
-		model = glm::mat4(1.0f);
-		translate = glm::mat4(1.0f);
-		rotationX = glm::mat4(1.0f);
-		rotationY = glm::mat4(1.0f);
-		rotationZ = glm::mat4(1.0f);
-		scale = glm::mat4(1.0f);
-
-		SetPos(0.0f, 0.0f, 0.0f);
-		SetRotX(0.0f);
-		SetRotY(0.0f);
-		SetRotZ(0.0f);
-		SetScale(1.0f, 1.0f, 1.0f);
-		SetForces(0.0f, 0.0f, 0.0f);
-		lastPos = positionVec;
-	}
 	Entity::Entity(Renderer* rend) {
 		_renderer = rend;
 

@@ -4,14 +4,20 @@
 #include "../Entity/Entity.h"
 
 namespace Graficos1 {
-
+	typedef unsigned int uint;
 	class GraficosEngine_API Light : public Entity {
 		glm::vec3 _colour;
 		glm::vec3 _ambient;
 		glm::vec3 _diffuse;
 		glm::vec3 _specular;
+
+		uint _uniformColour;
+		uint _uniformAmbient;
+		uint _uniformDiffuse;
+		uint _uniformSpecular;
+		uint _uniformPosition;
+		uint _uniformUsingLight;
 	public:
-		Light();
 		Light(Renderer* rend);
 		~Light();
 		void UseLight();

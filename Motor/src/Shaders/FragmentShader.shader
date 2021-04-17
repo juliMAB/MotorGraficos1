@@ -19,6 +19,7 @@ struct Light {										\n\
 	vec3 ambient;									\n\
 	vec3 diffuse;									\n\
 	vec3 specular;									\n\
+	vec3 position;									\n\
 	float intensity;								\n\
 };													\n\
 struct Material{									\n\
@@ -30,11 +31,10 @@ struct Material{									\n\
 uniform Light light;								\n\
 uniform Material material;							\n\
 uniform vec3 eyePosition;							\n\
-uniform vec3 posLight;								\n\
 void main(){										\n\
 	vec3 ambient = light.ambient * material.ambient;		\n\
 	vec3 norm = normalize(Normal);					 \n\
-	vec3 lightDir = normalize(posLight - FragPos);	 \n\
+	vec3 lightDir = normalize(light.position - FragPos);	 \n\
 	float diff = max(dot(norm, lightDir), 0.0f);	 \n\
 	vec3 diffuse = light.diffuse * (diff * material.diffuse);    \n\
 	vec3 viewDir = normalize(eyePosition - FragPos); \n\

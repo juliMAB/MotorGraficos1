@@ -30,7 +30,6 @@ namespace Graficos1 {
 
 		Material* _material;
 	public:
-		Shape();
 		Shape(Renderer* rend);
 		~Shape();
 		void InitShape(TypeShape type, TypeShader t);

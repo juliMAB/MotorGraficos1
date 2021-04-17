@@ -43,13 +43,13 @@ namespace Graficos1 {
 		_camera->SetPos(0.0f, 0.0f, 0.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
-		_goldMaterial = new Material();
+		_goldMaterial = new Material(GetRenderer());
 		_goldMaterial->SetAmbient(glm::vec3(0.24725f, 0.1995f, 0.0745f));
 		_goldMaterial->SetDiffuse(glm::vec3(0.75164f, 0.60648f, 0.22648f));
 		_goldMaterial->SetSpecular(glm::vec3(0.628281f, 0.555802f, 0.366065f));
 		_goldMaterial->SetShininess(0.4f);
 
-		_obsidianMaterial = new Material();
+		_obsidianMaterial = new Material(GetRenderer());
 		_obsidianMaterial->SetAmbient(glm::vec3(0.05375f, 0.05f, 0.06625f));
 		_obsidianMaterial->SetDiffuse(glm::vec3(0.18275f, 0.17f, 0.22525f));
 		_obsidianMaterial->SetSpecular(glm::vec3(0.332741f, 0.328634f, 0.346435f));

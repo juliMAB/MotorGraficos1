@@ -35,10 +35,12 @@ namespace Graficos1 {
 		void UpdateModel(glm::mat4 model);
 		void StopShaders();
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
-		void UseLight(glm::vec3 colour,glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular,glm::vec3 position);
-		void StopLight();
+		void UseLight(glm::vec3 colour, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position,
+			uint uniformColour, uint uniformAmbient, uint uniformDiffuse, uint uniformSpecular, uint uniformPosition, uint uniformUsingLight);
+		void StopLight(uint uniformUsingLight);
 		void SetEyePosition(glm::vec3 eyePos);
-		void UseMaterial(glm::vec3 amb, glm::vec3 spec, glm::vec3 diff, float shine);
+		void UseMaterial(glm::vec3 amb, glm::vec3 spec, glm::vec3 diff, float shine,
+			uint uniformAmbient, uint uniformSpecular, uint uniformDiffuse, uint uniformShininess);
 		uint GetShader();
 
 		glm::mat4 GetView();

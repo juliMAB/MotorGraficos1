@@ -21,7 +21,6 @@ namespace Graficos1 {
 		Renderer* _renderer;
 		void UpdateMatrixData();
 	public:
-		Entity();
 		Entity(Renderer* rend);
 		~Entity();
 		glm::vec3 positionVec;

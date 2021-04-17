@@ -2,17 +2,8 @@
 #include <iostream>
 namespace Graficos1 {
 	
-	int actualEntityToAdd = 0;
-
-	Camera::Camera() {
-
-	}
-	Camera::Camera(Renderer* r) : Entity(r){
-
-	}
-	Camera::~Camera() {
-
-	}
+	Camera::Camera(Renderer* r) : Entity(r){}
+	Camera::~Camera() {	}
 	void Camera::InitCamera(glm::vec3 pos, glm::vec3 up, float yaw, float pitch) {
 		SetPos(pos.x, pos.y, pos.z);
 		_worldUp = up;

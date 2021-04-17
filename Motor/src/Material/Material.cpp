@@ -1,11 +1,17 @@
 #include "Material.h"
+#include "glew.h"
 namespace Graficos1 {
 
-	Material::Material() {
+	Material::Material(Renderer* rend) {
 		_shininess = 0.0f;
 		_ambient = glm::vec3(1.0f, 1.0f, 1.0f);
 		_diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
 		_specular = glm::vec3(0.0f, 0.0f, 0.0f);
+		_renderer = rend;
+		_uniformShininess =			glGetUniformLocation(_renderer->GetShader(), "material.shininess");
+		_uniformAmbient =	glGetUniformLocation(_renderer->GetShader(), "material.ambient");
+		_uniformDiffuse =	glGetUniformLocation(_renderer->GetShader(), "material.diffuse");
+		_uniformSpecular =	glGetUniformLocation(_renderer->GetShader(), "material.specular");
 	}
 	Material::~Material() {}
 	void Material::SetAmbient(glm::vec3 amb) {
@@ -31,5 +37,17 @@ namespace Graficos1 {
 	}
 	float Material::GetShininess() {
 		return _shininess;
+	}
+	uint Material::GetUniformShininess(){
+		return _uniformShininess;
+		}
+	uint Material::GetUniformAmbient()	{
+		return _uniformAmbient;
+		}
+	uint Material::GetUniformDiffuse()	{
+		return _uniformDiffuse;
+		}
+	uint Material::GetUniformSpecular() {
+		return _uniformSpecular;
 	}
 }

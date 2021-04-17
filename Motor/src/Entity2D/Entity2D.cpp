@@ -2,13 +2,6 @@
 
 namespace Graficos1 {
 
-	Entity2D::Entity2D() : Entity() {
-		_bc2D.x = 1;
-		_bc2D.y = 1;
-		_bc2D.z = 1;
-		_mat = NULL;
-	}
-
 	Entity2D::Entity2D(Renderer* rend, Material* mat) : Entity(rend) {
 		_bc2D.x = 1;
 		_bc2D.y = 1;

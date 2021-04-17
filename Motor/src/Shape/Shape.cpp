@@ -70,7 +70,6 @@ namespace Graficos1 {
 	TypeShader typeShader;
 	uint tamVerts;
 
-	Shape::Shape() : Entity() {}
 	Shape::Shape(Renderer* rend) : Entity(rend) {}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
@@ -114,7 +113,8 @@ namespace Graficos1 {
 		_renderer->UpdateModel(model);
 
 		if (_material != NULL) 
-			_renderer->UseMaterial(_material->GetAmbient(),_material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess());
+			_renderer->UseMaterial(_material->GetAmbient(),_material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
+				_material->GetUniformAmbient(), _material->GetUniformSpecular(), _material->GetUniformDiffuse(), _material->GetUniformShininess());
 		_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
 	}
 	void Shape::SetMaterial(Material* m) {
