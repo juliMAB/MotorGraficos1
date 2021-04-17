@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include <iostream>
+#include "glew.h"
 namespace Graficos1 {
 	
 	Camera::Camera(Renderer* r) : Entity(r){}
@@ -10,6 +10,7 @@ namespace Graficos1 {
 		_yaw = yaw;
 		_pitch = pitch;
 		_front = glm::vec3(0.0f, 0.0f, -1.0f);
+		_uniformCameraPosition = glGetUniformLocation(_renderer->GetShader(), "eyePosition");
 		UpdateCamera();
 	}
 	glm::mat4 Camera::CalculateViewMatrix() {
@@ -24,8 +25,8 @@ namespace Graficos1 {
 		_right = glm::normalize(glm::cross(_front, _worldUp));
 		_up = glm::normalize(glm::cross(_right, _front));
 	}
-	void Camera::UpdateEyePosition() {
-		_renderer->SetEyePosition(positionVec);
+	void Camera::UseCamera() {
+		_renderer->UseCamera(positionVec, _uniformCameraPosition);
 	}
 	void Camera::SetPitch(float p) {
 		_pitch = p;

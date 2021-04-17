@@ -80,6 +80,9 @@ namespace Graficos1 {
 		typeShader = t;
 
 		_material = NULL;
+		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
+		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
+		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
 
 		switch (type) {
 		case TypeShape::Triangle:
@@ -110,7 +113,7 @@ namespace Graficos1 {
 
 	}
 	void Shape::DrawShape() {
-		_renderer->UpdateModel(model);
+		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);
 
 		if (_material != NULL) 
 			_renderer->UseMaterial(_material->GetAmbient(),_material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),

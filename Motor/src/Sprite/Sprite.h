@@ -28,6 +28,10 @@ namespace Graficos1 {
 		uint _vbo;
 		uint _vao;
 		uint _ibo;
+
+		uint _uniformModel;
+		uint _uniformView;
+		uint _uniformProjection;
 	public:
 		Sprite(Renderer* rend);
 		Sprite(Renderer* rend, Material* mat);

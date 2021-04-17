@@ -32,13 +32,13 @@ namespace Graficos1 {
 		void SetIndexThings(int tam, uint* indexs, uint& ibo);
 		void SetAttribs(glm::mat4 model, TypeShader t);
 		void InitShaders();
-		void UpdateModel(glm::mat4 model);
+		void UpdateMVP(glm::mat4 model, uint uniformModel, uint uniformView, uint uniformProjection);
 		void StopShaders();
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 		void UseLight(glm::vec3 colour, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position,
 			uint uniformColour, uint uniformAmbient, uint uniformDiffuse, uint uniformSpecular, uint uniformPosition, uint uniformUsingLight);
 		void StopLight(uint uniformUsingLight);
-		void SetEyePosition(glm::vec3 eyePos);
+		void UseCamera(glm::vec3 cameraPos, uint uniformCameraPos);
 		void UseMaterial(glm::vec3 amb, glm::vec3 spec, glm::vec3 diff, float shine,
 			uint uniformAmbient, uint uniformSpecular, uint uniformDiffuse, uint uniformShininess);
 		uint GetShader();

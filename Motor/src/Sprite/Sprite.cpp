@@ -49,6 +49,9 @@ namespace Graficos1 {
 	void Sprite::LoadTexture(const char* path, bool transparent) {
 		_transparent = transparent;
 		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, _transparent);
+		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
+		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
+		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
 	}
 	void Sprite::StartUseAnimation() {
 		if (_animation == NULL) {
@@ -84,7 +87,7 @@ namespace Graficos1 {
 			BlendSprite();
 		glEnable(GL_TEXTURE_2D);
 
-		_renderer->UpdateModel(model);
+		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);

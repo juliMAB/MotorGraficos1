@@ -28,6 +28,10 @@ namespace Graficos1 {
 			-1.0, 1.0, -1.0, /**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f
 		};
 
+		uint _uniformModel;
+		uint _uniformView;
+		uint _uniformProjection;
+
 		Material* _material;
 	public:
 		Shape(Renderer* rend);

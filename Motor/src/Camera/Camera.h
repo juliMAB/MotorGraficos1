@@ -5,13 +5,13 @@
 #include "../Exports/Exports.h"
 
 namespace Graficos1 {
-
+	typedef unsigned int uint;
 	class GraficosEngine_API Camera : public Entity{
 		glm::vec3 _front;
 		glm::vec3 _up;
 		glm::vec3 _right;
 		glm::vec3 _worldUp;
-
+		uint _uniformCameraPosition;
 		float _yaw;
 		float _pitch;
 	public:
@@ -21,7 +21,7 @@ namespace Graficos1 {
 		void InitCamera(glm::vec3 pos, glm::vec3 up, float yaw, float pitch);
 		glm::mat4 CalculateViewMatrix();
 		void UpdateCamera();
-		void UpdateEyePosition();
+		void UseCamera();
 		void SetPitch(float p);
 		void SetYaw(float y);
 		float GetPitch();

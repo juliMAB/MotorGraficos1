@@ -151,7 +151,7 @@ namespace Graficos1 {
 			_camera->SetYaw(-90.0f);
 		}
 
-		_camera->UpdateEyePosition();
+		_camera->UseCamera();
 		_light->UseLight();
 
 		_shape->DrawShape();

@@ -11,28 +11,12 @@ namespace Graficos1 {
 	static uint posLocation;
 	static uint colorLocation;
 	static uint texLocation;
-	static uint uniformModel;
-	static uint uniformProjection;
-	static uint uniformView;
 
 	static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 	static glm::mat4 view = glm::mat4(1.0f);
 
 
 	static uint uniformNormalLocation;
-
-	static uint uniformEyePosition;
-	static glm::vec3 eyePosition;
-
-	//static uint uniformMaterialAmbient;
-	//static uint uniformMaterialDiffuse;
-	//static uint uniformMaterialSpecular;
-	//static uint uniformShininess;
-	//
-	//static float shininessMaterial;
-	//static glm::vec3 materialAmbient;
-	//static glm::vec3 materialDiffuse;
-	//static glm::vec3 materialSpecular;
 
 	Renderer::Renderer() {
 
@@ -72,7 +56,6 @@ namespace Graficos1 {
 
 		
 		
-		uniformEyePosition = glGetUniformLocation(GetShader(), "eyePosition");
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -88,10 +71,6 @@ namespace Graficos1 {
 		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
 		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(uniformNormalLocation);
-
-		uniformModel = glGetUniformLocation(GetShader(), "model");
-		glUseProgram(GetShader());
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -111,10 +90,6 @@ namespace Graficos1 {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
-
-
-		
-		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
@@ -171,18 +146,17 @@ namespace Graficos1 {
 
 		glUseProgram(0);
 	}
-	void Renderer::SetEyePosition(glm::vec3 eyePos) {
-		eyePosition = eyePos;
+	void Renderer::UseCamera(glm::vec3 cameraPos, uint uniformCameraPos) {
+		glUseProgram(GetShader());
+		glUniform3f(uniformCameraPos, cameraPos.x, cameraPos.y, cameraPos.z);
+		glUseProgram(0);
 	}
-	void Renderer::UpdateModel(glm::mat4 model) {
-		uniformModel = glGetUniformLocation(GetShader(), "model");
-		uniformProjection = glGetUniformLocation(GetShader(), "projection");
-		uniformView = glGetUniformLocation(GetShader(), "view");
-
+	void Renderer::UpdateMVP(glm::mat4 model, uint uniformModel, uint uniformView, uint uniformProjection) {
 		glUseProgram(GetShader());
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+		glUseProgram(0);
 	}
 
 	uint Renderer::GetShader() {
