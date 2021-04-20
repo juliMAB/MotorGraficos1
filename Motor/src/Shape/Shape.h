@@ -31,13 +31,15 @@ namespace Graficos1 {
 		uint _uniformModel;
 		uint _uniformView;
 		uint _uniformProjection;
+		uint _positionLocation;
+		uint _texLocation;
+		uint _normalLocation;
 
 		Material* _material;
 	public:
 		Shape(Renderer* rend);
 		~Shape();
 		void InitShape(TypeShape type, TypeShader t);
-		void CreateShape();
 		void DrawShape();
 		void SetMaterial(Material* m);
 		Material* GetMaterial();

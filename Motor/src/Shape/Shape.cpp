@@ -83,6 +83,9 @@ namespace Graficos1 {
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
+		_positionLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
+		_texLocation = glGetAttribLocation(_renderer->GetShader(), "tex");
+		_normalLocation = glGetAttribLocation(_renderer->GetShader(), "norm");
 
 		switch (type) {
 		case TypeShape::Triangle:
@@ -103,14 +106,13 @@ namespace Graficos1 {
 			break;
 		}
 		CalcAverageNormals(GetIndexs(), 36, _vb, 64, 8, 5);
-	}
-	void Shape::CreateShape() {
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
 		if (typeOfShape != TypeShape::Triangle) {
 			_renderer->SetIndexThings(GetVerticesTam(), GetIndexs(), _ibo);
 		}
-		_renderer->SetAttribs(model, TypeShader::Colour);
-
+		_renderer->SetAttribs(_positionLocation, 3, 8, 0);
+		_renderer->SetAttribs(_texLocation, 2, 8, 3);
+		_renderer->SetAttribs(_normalLocation, 3, 8, 5);
 	}
 	void Shape::DrawShape() {
 		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);

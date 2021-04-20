@@ -6,8 +6,7 @@
 
 namespace Graficos1 {
 
-	Game::Game() :GameBase() {
-	}
+	Game::Game() :GameBase() {}
 	Game::~Game() {
 		if (_shape != NULL) {
 			delete _shape;
@@ -57,23 +56,21 @@ namespace Graficos1 {
 
 		_shape = new Shape(GetRenderer());
 		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
-		_shape->CreateShape();
 		_shape->SetScale(0.33f, 0.33f, 0.33f);
 		_shape->SetPos(0.0f, 0.0f, -3.0f);
 		_shape->SetMaterial(_goldMaterial);
 
 		_shape2 = new Shape(GetRenderer());
 		_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
-		_shape2->CreateShape();
 		_shape2->SetScale(0.33f, 0.33f, 0.33f);
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 		_shape2->SetMaterial(_obsidianMaterial);
 
 		_light = new Light(GetRenderer());
-		_light->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-		_light->SetAmbient(glm::vec3( 0.2f,0.2f,0.2f));
-		_light->SetDiffuse(glm::vec3( 0.5f, 0.5f, 0.5f));
-		_light->SetSpecular(glm::vec3(1.0f,1.0f,1.0f));
+		_light->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
+		_light->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+		_light->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+		_light->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -150,6 +147,12 @@ namespace Graficos1 {
 			_camera->SetPitch(0.0f);
 			_camera->SetYaw(-90.0f);
 		}
+
+		glm::vec3 sp = _shape->positionVec;
+		_shape->SetPos(sp.x, sp.y + timer, sp.z);
+
+		glm::vec3 sp2 = _shape2->positionVec;
+		_shape2->SetPos(sp2.x, sp2.y + timer, sp2.z);
 
 		_camera->UseCamera();
 		_light->UseLight();

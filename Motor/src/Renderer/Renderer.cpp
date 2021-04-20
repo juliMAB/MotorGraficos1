@@ -49,33 +49,6 @@ namespace Graficos1 {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
 	}
-	void Renderer::SetAttribs(glm::mat4 model, TypeShader t) {
-		posLocation = glGetAttribLocation(GetShader(), "pos");
-		glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
-		glEnableVertexAttribArray(posLocation);
-
-		
-		
-
-		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
-		glUseProgram(GetShader());
-		if (t == TypeShader::Colour)
-			glUniform1i(useTextureLoc, false);
-		else {
-			glUniform1i(useTextureLoc, true);
-			texLocation = glGetAttribLocation(GetShader(), "tex");
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(texLocation);
-		}
-
-		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
-		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
-		glEnableVertexAttribArray(uniformNormalLocation);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-	}
 
 	void Renderer::InitShaders() {
 		CompileShaders();
@@ -84,7 +57,10 @@ namespace Graficos1 {
 	void Renderer::StopShaders() {
 		glDeleteProgram(_shader);
 	}
-
+	void Renderer::SetAttribs(uint location, int size, int stride, int offset) {
+		glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
+		glEnableVertexAttribArray(location);
+	}
 	void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -95,17 +71,9 @@ namespace Graficos1 {
 		glUseProgram(GetShader());
 		if (t == TypeShader::Colour) 
 			glUniform1i(useTextureLoc, false);
-		else {
+		else 
 			glUniform1i(useTextureLoc, true);
-			texLocation = glGetAttribLocation(GetShader(), "tex");
-			glVertexAttribPointer(texLocation, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(texLocation);
-		}
-
-		uniformNormalLocation = glGetAttribLocation(GetShader(), "norm");
-		glVertexAttribPointer(uniformNormalLocation, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
-		glEnableVertexAttribArray(uniformNormalLocation);
-
+		
 		glEnable(GL_DEPTH_TEST);
 
 		if (shape == TypeShape::Triangle)

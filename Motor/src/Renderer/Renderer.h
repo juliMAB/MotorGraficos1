@@ -30,7 +30,7 @@ namespace Graficos1 {
 		void SetView(glm::mat4 v);
 		void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
 		void SetIndexThings(int tam, uint* indexs, uint& ibo);
-		void SetAttribs(glm::mat4 model, TypeShader t);
+		void SetAttribs(uint location, int size, int stride, int offset);
 		void InitShaders();
 		void UpdateMVP(glm::mat4 model, uint uniformModel, uint uniformView, uint uniformProjection);
 		void StopShaders();
