@@ -66,9 +66,8 @@ namespace Graficos1 {
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 		_shape2->SetMaterial(_obsidianMaterial);
 
-		_light = new DirectionalLight(GetRenderer());
-		_light->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-		_light->SetDirection(glm::vec3(0.0f, -0.5f, -1.0f));
+		_light = new PointLight(GetRenderer(), 1.0f, 0.7f, 1.8f);
+		_light->SetColour(glm::vec3(0.1f,0.0f,0.0f));
 		_light->SetAmbient(glm::vec3(0.2f, 0.2f,0.2f));
 		_light->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
 		_light->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
