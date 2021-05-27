@@ -1,4 +1,4 @@
-Unidad 1: Conceptos de programación de gráficos 3D
+ Unidad 1: Conceptos de programación de gráficos 3D
     • Proyección en perspectiva
     • Cámaras en primera y tercera persona
     • Geometría indexada

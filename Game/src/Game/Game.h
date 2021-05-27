@@ -7,7 +7,7 @@ namespace Graficos1 {
 		Shape* _shape;
 		Shape* _shape2;
 		Camera* _camera;
-		Light* _light;
+		DirectionalLight* _light;
 		Material* _goldMaterial;
 		Material* _obsidianMaterial;
 	public:

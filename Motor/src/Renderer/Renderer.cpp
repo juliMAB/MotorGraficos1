@@ -6,23 +6,15 @@
 
 namespace Graficos1 {
 
-	typedef unsigned int uint;
-
-	static uint posLocation;
-	static uint colorLocation;
-	static uint texLocation;
-
 	static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 	static glm::mat4 view = glm::mat4(1.0f);
 
-
-	static uint uniformNormalLocation;
-
 	Renderer::Renderer() {
-
+		_shader = new Shader();
 	}
 	Renderer::~Renderer() {
-
+		if (_shader != NULL)
+			delete _shader;
 	}
 	int Renderer::InitGlew() {
 		glewExperimental = GL_TRUE;
@@ -49,13 +41,9 @@ namespace Graficos1 {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
 	}
-
-	void Renderer::InitShaders() {
-		CompileShaders();
-	}
-
 	void Renderer::StopShaders() {
-		glDeleteProgram(_shader);
+		if (_shader != NULL)
+			_shader->ClearShader();
 	}
 	void Renderer::SetAttribs(uint location, int size, int stride, int offset) {
 		glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
@@ -87,20 +75,9 @@ namespace Graficos1 {
 		glUseProgram(0);
 	}
 
-	void Renderer::UseLight(glm::vec3 colour, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, glm::vec3 position,
-		uint uniformColour, uint uniformAmbient, uint uniformDiffuse, uint uniformSpecular, uint uniformPosition, uint uniformUsingLight) {
+	void Renderer::SetLights(bool value) {
 		glUseProgram(GetShader());
-		glUniform3f(uniformColour, colour.x, colour.y, colour.z);
-		glUniform3f(uniformAmbient, ambient.x, ambient.y, ambient.z);
-		glUniform3f(uniformDiffuse, diffuse.x, diffuse.y, diffuse.z);
-		glUniform3f(uniformSpecular, specular.x, specular.y, specular.z);
-		glUniform1i(uniformUsingLight, true);
-		glUniform3f(uniformPosition, position.x, position.y, position.z);
-		glUseProgram(0);
-	}
-	void Renderer::StopLight(uint uniformUsingLight) {
-		glUseProgram(GetShader());
-		glUniform1i(uniformUsingLight, true);
+		glUniform1i(glGetUniformLocation(GetShader(), "useLight"), value);
 		glUseProgram(0);
 	}
 	void Renderer::UseMaterial(glm::vec3 amb, glm::vec3 spec, glm::vec3 diff, float shine,
@@ -128,65 +105,13 @@ namespace Graficos1 {
 	}
 
 	uint Renderer::GetShader() {
-		return _shader;
+		if (_shader != NULL)
+			return _shader->GetShader();
 	}
 
-	void Renderer::AddShader(uint program, const char* shaderCode, uint type) {
-		uint theShader = glCreateShader(type);
-
-		const char* code[1];
-		code[0] = shaderCode;
-
-		int codeLength[1];
-		codeLength[0] = strlen(shaderCode);
-
-		glShaderSource(theShader, 1, code, codeLength);
-
-		glCompileShader(theShader);
-
-		int result = 0;
-		char eLog[1024] = { 0 };
-
-		glGetShaderiv(theShader, GL_COMPILE_STATUS, &result);
-
-		if (!result) {
-			glGetProgramInfoLog(theShader, sizeof(eLog), NULL, eLog);
-			std::cout << "Error compiling the " << type << " program: " << eLog << std::endl;
-			return;
-		}
-		glAttachShader(program, theShader);
-	}
-
-	void Renderer::CompileShaders() {
-		_shader = glCreateProgram();
-		if (!_shader) {
-			std::cout << "Error creating the shader program!" << std::endl;
-			return;
-		}
-
-		AddShader(_shader, vShader, GL_VERTEX_SHADER);
-		AddShader(_shader, fShader, GL_FRAGMENT_SHADER);
-
-		int result = 0;
-		char eLog[1024] = { 0 };
-
-		glLinkProgram(_shader);
-
-		glGetProgramiv(_shader, GL_LINK_STATUS, &result);
-
-		if (!result) {
-			glGetProgramInfoLog(_shader, sizeof(eLog), NULL, eLog);
-			std::cout << "Error linking program: " << eLog << std::endl;
-			return;
-		}
-
-		glValidateProgram(_shader);
-		glGetProgramiv(_shader, GL_VALIDATE_STATUS, &result);
-		if (!result) {
-			glGetProgramInfoLog(_shader, sizeof(eLog), NULL, eLog);
-			std::cout << "Error validating program: " << eLog << std::endl;
-			return;
-		}
+	void Renderer::CreateShader(const char* vertexCode, const char* fragmentCode) {
+		if (_shader != NULL) 
+			_shader->CreateFromLocation(vertexCode, fragmentCode);
 	}
 	void Renderer::SetProjection(glm::mat4 p) {
 		projection = p;

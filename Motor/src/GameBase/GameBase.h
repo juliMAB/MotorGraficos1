@@ -10,6 +10,9 @@
 #include "../src/CollisionManager/CollisionManager.h"
 #include "../src/Camera/Camera.h"
 #include "../Light/Light.h"
+#include "../Light/DirectionalLight.h"
+#include "../Light/PointLight.h"
+
 struct GLFWmonitor;
 
 namespace Graficos1 {

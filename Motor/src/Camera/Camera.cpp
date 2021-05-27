@@ -1,5 +1,7 @@
 #include "Camera.h"
 #include "glew.h"
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Graficos1 {
 	
 	Camera::Camera(Renderer* r) : Entity(r){}

@@ -49,7 +49,8 @@ namespace Graficos1 {
 			return 0;
 		}
 		glEnable(GL_DEPTH);
-		_renderer->InitShaders();
+		
+		_renderer->CreateShader("res/Shaders/vertex.shader", "res/Shaders/fragment.shader");
 	}
 
 	void GameBase::UpdateEngine() {
