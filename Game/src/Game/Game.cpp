@@ -3,8 +3,9 @@
 #include <iostream>
 #include "../src/Timer/Timer.h"
 #include <time.h>
+#include <glm/gtc/matrix_transform.hpp>
 
-namespace Graficos1 {
+namespace Coco {
 
 	Game::Game() :GameBase() {}
 	Game::~Game() {
@@ -66,8 +67,10 @@ namespace Graficos1 {
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 		_shape2->SetMaterial(_obsidianMaterial);
 
-		_light = new PointLight(GetRenderer(), 1.0f, 0.7f, 1.8f);
-		_light->SetColour(glm::vec3(0.1f,0.0f,0.0f));
+		_light = new SpotLight(GetRenderer(),1.0f,0.09f,0.032f, 20.0f);
+		_light->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
+		_light->SetPos(0, 3, -3);
+		_light->SetColour(glm::vec3(1.0f,1.0f,1.0f));
 		_light->SetAmbient(glm::vec3(0.2f, 0.2f,0.2f));
 		_light->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
 		_light->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
@@ -83,6 +86,9 @@ namespace Graficos1 {
 
 	float timerLight = 0.0f;
 	const float maxTimerLight = 1.5f;
+
+	float rotY = 0;
+
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
@@ -137,9 +143,9 @@ namespace Graficos1 {
 		glm::vec3 lp = _light->positionVec;
 
 		if (Input::GetKeyDown(Keycode::UP))
-			_light->SetPos(lp.x, lp.y + (speed * timer), lp.z);
+			_light->SetPos(lp.x, lp.y + (speed * timer), lp.z );
 		if (Input::GetKeyDown(Keycode::DOWN))
-			_light->SetPos(lp.x, lp.y - (speed * timer), lp.z);
+			_light->SetPos(lp.x, lp.y - (speed * timer), lp.z );
 
 		if (Input::GetKeyDown(Keycode::ENTER))
 			system("cls");
@@ -148,6 +154,7 @@ namespace Graficos1 {
 			_camera->SetPitch(0.0f);
 			_camera->SetYaw(-90.0f);
 		}
+
 
 		_camera->UseCamera();
 		_light->UseLight();

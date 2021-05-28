@@ -6,7 +6,7 @@
 #include "../src/TextureImporter/TextureImporter.h"
 #include "../src/Animation/Animation.h"
 
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 	class GraficosEngine_API Sprite : public Entity2D {
 		TextureImporter _textureImp;

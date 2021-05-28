@@ -1,7 +1,6 @@
 #include "Light.h"
 #include "glew.h"
-#include <iostream>
-namespace Graficos1 {
+namespace Coco {
 
 	Light::Light(Renderer* rend) : Entity (rend) {
 		_colour = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -10,7 +9,6 @@ namespace Graficos1 {
 		_specular = glm::vec3(0.0f, 0.0f, 0.0f);
 		_direction = glm::vec3(0.0f, 0.0f, 0.0f);
 		_typeOfLight = TypeOfLight::Basic;
-		std::cout << "Construct light" << std::endl;
 
 		SetUniforms();
 	}
@@ -19,7 +17,6 @@ namespace Graficos1 {
 	void Light::SetUniforms() {
 		_uniformColour = glGetUniformLocation(_renderer->GetShader(), "baseLight.colour");
 		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
-		std::cout << "uniforms light" << std::endl;
 	}
 
 	void Light::UseLight() {

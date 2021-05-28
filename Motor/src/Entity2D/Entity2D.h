@@ -5,7 +5,7 @@
 #include "../src/Entity/Entity.h"
 #include "../src/Material/Material.h"
 
-namespace Graficos1 {
+namespace Coco {
 
 	class GraficosEngine_API Entity2D : public Entity {
 	protected:

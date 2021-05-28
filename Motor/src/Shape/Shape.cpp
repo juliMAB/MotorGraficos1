@@ -4,7 +4,7 @@
 #include <glfw/glfw3.h>
 #include <glm\gtc\type_ptr.hpp>
 
-namespace Graficos1 {
+namespace Coco {
 
 	static float triangleVerticesCol[24] = {
 		0.0f, 1.0f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,/**/ 0.0f, 0.0f,

@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-namespace Graficos1 {
+namespace Coco {
 	Entity::Entity(Renderer* rend) {
 		_renderer = rend;
 

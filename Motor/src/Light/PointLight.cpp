@@ -1,14 +1,12 @@
 #include "PointLight.h"
 #include "glew.h"
-#include <iostream>
 
-namespace Graficos1 {
+namespace Coco {
 	PointLight::PointLight(Renderer* rend) : Light(rend) {
 		_constant = 1.0f;
 		_linear = 1.0f;
 		_quadratic = 1.0f;
 		_typeOfLight = TypeOfLight::Point;
-		std::cout << "construct point" << std::endl;
 
 		SetUniforms();
 
@@ -18,7 +16,6 @@ namespace Graficos1 {
 		_linear = linear;
 		_quadratic = quadratic;
 		_typeOfLight = TypeOfLight::Point;
-		std::cout << "construct point" << std::endl;
 		SetUniforms();
 	}
 	PointLight::~PointLight() {
@@ -34,7 +31,6 @@ namespace Graficos1 {
 		_uniformLinear = glGetUniformLocation(_renderer->GetShader(), "pointLight.linear");
 		_uniformQuadratic = glGetUniformLocation(_renderer->GetShader(), "pointLight.quadratic");
 		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
-		std::cout << "uniforms point light" << std::endl;
 	}
 	void PointLight::UseLight() {
 		glUseProgram(_renderer->GetShader());

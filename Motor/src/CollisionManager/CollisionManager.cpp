@@ -1,6 +1,6 @@
 #include "CollisionManager.h"
 #include <iostream>
-namespace Graficos1 {
+namespace Coco {
 
 	CollisionManager::CollisionManager() {}
 	CollisionManager::~CollisionManager() {}

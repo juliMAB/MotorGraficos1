@@ -1,6 +1,6 @@
 #include "Material.h"
 #include "glew.h"
-namespace Graficos1 {
+namespace Coco {
 
 	Material::Material(Renderer* rend) {
 		_shininess = 0.0f;

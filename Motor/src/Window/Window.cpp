@@ -4,7 +4,7 @@
 #include <glew.h>
 #include <GLFW/glfw3.h>
 
-namespace Graficos1 {
+namespace Coco {
 	
 	Window::Window() {
 

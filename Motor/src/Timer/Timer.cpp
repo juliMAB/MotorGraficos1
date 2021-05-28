@@ -1,7 +1,7 @@
 #include "Timer.h"
 #include <time.h>
 #include <iostream>
-namespace Graficos1 {
+namespace Coco {
 
 	double oldT = clock();
 	void Timer::DeltaTime(float& time){

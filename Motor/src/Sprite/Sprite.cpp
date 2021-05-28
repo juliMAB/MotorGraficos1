@@ -4,7 +4,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <iostream>
 
-namespace Graficos1 {
+namespace Coco {
 
 	//static float texVertices[] = {
 	//	 1.0f,  1.0f, 0.0f, 1.0f,0.0f,1.0f, 1.0f, 1.0f,   // top right

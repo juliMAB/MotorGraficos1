@@ -2,7 +2,7 @@
 #include "glew.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-namespace Graficos1 {
+namespace Coco {
 	
 	Camera::Camera(Renderer* r) : Entity(r){}
 	Camera::~Camera() {	}
@@ -43,5 +43,14 @@ namespace Graficos1 {
 	}
 	float Camera::GetYaw() {
 		return _yaw;
+	}
+	glm::vec3 Camera::GetFront() {
+		return _front;
+	}
+	glm::vec3 Camera::GetUp() {
+		return _up;
+	}
+	glm::vec3 Camera::GetRight() {
+		return _right;
 	}
 }

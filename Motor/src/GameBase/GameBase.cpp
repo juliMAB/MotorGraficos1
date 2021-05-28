@@ -6,7 +6,7 @@
 
 #include "../src/Input/Input.h"
 #include "../src/Sprite/Sprite.h"
-namespace Graficos1 {
+namespace Coco {
 	GameBase::GameBase() {
 		srand(time(0));
 		_window = new Window();

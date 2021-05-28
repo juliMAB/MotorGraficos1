@@ -4,7 +4,7 @@
 #include "../Entity/Entity.h"
 #include "../Exports/Exports.h"
 
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 	class GraficosEngine_API Camera : public Entity{
 		glm::vec3 _front;
@@ -26,6 +26,9 @@ namespace Graficos1 {
 		void SetYaw(float y);
 		float GetPitch();
 		float GetYaw();
+		glm::vec3 GetFront();
+		glm::vec3 GetUp();
+		glm::vec3 GetRight();
 	};
 
 }

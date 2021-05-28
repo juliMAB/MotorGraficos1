@@ -3,19 +3,18 @@
 
 #include "Light.h"
 
-namespace Graficos1 {
+namespace Coco {
 
     class GraficosEngine_API PointLight : public Light {
 
-        uint _uniformConstant;
-        uint _uniformLinear;
-        uint _uniformQuadratic;
-
+    protected:
         float _constant;
         float _linear;
         float _quadratic;
 
-    protected:
+        uint _uniformConstant;
+        uint _uniformLinear;
+        uint _uniformQuadratic;
         void SetUniforms() override;
     public:
 

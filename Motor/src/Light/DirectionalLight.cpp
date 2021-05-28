@@ -1,10 +1,9 @@
 #include "DirectionalLight.h"
 #include "glew.h"
-#include <iostream>
-namespace Graficos1 {
+
+namespace Coco {
 
 	DirectionalLight::DirectionalLight(Renderer* rend) : Light(rend) {
-		std::cout << "Construct dir light" << std::endl;
 		_typeOfLight = TypeOfLight::Directional;
 		SetUniforms();
 	}
@@ -18,7 +17,6 @@ namespace Graficos1 {
 		_uniformDiffuse = glGetUniformLocation(_renderer->GetShader(), "directionalLight.diffuse");
 		_uniformSpecular = glGetUniformLocation(_renderer->GetShader(), "directionalLight.specular");
 		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
-		std::cout << "uniforms dir light" << std::endl;
 	}
 	void DirectionalLight::UseLight() {
 		glUseProgram(_renderer->GetShader());

@@ -5,7 +5,7 @@
 #include "../Shader/Shader.h"
 #include <glm/mat4x4.hpp>
 #include "../src/Window/Window.h"
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 	static enum TypeShader {
 		Colour,

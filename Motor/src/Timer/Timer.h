@@ -2,7 +2,7 @@
 #define TIMER_H
 
 #include "../src/Exports/Exports.h"
-namespace Graficos1{
+namespace Coco{
 
 	class GraficosEngine_API Timer {
 	public:

@@ -4,7 +4,7 @@
 #include "../src/Exports/Exports.h"
 #include "../Renderer/Renderer.h"
 #include "glm/vec3.hpp"
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 	class GraficosEngine_API  Material {
 		float _specularIntensity;

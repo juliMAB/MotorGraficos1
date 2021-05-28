@@ -3,7 +3,7 @@
 #include <iostream>
 #include "../src/Timer/Timer.h"
 
-namespace Graficos1 {
+namespace Coco {
 	static int animsCreated = 0;
 	Animation::Animation() {
 		_actualFrame = 0;

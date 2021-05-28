@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 	class GraficosEngine_API Shader {
 

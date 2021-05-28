@@ -1,6 +1,6 @@
 #include "Entity2D.h"
 
-namespace Graficos1 {
+namespace Coco {
 
 	Entity2D::Entity2D(Renderer* rend, Material* mat) : Entity(rend) {
 		_bc2D.x = 1;

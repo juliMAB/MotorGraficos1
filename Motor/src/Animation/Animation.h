@@ -3,7 +3,7 @@
 
 #include "../src/Exports/Exports.h"
 
-namespace Graficos1 {
+namespace Coco {
 	struct UV {
 		float U1[32];
 		float U2[32];

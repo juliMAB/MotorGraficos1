@@ -3,7 +3,7 @@
 
 #include "Light.h"
 
-namespace Graficos1 {
+namespace Coco {
 
     class GraficosEngine_API DirectionalLight : public Light {
     protected:

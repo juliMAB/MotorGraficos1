@@ -4,7 +4,7 @@
 #include "../src/Exports/Exports.h"
 
 struct GLFWwindow;
-namespace Graficos1 {
+namespace Coco {
 
 	static enum Keycode {
 		SPACE = 32,

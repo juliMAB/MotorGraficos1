@@ -2,7 +2,7 @@
 #include "glew.h"
 #include <iostream>
 
-namespace Graficos1 {
+namespace Coco {
 
 	Shader::Shader() {
 		shaderID = 0;

@@ -3,7 +3,7 @@
 
 #include "../Entity/Entity.h"
 
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 	class GraficosEngine_API Light : public Entity {
 	protected:
@@ -19,13 +19,15 @@ namespace Graficos1 {
 		glm::vec3 _diffuse;
 		glm::vec3 _specular;
 		int _typeOfLight;
+		
 
 		uint _uniformColour;
+		uint _uniformPosition;
 		uint _uniformDirection;
 		uint _uniformAmbient;
 		uint _uniformDiffuse;
 		uint _uniformSpecular;
-		uint _uniformPosition;
+		
 		uint _uniformTypeOfLight;
 
 		virtual void SetUniforms();

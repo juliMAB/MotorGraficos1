@@ -12,10 +12,11 @@
 #include "../Light/Light.h"
 #include "../Light/DirectionalLight.h"
 #include "../Light/PointLight.h"
+#include "../Light/SpotLight.h"
 
 struct GLFWmonitor;
 
-namespace Graficos1 {
+namespace Coco {
 
 	class GraficosEngine_API GameBase {
 		Window* _window;

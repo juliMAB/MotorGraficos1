@@ -107,8 +107,12 @@
       <AdditionalDependencies>Motor32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)Motor\Bin\Win32\Debug\Motor32.dll" "$(SolutionDir)Game\Bin\Debug" /Y</Command>
+      <Command>copy "$(SolutionDir)Motor\Bin\Win32\Debug\Motor32.dll" "$(SolutionDir)Game\Bin\Debug" /Y
+</Command>
     </PostBuildEvent>
+    <PreLinkEvent>
+      <Command>$(ProjectDir)copyshaders.bat "$(ProjectDir)" "$(SolutionDir)"</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

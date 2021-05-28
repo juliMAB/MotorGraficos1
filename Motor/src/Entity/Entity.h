@@ -6,7 +6,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
-namespace Graficos1 {
+namespace Coco {
 
 	class GraficosEngine_API Entity {
 	private:

@@ -7,7 +7,7 @@
 #include "stb_image.h"
 #define STB_IMAGE_IMPLEMENTATION
 
-namespace Graficos1 {
+namespace Coco {
 
 	TextureImporter::TextureImporter() {
 

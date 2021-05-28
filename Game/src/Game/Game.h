@@ -1,13 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
 #include "GameBase/GameBase.h"
-namespace Graficos1 {
+namespace Coco {
 	
 	class Game : GameBase {
 		Shape* _shape;
 		Shape* _shape2;
 		Camera* _camera;
-		PointLight* _light;
+		SpotLight* _light;
 		Material* _goldMaterial;
 		Material* _obsidianMaterial;
 	public:

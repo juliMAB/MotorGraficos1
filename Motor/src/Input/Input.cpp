@@ -2,7 +2,7 @@
 
 #include "GLFW/glfw3.h"
 #include <iostream>
-namespace Graficos1 {
+namespace Coco {
 	static GLFWwindow* _window;
 	//static bool keyPressed = false;
 	//static Keycode keyP = Keycode::GRAVE_ACCENT;

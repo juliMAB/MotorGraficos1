@@ -4,7 +4,7 @@
 #include "../src/Exports/Exports.h"
 struct GLFWwindow;
 struct GLFWmonitor;
-namespace Graficos1 {
+namespace Coco {
 
 	class GraficosEngine_API Window {
 	GLFWwindow* _window; 

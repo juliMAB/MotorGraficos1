@@ -3,7 +3,7 @@
 
 #include "../src/Exports/Exports.h"
 
-namespace Graficos1 {
+namespace Coco {
 	typedef unsigned int uint;
 
 	class GraficosEngine_API TextureImporter {

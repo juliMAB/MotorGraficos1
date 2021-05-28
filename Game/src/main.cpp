@@ -1,5 +1,5 @@
 #include "Game/Game.h"
-using namespace Graficos1;
+using namespace Coco;
 #include <iostream>
 int main(void) {
 	Game* g = new Game();
