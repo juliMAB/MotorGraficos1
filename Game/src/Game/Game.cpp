@@ -63,19 +63,31 @@ namespace Coco {
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 		_shape2->SetMaterial(_obsidianMaterial);
 
+		GetLightManager()->AddLight(TypeOfLight::Point);
 		GetLightManager()->AddLight(TypeOfLight::Spot);
 
-		Light* _lightAux = GetLightManager()->GetLightByIndex(0);
-		
-		((SpotLight*)_lightAux)->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
-		((SpotLight*)_lightAux)->SetPos(0, 3, -3);
-		((SpotLight*)_lightAux)->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-		((SpotLight*)_lightAux)->SetAmbient(glm::vec3(0.2f, 0.2f,0.2f));
-		((SpotLight*)_lightAux)->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-		((SpotLight*)_lightAux)->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-		((SpotLight*)_lightAux)->SetCutOff(20.0f);
-		((SpotLight*)_lightAux)->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		PointLight* _lightAux = GetLightManager()->GetPointLightByIndex(0);
+		if (_lightAux != NULL) {
+			_lightAux->SetPos(0, 3, -3);
+			_lightAux->SetColour(glm::vec3(1.0f, 0.0f, 0.0f));
+			_lightAux->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+			_lightAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+			_lightAux->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+			_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		}
 
+		SpotLight* _lightAux2 = GetLightManager()->GetSpotLightByIndex(0);
+		if (_lightAux2 != NULL) {
+			_lightAux2->SetPos(0, -2, -3);
+			_lightAux2->SetColour(glm::vec3(0.0f, 1.0f, 0.0f));
+			_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+			_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+			_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+			_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+			_lightAux2->SetCutOff(3);
+			_lightAux2->SetDirection(glm::vec3(0, 1, 0));
+		}
+		
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -94,63 +106,39 @@ namespace Coco {
 	void Game::Update() {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
-		GetRenderer()->SetLights(false);
 
 		Timer::DeltaTime(timer);
 
-
-		if (Input::GetKeyDown(Keycode::W)) {
+		if (Input::GetKeyDown(Keycode::W))
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y + (speed * timer), _camera->positionVec.z);
-			//std::cout << "Y: " << _camera->positionVec.y << std::endl;
-		}
-		else if (Input::GetKeyDown(Keycode::S)) {
+		else if (Input::GetKeyDown(Keycode::S))
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y - (speed * timer), _camera->positionVec.z);
-			//std::cout << "Y: " << _camera->positionVec.y << std::endl;
-		}
 
-		if (Input::GetKeyDown(Keycode::A)) {
+		if (Input::GetKeyDown(Keycode::A))
 			_camera->SetPos(_camera->positionVec.x - (speed * timer), _camera->positionVec.y, _camera->positionVec.z);
-			//std::cout << "X: " << _camera->positionVec.x << std::endl;
-		}
-		else if (Input::GetKeyDown(Keycode::D)) {
+		else if (Input::GetKeyDown(Keycode::D))
 			_camera->SetPos(_camera->positionVec.x + (speed * timer), _camera->positionVec.y, _camera->positionVec.z);
-			//std::cout << "X: " << _camera->positionVec.x << std::endl;
-		}
-		if (Input::GetKeyDown(Keycode::Q)) {
+		if (Input::GetKeyDown(Keycode::Q))
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z + (speed * timer));
-			//std::cout << "Z: " << _camera->positionVec.z << std::endl;
-		}
-		else if (Input::GetKeyDown(Keycode::E)) {
+		else if (Input::GetKeyDown(Keycode::E))
 			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z - (speed * timer));
-			//std::cout << "Z: " << _camera->positionVec.z << std::endl;
-		}
-		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON)) {
+
+
+		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
 			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * timer));
-			//std::cout << "Pitch: " << _camera->GetPitch() << std::endl;
-		}
-		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON)) {
+		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
 			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * timer));
-			//std::cout << "Pitch: " << _camera->GetPitch() << std::endl;
-		}
 
-		if (Input::GetKeyDown(Keycode::R)) {
+		if (Input::GetKeyDown(Keycode::R))
 			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * timer));
-			//std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
-		}
-		else if (Input::GetKeyDown(Keycode::T)) {
+		else if (Input::GetKeyDown(Keycode::T))
 			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * timer));
-			//std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
-		}
 
-
-		if (Input::GetKeyDown(Keycode::ENTER))
-			system("cls");
 		if (Input::GetKeyDown(Keycode::ALPHA0)) {
 			_camera->SetPos(0.0f, 0.0f, 0.0f);
 			_camera->SetPitch(0.0f);
 			_camera->SetYaw(-90.0f);
 		}
-
 
 		_camera->UseCamera();
 		GetLightManager()->UseLights();

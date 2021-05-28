@@ -18,8 +18,8 @@ namespace Coco {
         void SetUniforms() override;
     public:
 
-        PointLight(Renderer* rend);
-        PointLight(Renderer* rend, float constant, float linear, float quadratic);
+        PointLight(Renderer* rend, int index);
+        PointLight(Renderer* rend, float constant, float linear, float quadratic, int index);
         ~PointLight();
         virtual void UseLight();
 

@@ -12,9 +12,16 @@
 namespace Coco {
 
 	class GraficosEngine_API LightManager {
-		int _lightCreateds;
-		static const int _maxLights = 6;
-		Light* _lights[_maxLights];
+		bool _baseLightCreated;
+		int _pointLightsCreateds;
+		int  _spotLightsCreateds;
+		int _directionalLightsCreateds;
+
+		static const int _maxLightsOfType = 3;
+		Light* _baseLight;
+		DirectionalLight* _directionalLights[_maxLightsOfType];
+		SpotLight* _spotLights[_maxLightsOfType];
+		PointLight* _pointLights[_maxLightsOfType];
 
 		Renderer* _renderer;
 	public:
@@ -22,7 +29,10 @@ namespace Coco {
 		~LightManager();
 
 		void AddLight(TypeOfLight typeOfLight);
-		Light* GetLightByIndex(int index);
+		Light* GetBaseLight();
+		DirectionalLight* GetDirectionalLightByIndex(int index);
+		SpotLight* GetSpotLightByIndex(int index);
+		PointLight* GetPointLightByIndex(int index);
 
 		void UseLights();
 	};

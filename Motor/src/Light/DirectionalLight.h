@@ -9,7 +9,7 @@ namespace Coco {
     protected:
         void SetUniforms() override;
     public:
-        DirectionalLight(Renderer* rend);
+        DirectionalLight(Renderer* rend, int index);
         ~DirectionalLight();
         void UseLight() override;
     };

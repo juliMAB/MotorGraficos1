@@ -1,8 +1,8 @@
 #include "PointLight.h"
 #include "glew.h"
-
+#include <iostream>
 namespace Coco {
-	PointLight::PointLight(Renderer* rend) : Light(rend) {
+	PointLight::PointLight(Renderer* rend, int index) : Light(rend, index) {
 		_constant = 1.0f;
 		_linear = 1.0f;
 		_quadratic = 1.0f;
@@ -11,7 +11,7 @@ namespace Coco {
 		SetUniforms();
 
 	}
-	PointLight::PointLight(Renderer* rend, float constant, float linear, float quadratic) : Light(rend) {
+	PointLight::PointLight(Renderer* rend, float constant, float linear, float quadratic, int index) : Light(rend, index) {
 		_constant = constant;
 		_linear = linear;
 		_quadratic = quadratic;
@@ -19,17 +19,20 @@ namespace Coco {
 		SetUniforms();
 	}
 	PointLight::~PointLight() {
-	
+
 	}
 	void PointLight::SetUniforms() {
-		_uniformPosition = glGetUniformLocation(_renderer->GetShader(), "pointLight.position");
-		_uniformColour = glGetUniformLocation(_renderer->GetShader(), "pointLight.colour");
-		_uniformAmbient = glGetUniformLocation(_renderer->GetShader(), "pointLight.ambient");
-		_uniformDiffuse = glGetUniformLocation(_renderer->GetShader(), "pointLight.diffuse");
-		_uniformSpecular = glGetUniformLocation(_renderer->GetShader(), "pointLight.specular");
-		_uniformConstant = glGetUniformLocation(_renderer->GetShader(), "pointLight.constant");
-		_uniformLinear = glGetUniformLocation(_renderer->GetShader(), "pointLight.linear");
-		_uniformQuadratic = glGetUniformLocation(_renderer->GetShader(), "pointLight.quadratic");
+		std::string indexSTR = std::to_string(_index).c_str();
+
+		_uniformPosition = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].position").c_str());
+		_uniformColour = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].colour").c_str());
+		_uniformAmbient = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].ambient").c_str());
+		_uniformDiffuse = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].diffuse").c_str());
+		_uniformSpecular = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].specular").c_str());
+		_uniformConstant = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].constant").c_str());
+		_uniformLinear = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].linear").c_str());
+		_uniformQuadratic = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].quadratic").c_str());
+		_uniformAssignedLight = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].assigned").c_str());
 		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
 	}
 	void PointLight::UseLight() {
@@ -44,6 +47,7 @@ namespace Coco {
 		glUniform1f(_uniformLinear, _linear);
 		glUniform1f(_uniformQuadratic, _quadratic);
 
+		glUniform1i(_uniformAssignedLight, true);
 		glUniform1i(_uniformTypeOfLight, _typeOfLight);
 		glUseProgram(0);
 		_renderer->SetLights(true);

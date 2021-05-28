@@ -1,14 +1,15 @@
 #include "SpotLight.h"
 #include "glew.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 namespace Coco {
-	SpotLight::SpotLight(Renderer* rend) : PointLight(rend,0.0f,0.0f,0.0f){
+	SpotLight::SpotLight(Renderer* rend, int index) : PointLight(rend, 0.0f, 0.0f, 0.0f, index) {
 		_cutOff = 0;
 		_typeOfLight = TypeOfLight::Spot;
 		SetUniforms();
 	}
-	SpotLight::SpotLight(Renderer* rend, float constant, float linear, float quadratic, float cutOff) : PointLight(rend, constant, linear, quadratic) {
+	SpotLight::SpotLight(Renderer* rend, float constant, float linear, float quadratic, float cutOff, int index) : PointLight(rend, constant, linear, quadratic, index) {
 		_cutOff = cos(glm::radians(cutOff));
 		_typeOfLight = TypeOfLight::Spot;
 		SetUniforms();
@@ -16,16 +17,19 @@ namespace Coco {
 	SpotLight::~SpotLight() {
 	}
 	void SpotLight::SetUniforms() {
-		_uniformPosition = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.position");
-		_uniformColour = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.colour");
-		_uniformAmbient = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.ambient");
-		_uniformDiffuse = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.diffuse");
-		_uniformSpecular = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.specular");
-		_uniformConstant = glGetUniformLocation(_renderer->GetShader(), "spotLightpLight..constant");
-		_uniformLinear = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.linear");
-		_uniformQuadratic = glGetUniformLocation(_renderer->GetShader(), "spotLight.pLight.quadratic");
-		_uniformDirection = glGetUniformLocation(_renderer->GetShader(), "spotLight.direction");
-		_uniformCutOff = glGetUniformLocation(_renderer->GetShader(), "spotLight.cutOff");
+		std::string indexSTR = std::to_string(_index).c_str();
+
+		_uniformPosition = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.position").c_str());
+		_uniformColour = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.colour").c_str());
+		_uniformAmbient = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.ambient").c_str());
+		_uniformDiffuse = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.diffuse").c_str());
+		_uniformSpecular = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.specular").c_str());
+		_uniformConstant = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.constant").c_str());
+		_uniformLinear = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.linear").c_str());
+		_uniformQuadratic = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.quadratic").c_str());
+		_uniformDirection = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].direction").c_str());
+		_uniformCutOff = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].cutOff").c_str());
+		_uniformAssignedLight = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.assigned").c_str());
 		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
 	}
 	void SpotLight::UseLight() {
@@ -43,6 +47,7 @@ namespace Coco {
 		glUniform3f(_uniformDirection, _direction.x, _direction.y, _direction.z);
 		glUniform1f(_uniformCutOff, _cutOff);
 
+		glUniform1i(_uniformAssignedLight, true);
 		glUniform1i(_uniformTypeOfLight, _typeOfLight);
 		glUseProgram(0);
 		_renderer->SetLights(true);

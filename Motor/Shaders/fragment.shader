@@ -15,6 +15,7 @@ uniform bool useLight;
 
 struct BaseLight {
 	vec3 colour;
+	bool assigned;
 };
 
 struct DirectionalLight {
@@ -23,6 +24,7 @@ struct DirectionalLight {
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
+	bool assigned;
 };
 
 struct PointLight {
@@ -34,6 +36,7 @@ struct PointLight {
 	float constant;
 	float linear;
 	float quadratic;
+	bool assigned;
 };
 
 struct SpotLight{
@@ -49,51 +52,51 @@ struct Material {
 	float shininess;
 };
 
+#define MAX_LIGHTS 3
+
 uniform BaseLight baseLight;
-uniform DirectionalLight directionalLight;
-uniform PointLight pointLight;
-uniform SpotLight spotLight;
+uniform DirectionalLight directionalLight[MAX_LIGHTS];
+uniform PointLight pointLight[MAX_LIGHTS];
+uniform SpotLight spotLight[MAX_LIGHTS];
 
 uniform int typeOfLight;
 uniform Material material;
 uniform vec3 eyePosition;
 
-vec3 CalcDirLight();
+vec3 CalcDirLight(DirectionalLight dl);
 vec3 CalcPointLight(PointLight pl);
-vec3 CalcSpotLight();
+vec3 CalcSpotLight(SpotLight sl);
 
 void main() {
-	if (useTexture == false && useLight == true) {
-		vec3 result = vec3(1.0f, 1.0f, 1.0f);
-		if (typeOfLight == baseLightValue)
-			result = material.ambient * baseLight.colour;
-		else if (typeOfLight == directionalLightValue)
-			result = CalcDirLight();
-		else if (typeOfLight == pointLightValue)
-			result = CalcPointLight(pointLight);
-		else if (typeOfLight == spotLightValue)
-			result = CalcSpotLight();
+	if (useLight == true) {
+		vec3 result = vec3(0,0,0);
+		for(int i=0;i<MAX_LIGHTS;i++){
+			if(directionalLight[i].assigned)
+				result += CalcDirLight(directionalLight[i]);
+			if(spotLight[i].pLight.assigned)
+				result += CalcSpotLight(spotLight[i]);
+			if(pointLight[i].assigned)
+				result += CalcPointLight(pointLight[i]);
+		}
 		colour = vec4(result, 1.0f);
 	}
-	else if (useTexture == false && useLight == false)
+	else if (useLight == false)
 		colour = vec4(material.ambient, 1.0f);
-	else
-		colour = texture(theTexture, TexCoord);
 }
 
-vec3 CalcDirLight() {
-	vec3 ambient = directionalLight.ambient * material.ambient;
+vec3 CalcDirLight(DirectionalLight dl) {
+	vec3 ambient = dl.ambient * material.ambient;
 	vec3 norm = normalize(Normal);
-	vec3 lightDir = normalize(-directionalLight.direction);
+	vec3 lightDir = normalize(-dl.direction);
 
 	float diff = max(dot(norm, lightDir), 0.0f);
-	vec3 diffuse = directionalLight.diffuse * (diff * material.diffuse);
+	vec3 diffuse = dl.diffuse * (diff * material.diffuse);
 	vec3 viewDir = normalize(eyePosition - FragPos);
 	vec3 reflectDir = reflect(-lightDir, norm);
 
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shininess);
-	vec3 specular = directionalLight.specular * (spec * material.specular);
-	vec3 result = (ambient + diffuse + specular) * directionalLight.colour;
+	vec3 specular = dl.specular * (spec * material.specular);
+	vec3 result = (ambient + diffuse + specular) * dl.colour;
 	return result;
 }
 
@@ -119,10 +122,10 @@ vec3 CalcPointLight(PointLight pl) {
 	return result * pl.colour;
 }
 
-vec3 CalcSpotLight(){
- 	vec3 lightDir = normalize(spotLight.pLight.position - FragPos);
-	float factor = dot(lightDir, normalize(-spotLight.direction));
+vec3 CalcSpotLight(SpotLight sl){
+ 	vec3 lightDir = normalize(sl.pLight.position - FragPos);
+	float factor = dot(lightDir, normalize(-sl.direction));
 	
-	vec3 res = CalcPointLight(spotLight.pLight);
-	return res * (1.0f - (1.0f - factor)*(1.0f/(1.0f - spotLight.cutOff)));
+	vec3 res = CalcPointLight(sl.pLight);
+	return res * (1.0f - (1.0f - factor)*(1.0f/(1.0f - sl.cutOff)));
 }

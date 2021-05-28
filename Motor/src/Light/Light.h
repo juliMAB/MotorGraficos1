@@ -28,11 +28,14 @@ namespace Coco {
 		uint _uniformDiffuse;
 		uint _uniformSpecular;
 
+		uint _uniformAssignedLight;
 		uint _uniformTypeOfLight;
 		bool _usingLight;
+
+		int _index;
 		virtual void SetUniforms();
 	public:
-		Light(Renderer* rend);
+		Light(Renderer* rend, int index);
 		~Light();
 		virtual void UseLight();
 		void SetColour(glm::vec3 c);

@@ -3,7 +3,7 @@
 
 namespace Coco {
 
-	DirectionalLight::DirectionalLight(Renderer* rend) : Light(rend) {
+	DirectionalLight::DirectionalLight(Renderer* rend, int index) : Light(rend, index) {
 		_typeOfLight = TypeOfLight::Directional;
 		SetUniforms();
 	}
@@ -11,6 +11,8 @@ namespace Coco {
 
 	}
 	void DirectionalLight::SetUniforms() {
+		std::string indexSTR = std::to_string(_index).c_str();
+
 		_uniformColour = glGetUniformLocation(_renderer->GetShader(), "directionalLight.colour");
 		_uniformDirection = glGetUniformLocation(_renderer->GetShader(), "directionalLight.direction");
 		_uniformAmbient = glGetUniformLocation(_renderer->GetShader(), "directionalLight.ambient");

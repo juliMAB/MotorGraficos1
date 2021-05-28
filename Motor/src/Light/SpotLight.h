@@ -13,8 +13,8 @@ namespace Coco {
 
         void SetUniforms() override;
     public:
-        SpotLight(Renderer* rend);
-        SpotLight(Renderer* rend, float constant, float linear, float quadratic, float cutOff);
+        SpotLight(Renderer* rend, int index);
+        SpotLight(Renderer* rend, float constant, float linear, float quadratic, float cutOff, int index);
         ~SpotLight();
         void UseLight() override;
         void SetCutOff(float c);
