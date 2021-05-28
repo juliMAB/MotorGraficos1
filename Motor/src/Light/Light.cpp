@@ -2,7 +2,7 @@
 #include "glew.h"
 namespace Coco {
 
-	Light::Light(Renderer* rend) : Entity (rend) {
+	Light::Light(Renderer* rend) : Entity(rend) {
 		_colour = glm::vec3(1.0f, 1.0f, 1.0f);
 		_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
 		_diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -55,6 +55,10 @@ namespace Coco {
 	}
 	glm::vec3 Light::GetSpecular() {
 		return _specular;
+	}
+
+	bool Light::GetUsingLight() {
+		return _usingLight;
 	}
 
 }

@@ -21,10 +21,6 @@ namespace Coco {
 			delete _camera;
 			_camera = NULL;
 		}
-		if (_light != NULL) {
-			delete _light;
-			_light = NULL;
-		}
 		if (_goldMaterial != NULL) {
 			delete _goldMaterial;
 			_goldMaterial = NULL;
@@ -67,13 +63,19 @@ namespace Coco {
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 		_shape2->SetMaterial(_obsidianMaterial);
 
-		_light = new SpotLight(GetRenderer(),1.0f,0.09f,0.032f, 20.0f);
-		_light->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
-		_light->SetPos(0, 3, -3);
-		_light->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-		_light->SetAmbient(glm::vec3(0.2f, 0.2f,0.2f));
-		_light->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-		_light->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+		GetLightManager()->AddLight(TypeOfLight::Spot);
+
+		Light* _lightAux = GetLightManager()->GetLightByIndex(0);
+		
+		((SpotLight*)_lightAux)->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
+		((SpotLight*)_lightAux)->SetPos(0, 3, -3);
+		((SpotLight*)_lightAux)->SetColour(glm::vec3(1.0f,1.0f,1.0f));
+		((SpotLight*)_lightAux)->SetAmbient(glm::vec3(0.2f, 0.2f,0.2f));
+		((SpotLight*)_lightAux)->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+		((SpotLight*)_lightAux)->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+		((SpotLight*)_lightAux)->SetCutOff(20.0f);
+		((SpotLight*)_lightAux)->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -140,12 +142,6 @@ namespace Coco {
 			//std::cout << "Yaw: " << _camera->GetYaw() << std::endl;
 		}
 
-		glm::vec3 lp = _light->positionVec;
-
-		if (Input::GetKeyDown(Keycode::UP))
-			_light->SetPos(lp.x, lp.y + (speed * timer), lp.z );
-		if (Input::GetKeyDown(Keycode::DOWN))
-			_light->SetPos(lp.x, lp.y - (speed * timer), lp.z );
 
 		if (Input::GetKeyDown(Keycode::ENTER))
 			system("cls");
@@ -157,7 +153,7 @@ namespace Coco {
 
 
 		_camera->UseCamera();
-		_light->UseLight();
+		GetLightManager()->UseLights();
 
 		_shape->DrawShape();
 		_shape2->DrawShape();

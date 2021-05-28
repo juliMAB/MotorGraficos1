@@ -23,6 +23,7 @@ namespace Coco {
         ~PointLight();
         virtual void UseLight();
 
+        void SetConstantLinearQuadratic(float c, float l, float q);
         void SetConstant(float c);
         void SetLinear(float l);
         void SetQuadratic(float q);

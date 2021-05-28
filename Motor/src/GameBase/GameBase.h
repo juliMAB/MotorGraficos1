@@ -9,10 +9,7 @@
 #include "../src/Input/Input.h"
 #include "../src/CollisionManager/CollisionManager.h"
 #include "../src/Camera/Camera.h"
-#include "../Light/Light.h"
-#include "../Light/DirectionalLight.h"
-#include "../Light/PointLight.h"
-#include "../Light/SpotLight.h"
+#include "../src/Light/LightManager.h"
 
 struct GLFWmonitor;
 
@@ -23,6 +20,7 @@ namespace Coco {
 		Renderer* _renderer;
 		Input* _input;
 		CollisionManager* _collisionManager;
+		LightManager* _lightManager;
 	public:
 		GameBase();
 		~GameBase();
@@ -34,6 +32,7 @@ namespace Coco {
 		Window* GetWindow();
 		Renderer* GetRenderer();
 		Input* GetInput();
+		LightManager* GetLightManager();
 
 		virtual void Start() = 0;
 		virtual void Update() = 0;

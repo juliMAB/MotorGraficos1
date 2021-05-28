@@ -48,6 +48,11 @@ namespace Coco {
 		glUseProgram(0);
 		_renderer->SetLights(true);
 	}
+	void PointLight::SetConstantLinearQuadratic(float c, float l, float q) {
+		SetConstant(c);
+		SetLinear(l);
+		SetQuadratic(q);
+	}
 	void PointLight::SetConstant(float c) {
 		_constant = c;
 	}

@@ -21,6 +21,8 @@ namespace Coco {
 			delete _input;
 		if (_collisionManager != NULL)
 			delete _collisionManager;
+		if (_lightManager != NULL)
+			delete _lightManager;
 	}
 
 	int GameBase::StartEngine(int width, int height, const char* windowName) {
@@ -51,6 +53,7 @@ namespace Coco {
 		glEnable(GL_DEPTH);
 		
 		_renderer->CreateShader("res/Shaders/vertex.shader", "res/Shaders/fragment.shader");
+		_lightManager = new LightManager(_renderer);
 	}
 
 	void GameBase::UpdateEngine() {
@@ -72,5 +75,8 @@ namespace Coco {
 	}
 	Input* GameBase::GetInput() {
 		return _input;
+	}
+	LightManager* GameBase::GetLightManager() {
+		return _lightManager;
 	}
 }
