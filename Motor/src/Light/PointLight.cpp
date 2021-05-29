@@ -6,16 +6,13 @@ namespace Coco {
 		_constant = 1.0f;
 		_linear = 1.0f;
 		_quadratic = 1.0f;
-		_typeOfLight = TypeOfLight::Point;
 
 		SetUniforms();
-
 	}
 	PointLight::PointLight(Renderer* rend, float constant, float linear, float quadratic, int index) : Light(rend, index) {
 		_constant = constant;
 		_linear = linear;
 		_quadratic = quadratic;
-		_typeOfLight = TypeOfLight::Point;
 		SetUniforms();
 	}
 	PointLight::~PointLight() {
@@ -33,7 +30,6 @@ namespace Coco {
 		_uniformLinear = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].linear").c_str());
 		_uniformQuadratic = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].quadratic").c_str());
 		_uniformAssignedLight = glGetUniformLocation(_renderer->GetShader(), ("pointLight[" + indexSTR + "].assigned").c_str());
-		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
 	}
 	void PointLight::UseLight() {
 		glUseProgram(_renderer->GetShader());
@@ -48,7 +44,6 @@ namespace Coco {
 		glUniform1f(_uniformQuadratic, _quadratic);
 
 		glUniform1i(_uniformAssignedLight, true);
-		glUniform1i(_uniformTypeOfLight, _typeOfLight);
 		glUseProgram(0);
 		_renderer->SetLights(true);
 	}

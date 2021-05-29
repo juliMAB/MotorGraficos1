@@ -63,31 +63,47 @@ namespace Coco {
 		_shape2->SetPos(0.0f, 1.0f, -3.0f);
 		_shape2->SetMaterial(_obsidianMaterial);
 
-		GetLightManager()->AddLight(TypeOfLight::Point);
-		GetLightManager()->AddLight(TypeOfLight::Spot);
+		//GetLightManager()->AddLight(TypeOfLight::Spot);
+		//GetLightManager()->AddLight(TypeOfLight::Point);
+		//
+		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
+		//if (_lightAux != NULL) {
+		//	_lightAux->SetPos(0, 3, -3);
+		//	_lightAux->SetColour(glm::vec3(1.0f, 0.0f, 0.0f));
+		//	_lightAux->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+		//	_lightAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+		//	_lightAux->SetSpecular(glm::vec3(0.0f,0.0f,0.0f));
+		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		//	_lightAux->SetCutOff(5.0f);
+		//	_lightAux->SetDirection(glm::vec3(0, -1, 0));
+		//}
+		//PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
+		//if (_lightAux2 != NULL) {
+		//	_lightAux2->SetPos(0, -2.0f, -3);
+		//	_lightAux2->SetColour(glm::vec3(0.0f, 1.0f, 0.0f));
+		//	_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+		//	_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+		//	_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+		//	_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		//}
 
-		PointLight* _lightAux = GetLightManager()->GetPointLightByIndex(0);
-		if (_lightAux != NULL) {
-			_lightAux->SetPos(0, 3, -3);
-			_lightAux->SetColour(glm::vec3(1.0f, 0.0f, 0.0f));
-			_lightAux->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-			_lightAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-			_lightAux->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-			_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		GetLightManager()->AddLight(TypeOfLight::Directional);
+		GetLightManager()->AddLight(TypeOfLight::Directional);
+
+		DirectionalLight* dirAux = GetLightManager()->GetDirectionalLightByIndex(0);
+		if (dirAux != NULL) {
+			dirAux->SetColour(glm::vec3(0, 1, 0));
+			dirAux->SetDirection(glm::vec3(0, 1, 0));
+		}
+	 
+		dirAux = GetLightManager()->GetDirectionalLightByIndex(1);
+
+		if (dirAux != NULL) {
+			dirAux->SetColour(glm::vec3(1.0f, 0, 1.0f));
+			dirAux->SetDirection(glm::vec3(0, -1, 0));
 		}
 
-		SpotLight* _lightAux2 = GetLightManager()->GetSpotLightByIndex(0);
-		if (_lightAux2 != NULL) {
-			_lightAux2->SetPos(0, -2, -3);
-			_lightAux2->SetColour(glm::vec3(0.0f, 1.0f, 0.0f));
-			_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-			_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-			_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-			_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-			_lightAux2->SetCutOff(3);
-			_lightAux2->SetDirection(glm::vec3(0, 1, 0));
-		}
-		
+
 	}
 	void Game::Play() {
 		UpdateEngine();

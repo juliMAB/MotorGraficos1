@@ -10,7 +10,12 @@
 #include "SpotLight.h"
 
 namespace Coco {
-
+	static enum TypeOfLight {
+		Basic,
+		Directional,
+		Point,
+		Spot
+	};
 	class GraficosEngine_API LightManager {
 		bool _baseLightCreated;
 		int _pointLightsCreateds;

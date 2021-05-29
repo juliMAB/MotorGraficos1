@@ -1,10 +1,5 @@
 #version 330
 
-int baseLightValue = 0;
-int directionalLightValue = 1;
-int pointLightValue = 2;
-int spotLightValue = 3;
-
 in vec2 TexCoord;
 in vec3 Normal;
 in vec3 FragPos;
@@ -59,7 +54,6 @@ uniform DirectionalLight directionalLight[MAX_LIGHTS];
 uniform PointLight pointLight[MAX_LIGHTS];
 uniform SpotLight spotLight[MAX_LIGHTS];
 
-uniform int typeOfLight;
 uniform Material material;
 uniform vec3 eyePosition;
 
@@ -70,6 +64,8 @@ vec3 CalcSpotLight(SpotLight sl);
 void main() {
 	if (useLight == true) {
 		vec3 result = vec3(0,0,0);
+		if(baseLight.assigned)
+			result = material.ambient * baseLight.colour;
 		for(int i=0;i<MAX_LIGHTS;i++){
 			if(directionalLight[i].assigned)
 				result += CalcDirLight(directionalLight[i]);

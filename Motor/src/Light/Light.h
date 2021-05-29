@@ -5,12 +5,6 @@
 
 namespace Coco {
 	typedef unsigned int uint;
-	static enum TypeOfLight {
-		Basic,
-		Directional,
-		Point,
-		Spot
-	};
 	class GraficosEngine_API Light : public Entity {
 	protected:
 		glm::vec3 _colour;
@@ -18,8 +12,6 @@ namespace Coco {
 		glm::vec3 _ambient;
 		glm::vec3 _diffuse;
 		glm::vec3 _specular;
-		int _typeOfLight;
-
 
 		uint _uniformColour;
 		uint _uniformPosition;
@@ -29,7 +21,6 @@ namespace Coco {
 		uint _uniformSpecular;
 
 		uint _uniformAssignedLight;
-		uint _uniformTypeOfLight;
 		bool _usingLight;
 
 		int _index;

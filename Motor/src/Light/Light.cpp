@@ -4,11 +4,10 @@ namespace Coco {
 
 	Light::Light(Renderer* rend, int index) : Entity(rend) {
 		_colour = glm::vec3(1.0f, 1.0f, 1.0f);
-		_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-		_diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
-		_specular = glm::vec3(0.0f, 0.0f, 0.0f);
-		_direction = glm::vec3(0.0f, 0.0f, 0.0f);
-		_typeOfLight = TypeOfLight::Basic;
+		_ambient = glm::vec3(0.2f, 0.2f, 0.2f);
+		_diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
+		_specular = glm::vec3(1.0f, 1.0f, 1.0f);
+		_direction = glm::vec3(0.0f, 0.0f, -1.0f);
 		_usingLight = true;
 		_index = index;
 		SetUniforms();
@@ -18,14 +17,12 @@ namespace Coco {
 	void Light::SetUniforms() {
 		_uniformColour = glGetUniformLocation(_renderer->GetShader(), "baseLight.colour");
 		_uniformAssignedLight = glGetUniformLocation(_renderer->GetShader(), "baseLight.assigned");
-		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
 	}
 
 	void Light::UseLight() {
 		glUseProgram(_renderer->GetShader());
 		glUniform3f(_uniformColour, _colour.x, _colour.y, _colour.z);
 		glUniform1i(_uniformAssignedLight, true);
-		glUniform1i(_uniformTypeOfLight, _typeOfLight);
 		glUseProgram(0);
 		_renderer->SetLights(true);
 	}

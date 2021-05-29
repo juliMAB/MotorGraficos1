@@ -6,12 +6,10 @@
 namespace Coco {
 	SpotLight::SpotLight(Renderer* rend, int index) : PointLight(rend, 0.0f, 0.0f, 0.0f, index) {
 		_cutOff = 0;
-		_typeOfLight = TypeOfLight::Spot;
 		SetUniforms();
 	}
 	SpotLight::SpotLight(Renderer* rend, float constant, float linear, float quadratic, float cutOff, int index) : PointLight(rend, constant, linear, quadratic, index) {
 		_cutOff = cos(glm::radians(cutOff));
-		_typeOfLight = TypeOfLight::Spot;
 		SetUniforms();
 	}
 	SpotLight::~SpotLight() {
@@ -30,7 +28,6 @@ namespace Coco {
 		_uniformDirection = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].direction").c_str());
 		_uniformCutOff = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].cutOff").c_str());
 		_uniformAssignedLight = glGetUniformLocation(_renderer->GetShader(), ("spotLight[" + indexSTR + "].pLight.assigned").c_str());
-		_uniformTypeOfLight = glGetUniformLocation(_renderer->GetShader(), "typeOfLight");
 	}
 	void SpotLight::UseLight() {
 		glUseProgram(_renderer->GetShader());
@@ -48,7 +45,6 @@ namespace Coco {
 		glUniform1f(_uniformCutOff, _cutOff);
 
 		glUniform1i(_uniformAssignedLight, true);
-		glUniform1i(_uniformTypeOfLight, _typeOfLight);
 		glUseProgram(0);
 		_renderer->SetLights(true);
 	}
