@@ -29,6 +29,10 @@ namespace Coco {
 			delete _obsidianMaterial;
 			_obsidianMaterial = NULL;
 		}
+		if (_model != NULL) {
+			delete _model;
+			_model = NULL;
+		}
 	}
 	void Game::Start() {
 		StartEngine(1366, 768, "Coco");
@@ -51,21 +55,29 @@ namespace Coco {
 		_obsidianMaterial->SetSpecular(glm::vec3(0.332741f, 0.328634f, 0.346435f));
 		_obsidianMaterial->SetShininess(0.3f);
 
+		_model = new Model(GetRenderer());
+		_model->LoadModel("res/models/source/ChacaritaGhost.obj", "res/models/Banfield Ghost/");
+		_model->SetPositionModel(0,1,-5);
+		_model->SetScaleModel(0.33f, 0.33f, 0.33f);
+		//_model->SetRotationYModel(90);
+		//_model->SetPos(0, 0, -100);
+
+
 		_shape = new Shape(GetRenderer());
 		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
 		_shape->SetScale(0.33f, 0.33f, 0.33f);
 		_shape->SetPos(0.0f, 0.0f, -3.0f);
 		_shape->SetMaterial(_goldMaterial);
-
-		_shape2 = new Shape(GetRenderer());
-		_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
-		_shape2->SetScale(0.33f, 0.33f, 0.33f);
-		_shape2->SetPos(0.0f, 1.0f, -3.0f);
-		_shape2->SetMaterial(_obsidianMaterial);
-
+		//
+		//_shape2 = new Shape(GetRenderer());
+		//_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
+		//_shape2->SetScale(0.33f, 0.33f, 0.33f);
+		//_shape2->SetPos(0.0f, 1.0f, -3.0f);
+		//_shape2->SetMaterial(_obsidianMaterial);
+		//
 		//GetLightManager()->AddLight(TypeOfLight::Spot);
 		//GetLightManager()->AddLight(TypeOfLight::Point);
-		//
+		////
 		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
 		//if (_lightAux != NULL) {
 		//	_lightAux->SetPos(0, 3, -3);
@@ -80,30 +92,31 @@ namespace Coco {
 		//PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
 		//if (_lightAux2 != NULL) {
 		//	_lightAux2->SetPos(0, -2.0f, -3);
-		//	_lightAux2->SetColour(glm::vec3(0.0f, 1.0f, 0.0f));
+		//	_lightAux2->SetColour(glm::vec3(0.0f, 0.0f, 1.0f));
 		//	_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
 		//	_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
 		//	_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
 		//	_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
 		//}
+		//
+		//GetLightManager()->AddLight(TypeOfLight::Directional);
+		//GetLightManager()->AddLight(TypeOfLight::Directional);
+		//
+		//DirectionalLight* dirAux = GetLightManager()->GetDirectionalLightByIndex(0);
+		//if (dirAux != NULL) {
+		//	dirAux->SetColour(glm::vec3(0, 1, 0));
+		//	dirAux->SetDirection(glm::vec3(0, 1, 0));
+		//}
+	 	//
+		//dirAux = GetLightManager()->GetDirectionalLightByIndex(1);
+		//
+		//if (dirAux != NULL) {
+		//	dirAux->SetColour(glm::vec3(1.0f, 0, 1.0f));
+		//	dirAux->SetDirection(glm::vec3(0, -1, 0));
+		//}
 
-		GetLightManager()->AddLight(TypeOfLight::Directional);
-		GetLightManager()->AddLight(TypeOfLight::Directional);
-
-		DirectionalLight* dirAux = GetLightManager()->GetDirectionalLightByIndex(0);
-		if (dirAux != NULL) {
-			dirAux->SetColour(glm::vec3(0, 1, 0));
-			dirAux->SetDirection(glm::vec3(0, 1, 0));
-		}
-	 
-		dirAux = GetLightManager()->GetDirectionalLightByIndex(1);
-
-		if (dirAux != NULL) {
-			dirAux->SetColour(glm::vec3(1.0f, 0, 1.0f));
-			dirAux->SetDirection(glm::vec3(0, -1, 0));
-		}
-
-
+		//_sprite = new Sprite(GetRenderer());
+		//_sprite->LoadTexture("res/textures/textura final.jpg",false);
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -158,9 +171,9 @@ namespace Coco {
 
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
-
+		_model->DrawModel();
 		_shape->DrawShape();
-		_shape2->DrawShape();
+		//_shape2->DrawShape();
 
 		GetWindow()->SwapBuffers();
 	}

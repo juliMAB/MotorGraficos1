@@ -57,17 +57,37 @@ namespace Coco {
 
 		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
 		glUseProgram(GetShader());
-		if (t == TypeShader::Colour) 
+		if (t == TypeShader::Colour)
 			glUniform1i(useTextureLoc, false);
-		else 
+		else
 			glUniform1i(useTextureLoc, true);
-		
+
 		glEnable(GL_DEPTH_TEST);
 
 		if (shape == TypeShape::Triangle)
 			glDrawArrays(GL_TRIANGLES, 0, verts);
 		else
 			glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glUseProgram(0);
+	}
+
+	void Renderer::DrawMesh(int verts, uint vao, uint vbo, uint ibo) {
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+		uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
+		glUseProgram(GetShader());
+
+		glUniform1i(useTextureLoc, true);
+
+		glEnable(GL_DEPTH_TEST);
+
+		glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -87,7 +107,7 @@ namespace Coco {
 		glUniform3f(uniformAmbient, amb.x, amb.y, amb.z);
 		glUniform3f(uniformSpecular, spec.x, spec.y, spec.z);
 		glUniform3f(uniformDiffuse, diff.x, diff.y, diff.z);
-		glUniform1f(uniformShininess, shine*128.0f);
+		glUniform1f(uniformShininess, shine * 128.0f);
 
 		glUseProgram(0);
 	}
@@ -110,7 +130,7 @@ namespace Coco {
 	}
 
 	void Renderer::CreateShader(const char* vertexCode, const char* fragmentCode) {
-		if (_shader != NULL) 
+		if (_shader != NULL)
 			_shader->CreateFromLocation(vertexCode, fragmentCode);
 	}
 	void Renderer::SetProjection(glm::mat4 p) {

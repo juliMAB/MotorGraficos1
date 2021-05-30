@@ -28,13 +28,6 @@ namespace Coco {
 			-1.0, 1.0, -1.0, /**/0.0f, 0.0f, /**/	0.0f, 0.0f, 0.0f
 		};
 
-		uint _uniformModel;
-		uint _uniformView;
-		uint _uniformProjection;
-		uint _positionLocation;
-		uint _texLocation;
-		uint _normalLocation;
-
 		Material* _material;
 	public:
 		Shape(Renderer* rend);

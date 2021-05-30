@@ -9,19 +9,12 @@
 
 namespace Coco {
 
-	TextureImporter::TextureImporter() {
-
-	}
-	TextureImporter::~TextureImporter() {
-	}
-	void TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels, bool transparent) {
-		stbi_set_flip_vertically_on_load(true);
+	bool TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels, bool transparent) {
+		stbi_set_flip_vertically_on_load(false);
 
 		data = stbi_load(path, &width, &height, &channels, 0);
-		if (!data) {
-			std::cout << "No Carga Textura" << std::endl;
-			return;
-		}
+		if (!data) 
+			return false;
 
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -39,7 +32,7 @@ namespace Coco {
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
-		
 		stbi_image_free(data);
+		return true;
 	}
 }

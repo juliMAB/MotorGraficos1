@@ -32,6 +32,10 @@
     <ClCompile Include="src\Light\PointLight.cpp" />
     <ClCompile Include="src\Light\SpotLight.cpp" />
     <ClCompile Include="src\Material\Material.cpp" />
+    <ClCompile Include="src\Model\Mesh.cpp" />
+    <ClCompile Include="src\Model\Model.cpp" />
+    <ClCompile Include="src\Model\ModelImporter.cpp" />
+    <ClCompile Include="src\Model\ModelTexture.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Shape\Shape.cpp" />
@@ -56,6 +60,10 @@
     <ClInclude Include="src\Light\PointLight.h" />
     <ClInclude Include="src\Light\SpotLight.h" />
     <ClInclude Include="src\Material\Material.h" />
+    <ClInclude Include="src\Model\Mesh.h" />
+    <ClInclude Include="src\Model\Model.h" />
+    <ClInclude Include="src\Model\ModelImporter.h" />
+    <ClInclude Include="src\Model\ModelTexture.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Shape\Shape.h" />
@@ -142,12 +150,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Lib\GLFW\include;$(ProjectDir)Lib;$(ProjectDir)Lib\GLEW\Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Lib\GLFW\include;$(ProjectDir)Lib;$(ProjectDir)Lib\GLEW\Include;$(ProjectDir)Lib\ASSIMP_N\include;$(ProjectDir)Lib\ASSIMP_N\include\assimp</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;GraficosEngine_Exports;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProyectDir)Lib\GLEW\Lib;$(ProjectDir)Lib\GLFW\glfw-3.3.2.bin.WIN32\lib-vc2017</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProyectDir)Lib\GLEW\Lib;$(ProjectDir)Lib\GLFW\glfw-3.3.2.bin.WIN32\lib-vc2017;$(ProjectDirr)Lib\ASSIMP_N\lib\Release;$(ProjectDir)Lib\ASSIMP_N\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>

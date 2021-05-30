@@ -10,6 +10,7 @@
 #include "../src/CollisionManager/CollisionManager.h"
 #include "../src/Camera/Camera.h"
 #include "../src/Light/LightManager.h"
+#include "../Model/Model.h"
 
 struct GLFWmonitor;
 

@@ -32,6 +32,7 @@ namespace Coco {
 		void UpdateMVP(glm::mat4 model, uint uniformModel, uint uniformView, uint uniformProjection);
 		void StopShaders();
 		void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
+		void DrawMesh(int verts, uint vao, uint vbo, uint ibo);
 		void SetLights(bool value);
 		void UseCamera(glm::vec3 cameraPos, uint uniformCameraPos);
 		void UseMaterial(glm::vec3 amb, glm::vec3 spec, glm::vec3 diff, float shine,

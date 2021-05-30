@@ -20,6 +20,13 @@ namespace Coco {
 		glm::vec3 lastPos;
 		Renderer* _renderer;
 		void UpdateMatrixData();
+
+		uint _uniformModel;
+		uint _uniformView;
+		uint _uniformProjection;
+		uint _positionLocation;
+		uint _texLocation;
+		uint _normalLocation;
 	public:
 		Entity(Renderer* rend);
 		~Entity();

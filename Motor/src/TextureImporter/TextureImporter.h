@@ -8,9 +8,7 @@ namespace Coco {
 
 	class GraficosEngine_API TextureImporter {
 	public:
-		TextureImporter();
-		~TextureImporter();
-		void LoadTexture(const char* path, unsigned char* data ,uint& texture, int width, int height, int channels, bool transparent);
+		static bool LoadTexture(const char* path, unsigned char* data ,uint& texture, int width, int height, int channels, bool transparent);
 	};
 		
 
