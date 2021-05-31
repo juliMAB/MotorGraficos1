@@ -10,7 +10,7 @@
 namespace Coco {
 
 	bool TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels, bool transparent) {
-		stbi_set_flip_vertically_on_load(false);
+		stbi_set_flip_vertically_on_load(true);
 
 		data = stbi_load(path, &width, &height, &channels, 0);
 		if (!data) 

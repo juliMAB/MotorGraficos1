@@ -29,9 +29,17 @@ namespace Coco {
 			delete _obsidianMaterial;
 			_obsidianMaterial = NULL;
 		}
-		if (_model != NULL) {
-			delete _model;
-			_model = NULL;
+		if (_model1 != NULL) {
+			delete _model1;
+			_model1 = NULL;
+		}
+		if (_model2 != NULL) {
+			delete _model2;
+			_model2 = NULL;
+		}
+		if (_model3 != NULL) {
+			delete _model3;
+			_model3 = NULL;
 		}
 	}
 	void Game::Start() {
@@ -55,19 +63,28 @@ namespace Coco {
 		_obsidianMaterial->SetSpecular(glm::vec3(0.332741f, 0.328634f, 0.346435f));
 		_obsidianMaterial->SetShininess(0.3f);
 
-		_model = new Model(GetRenderer());
-		_model->LoadModel("res/models/source/ChacaritaGhost.obj", "res/models/Banfield Ghost/");
-		_model->SetPositionModel(0,1,-5);
-		_model->SetScaleModel(0.33f, 0.33f, 0.33f);
-		//_model->SetRotationYModel(90);
-		//_model->SetPos(0, 0, -100);
+		_model1 = new Model(GetRenderer());
+		_model1->LoadModel("res/models/dragon/source/pose3.fbx", "res/models/dragon/textures/");
+		_model1->SetPositionModel(0,1,-5);
+		_model1->SetScaleModel(0.01f, 0.01f, 0.01f);
+		_model1->SetRotationXModel(-1.25f);
+		//_model2 = new Model(GetRenderer());
+		//_model2->LoadModel("res/models/cat/source/cat_low.fbx", "res/models/cat/textures/");
+		//_model2->SetPositionModel(0, 1, -5);
+		////_model2->SetScaleModel(0.01f, 0.01f, 0.01f);
+		//_model2->SetRotationXModel(-1.25f);
 
+		//_model3 = new Model(GetRenderer());
+		//_model3->LoadModel("res/models/BokitaGhost/ghost.obj", "null");
+		//_model3->SetPositionModel(0, 0, -5);
+		//_model3->SetScaleModel(0.025f, 0.025f, 0.25f);
 
-		_shape = new Shape(GetRenderer());
-		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
-		_shape->SetScale(0.33f, 0.33f, 0.33f);
-		_shape->SetPos(0.0f, 0.0f, -3.0f);
-		_shape->SetMaterial(_goldMaterial);
+		//_shape = new Shape(GetRenderer());
+		//_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
+		//_shape->SetScale(0.33f, 0.33f, 0.33f);
+		//_shape->SetPos(0.0f, 0.0f, -3.0f);
+		//_shape->SetMaterial(_goldMaterial);
+		//_shape->LoadTexture("res/textures/img1.jpg");
 		//
 		//_shape2 = new Shape(GetRenderer());
 		//_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
@@ -123,7 +140,7 @@ namespace Coco {
 	}
 
 	float speed = 5.0f;
-	float speedRotationCamera = 50.0f;
+	float speedRotationCamera = 200.0f;
 	float timer = 0.0f;
 	bool usingLight = true;
 
@@ -171,8 +188,10 @@ namespace Coco {
 
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
-		_model->DrawModel();
-		_shape->DrawShape();
+		//_shape->DrawShape();
+		_model1->DrawModel();
+		//_model2->DrawModel();
+		//_model3->DrawModel();
 		//_shape2->DrawShape();
 
 		GetWindow()->SwapBuffers();

@@ -9,15 +9,14 @@ namespace Coco {
 		IBO = 0;
 		indexCount = 0;
 
+		
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
+
 		_positionLocation = glGetAttribLocation(_renderer->GetShader(), "pos");
 		_texLocation = glGetAttribLocation(_renderer->GetShader(), "tex");
 		_normalLocation = glGetAttribLocation(_renderer->GetShader(), "norm");
-		_renderer->SetAttribs(_positionLocation, 3, 8, 0);
-		_renderer->SetAttribs(_normalLocation, 3, 8, 3);
-		_renderer->SetAttribs(_texLocation, 2, 8, 6);
 	}
 
 	Mesh::~Mesh() {
@@ -32,18 +31,20 @@ namespace Coco {
 
 		glGenBuffers(1, &IBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices[0]) * numOfIndices, indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * numOfIndices, indices, GL_STATIC_DRAW);
 
 		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * numOfVertices, vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numOfVertices, vertices, GL_STATIC_DRAW);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 8, 0);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 8, (void*)(sizeof(vertices[0]) * 3));
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(vertices[0]) * 8, (void*)(sizeof(vertices[0]) * 5));
-		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(_positionLocation, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, 0);
+		glEnableVertexAttribArray(_positionLocation);
+
+		glVertexAttribPointer(_texLocation, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
+		glEnableVertexAttribArray(_texLocation);
+
+		glVertexAttribPointer(_normalLocation, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 5));
+		glEnableVertexAttribArray(_normalLocation);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

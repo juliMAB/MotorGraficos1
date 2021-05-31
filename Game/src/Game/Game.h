@@ -9,7 +9,9 @@ namespace Coco {
 		Camera* _camera;
 		Material* _goldMaterial;
 		Material* _obsidianMaterial;
-		Model* _model;
+		Model* _model1;
+		Model* _model2;
+		Model* _model3;
 		Sprite* _sprite;
 	public:
 		Game();

@@ -15,7 +15,7 @@ namespace Coco {
 
 	void Model::LoadModel(const std::string& fileName, const std::string& texturesLocation) {
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(fileName, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
+		const aiScene* scene = importer.ReadFile(fileName, aiProcess_Triangulate);
 
 		if (!scene) {
 			std::cout << "Model: " << fileName << " cant be loaded pa: " << importer.GetErrorString() << std::endl;
@@ -25,11 +25,8 @@ namespace Coco {
 		LoadMaterials(scene, texturesLocation);
 	}
 	void Model::DrawModel() {
-		glUseProgram(_renderer->GetShader());
-		uint useTextureLoc = glGetUniformLocation(_renderer->GetShader(), "useTexture");
 		for (int i = 0; i < _meshList.size(); i++) {
 			uint materialIndex = _meshesToTex[i];
-				glUniform1i(useTextureLoc, true);
 
 			if (materialIndex < _texturesList.size() && _texturesList[materialIndex]) {
 				_texturesList[materialIndex]->UseTexture();
@@ -40,7 +37,6 @@ namespace Coco {
 			if (materialIndex < _texturesList.size() && _texturesList[materialIndex])
 				_texturesList[materialIndex]->StopTexture();
 		}
-		glUseProgram(0);
 	}
 	void Model::ClearModel() {
 
@@ -114,12 +110,14 @@ namespace Coco {
 						delete _texturesList[i];
 						_texturesList[i] = NULL;
 					}
+					else
+						std::cout << "Texture loaded: " << fileName << std::endl;
 				}
 			}
-
+			
 			if (!_texturesList[i]) {
 				std::cout << "cargar textura plana" << std::endl;
-				_texturesList[i] = new ModelTexture("res/textures/theolean.jpg");
+				_texturesList[i] = new ModelTexture("res/models/BokitaGhost/Ghost_lambert1_BaseColor.png");
 				_texturesList[i]->LoadTexture();
 			}
 

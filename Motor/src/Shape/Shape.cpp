@@ -47,6 +47,8 @@ namespace Coco {
 	uint indexsCube[] = {
 		0, 1, 2,
 		2, 3, 0,
+		//3, 2, 0,
+		//2, 1, 0,
 		1, 5, 6,
 		6, 2, 1,
 		7, 6, 5,
@@ -70,10 +72,22 @@ namespace Coco {
 	TypeShader typeShader;
 	uint tamVerts;
 
-	Shape::Shape(Renderer* rend) : Entity(rend) {}
+	Shape::Shape(Renderer* rend) : Entity(rend) {
+		uint _textureID = 0;
+		int  _width = 0;
+		int  _height = 0;
+		int  _bitDepth = 0;
+		bool _usingTexture = false;
+	
+	}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
 		glDeleteBuffers(1, &_vbo);
+
+		if (_texture != NULL) {
+			delete _texture;
+			_texture = NULL;
+		}
 	}
 	void Shape::InitShape(TypeShape type, TypeShader t) {
 		typeOfShape = type;
@@ -114,13 +128,33 @@ namespace Coco {
 		_renderer->SetAttribs(_texLocation, 2, 8, 3);
 		_renderer->SetAttribs(_normalLocation, 3, 8, 5);
 	}
+
+	void Shape::LoadTexture(const char* path) {
+		_texture = new ModelTexture(path);
+		if (!_texture->LoadTexture()) {
+			std::cout << "Cant load texture in shape" << std::endl;
+			delete _texture;
+			_texture = NULL;
+			_usingTexture = false;
+			return;
+		}
+		std::cout << "Texture loaded in shape" << std::endl;
+		_usingTexture = true;
+	}
+
 	void Shape::DrawShape() {
 		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);
 
-		if (_material != NULL) 
-			_renderer->UseMaterial(_material->GetAmbient(),_material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
+		if (_material != NULL)
+			_renderer->UseMaterial(_material->GetAmbient(), _material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
 				_material->GetUniformAmbient(), _material->GetUniformSpecular(), _material->GetUniformDiffuse(), _material->GetUniformShininess());
-		_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
+		if (_usingTexture) {
+			_texture->UseTexture();
+			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Texture);
+			_texture->StopTexture();
+		}
+		else
+			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
 	}
 	void Shape::SetMaterial(Material* m) {
 		_material = m;

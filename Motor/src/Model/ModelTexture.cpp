@@ -31,6 +31,7 @@ namespace Coco {
 
 	void ModelTexture::StopTexture() {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glDisable(GL_TEXTURE_2D);
 	}
 

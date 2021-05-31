@@ -19,8 +19,8 @@ namespace Coco {
 		const char* fileLocation;
 
 		std::vector<Mesh*> _meshList;
-		std::vector<ModelTexture*> _texturesList;
 		std::vector<uint> _meshesToTex;
+		std::vector<ModelTexture*> _texturesList;
 
 		void LoadNode(aiNode* node, const aiScene* scene);
 		void LoadMesh(aiMesh* mesh, const aiScene* scene);
