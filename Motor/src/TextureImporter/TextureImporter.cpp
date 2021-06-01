@@ -15,7 +15,7 @@ namespace Coco {
 		data = stbi_load(path, &width, &height, &channels, 0);
 		if (!data) 
 			return false;
-
+		
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		

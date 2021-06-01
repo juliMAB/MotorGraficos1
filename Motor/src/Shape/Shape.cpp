@@ -73,12 +73,16 @@ namespace Coco {
 	uint tamVerts;
 
 	Shape::Shape(Renderer* rend) : Entity(rend) {
-		uint _textureID = 0;
-		int  _width = 0;
-		int  _height = 0;
-		int  _bitDepth = 0;
-		bool _usingTexture = false;
-	
+		_textureID = 0;
+		_width = 0;
+		_height = 0;
+		_bitDepth = 0;
+		_usingTexture = false;
+		_material = new Material(rend);
+		_material->SetAmbient(glm::vec3(1, 1, 1));
+		_material->SetDiffuse(glm::vec3( 1,1,1));
+		_material->SetSpecular(glm::vec3(1,1,1));
+		_material->SetShininess(0.25f);
 	}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
@@ -87,6 +91,10 @@ namespace Coco {
 		if (_texture != NULL) {
 			delete _texture;
 			_texture = NULL;
+		}
+		if (_material != NULL) {
+			delete _material;
+			_material = NULL;
 		}
 	}
 	void Shape::InitShape(TypeShape type, TypeShader t) {
@@ -157,6 +165,10 @@ namespace Coco {
 			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
 	}
 	void Shape::SetMaterial(Material* m) {
+		if (_material != NULL) {
+			delete _material;
+			_material = NULL;
+		}
 		_material = m;
 	}
 	Material* Shape::GetMaterial() {
@@ -203,7 +215,7 @@ namespace Coco {
 			break;
 		}
 	}
-	void Shape::CalcAverageNormals(uint * indices, uint indiceCount, float * vertices, uint verticeCount, uint vLength, uint normalOffset) {
+	void Shape::CalcAverageNormals(uint* indices, uint indiceCount, float* vertices, uint verticeCount, uint vLength, uint normalOffset) {
 		for (int i = 0; i < indiceCount; i += 3) {
 			unsigned int in0 = indices[i] * vLength;
 			unsigned int in1 = indices[i + 1] * vLength;

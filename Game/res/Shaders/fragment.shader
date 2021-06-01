@@ -65,7 +65,7 @@ vec3 CalcPointLight(PointLight pl);
 vec3 CalcSpotLight(SpotLight sl);
 
 void main() {
-	if (useLight == true && useTexture == false) {
+	if (useLight == true) {
 		vec3 result = vec3(0,0,0);
 		if(baseLight.assigned)
 			result = material.ambient * baseLight.colour;
@@ -77,12 +77,16 @@ void main() {
 			if(pointLight[i].assigned)
 				result += CalcPointLight(pointLight[i]);
 		}
-		colour = vec4(result, 1.0f);
+
+		if(useTexture == false)
+			colour = vec4(result, 1.0f);
+		else
+			colour = texture(theTexture, TexCoord) * vec4(result,1.0f);
 	}
 	else if (useLight == false && useTexture == false)
 		colour = vec4(material.ambient, 1.0f);
 	else 
-		colour = texture(theTexture,TexCoord);
+		colour = texture(theTexture,TexCoord) * vec4(material.ambient, 1.0f);
 }
 
 vec3 CalcDirLight(DirectionalLight dl) {

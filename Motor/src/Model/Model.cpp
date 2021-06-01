@@ -7,13 +7,23 @@
 namespace Coco {
 
 	Model::Model(Renderer* rend) : Entity(rend) {
-
+		_material = NULL;
+		_material = new Material(rend);
+		_material->SetAmbient(glm::vec3( 1,1,1));
+		_material->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
+		_material->SetSpecular(glm::vec3(0.5f,0.5f,0.5f));
+		_material->SetShininess(0.25f);
+		_usingOriginalMaterial = true;
 	}
 	Model::~Model() {
+		if (_usingOriginalMaterial && _material != NULL) {
+			delete _material;
+			_material = NULL;
+		}
 		ClearModel();
 	}
 
-	void Model::LoadModel(const std::string& fileName, const std::string& texturesLocation) {
+	void Model::LoadModel(const std::string& fileName, const std::string& texturesLocation, TextureLoadType tlt) {
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(fileName, aiProcess_Triangulate);
 
@@ -22,7 +32,7 @@ namespace Coco {
 			return;
 		}
 		LoadNode(scene->mRootNode, scene);
-		LoadMaterials(scene, texturesLocation);
+		LoadMaterials(scene, texturesLocation, tlt);
 	}
 	void Model::DrawModel() {
 		for (int i = 0; i < _meshList.size(); i++) {
@@ -31,12 +41,24 @@ namespace Coco {
 			if (materialIndex < _texturesList.size() && _texturesList[materialIndex]) {
 				_texturesList[materialIndex]->UseTexture();
 			}
+			if (_material != NULL) 
+				_renderer->UseMaterial(_material->GetAmbient(), _material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
+					_material->GetUniformAmbient(), _material->GetUniformSpecular(), _material->GetUniformDiffuse(), _material->GetUniformShininess());
 
+			
 			_meshList[i]->RenderMesh();
 
 			if (materialIndex < _texturesList.size() && _texturesList[materialIndex])
 				_texturesList[materialIndex]->StopTexture();
 		}
+	}
+	void Model::SetMaterial(Material* mat) 	{
+		if (_material != NULL) {
+			delete _material;
+			_material = NULL;
+			_usingOriginalMaterial = false;
+		}
+		_material = mat;
 	}
 	void Model::ClearModel() {
 
@@ -90,34 +112,49 @@ namespace Coco {
 		_meshList.push_back(newMesh);
 		_meshesToTex.push_back(mesh->mMaterialIndex);
 	}
-	void Model::LoadMaterials(const aiScene* scene, const std::string& texturesLocation) {
+	void Model::LoadMaterials(const aiScene* scene, const std::string& texturesLocation, TextureLoadType tlt) {
 		_texturesList.resize(scene->mNumMaterials);
 
 		for (int i = 0; i < scene->mNumMaterials; i++) {
 			aiMaterial* material = scene->mMaterials[i];
 			_texturesList[i] = NULL;
 
-			if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
-				std::cout << "TUTURU2" << std::endl;
-				aiString path;
-				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
-					int idx = std::string(path.data).rfind("\\");
-					std::string fileName = std::string(path.data).substr(idx + 1);
-					std::string texPath = texturesLocation + fileName;
-					_texturesList[i] = new ModelTexture(texPath.c_str());
-					if (!_texturesList[i]->LoadTexture()) {
-						std::cout << "Failed to load texture at: " << texPath << std::endl;
-						delete _texturesList[i];
-						_texturesList[i] = NULL;
+			if (tlt == TextureLoadType::Automatic) {
+
+				if (material->GetTextureCount(aiTextureType_DIFFUSE)) {
+					aiString path;
+					if (material->GetTexture(aiTextureType_DIFFUSE, 0, &path) == AI_SUCCESS) {
+						int idx = std::string(path.data).rfind("\\");
+						std::string fileName = std::string(path.data).substr(idx + 1);
+						std::string texPath = texturesLocation + fileName;
+						_texturesList[i] = new ModelTexture(texPath.c_str());
+
+						if (!_texturesList[i]->LoadTexture()) {
+							std::cout << "Failed to load texture at: " << texPath << std::endl;
+							delete _texturesList[i];
+							_texturesList[i] = NULL;
+						}
+						else
+							std::cout << "Texture loaded: " << fileName << std::endl;
 					}
-					else
-						std::cout << "Texture loaded: " << fileName << std::endl;
 				}
+				
 			}
-			
+			else {
+				std::cout << "Loading texture at: " << texturesLocation << std::endl;
+				_texturesList[i] = new ModelTexture(texturesLocation.c_str());
+				if (!_texturesList[i]->LoadTexture()) {
+					std::cout << "Failed to load texture at: " << texturesLocation << std::endl;
+					delete _texturesList[i];
+					_texturesList[i] = NULL;
+				}
+				else
+					std::cout << "Texture loaded: " << texturesLocation << std::endl;
+
+			}
+
 			if (!_texturesList[i]) {
-				std::cout << "cargar textura plana" << std::endl;
-				_texturesList[i] = new ModelTexture("res/models/BokitaGhost/Ghost_lambert1_BaseColor.png");
+				_texturesList[i] = new ModelTexture("res/textures/plain.png");
 				_texturesList[i]->LoadTexture();
 			}
 

@@ -7,12 +7,16 @@
 #include "ModelImporter.h"
 #include "Mesh.h"
 #include "ModelTexture.h"
-
+#include "../Material/Material.h"
 
 namespace Coco {
 	typedef unsigned int uint;
-	class GraficosEngine_API Model : public Entity {
+	static enum TextureLoadType {
+		Automatic,
+		Manual
+	};
 
+	class GraficosEngine_API Model : public Entity {
 		uint textureID;
 		int width, height, bitDepth;
 
@@ -24,23 +28,27 @@ namespace Coco {
 
 		void LoadNode(aiNode* node, const aiScene* scene);
 		void LoadMesh(aiMesh* mesh, const aiScene* scene);
-		void LoadMaterials(const aiScene* scene, const std::string& texturesLocation);
+		void LoadMaterials(const aiScene* scene, const std::string& texturesLocation, TextureLoadType tlt);
 
-
+		bool _usingOriginalMaterial;
+		Material* _material;
 	public:
 		Model(Renderer* rend);
 		~Model();
 
-		void LoadModel(const std::string& fileName, const std::string& texturesLocation);
+		void LoadModel(const std::string& fileName, const std::string& texturesLocation, TextureLoadType tlt);
 		void DrawModel();
 		void ClearModel();
 
-		void	 SetScaleModel(float x, float y, float z);
+		void SetMaterial(Material* mat);
+
+		void SetScaleModel(float x, float y, float z);
 		void SetRotationXModel(float x);
 		void SetRotationYModel(float y);
 		void SetRotationZModel(float z);
-		void  SetRotationModel(float x, float y, float z);
-		void     SetPositionModel(float x, float y, float z);
+		void SetRotationModel(float x, float y, float z);
+		void SetPositionModel(float x, float y, float z);
+
 
 	};
 
