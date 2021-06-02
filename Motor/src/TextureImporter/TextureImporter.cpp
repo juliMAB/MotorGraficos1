@@ -4,16 +4,25 @@
 
 #include <glew.h>
 #include <GLFW/glfw3.h>
+#include <ctype.h>
+
 #include "stb_image.h"
+
 #define STB_IMAGE_IMPLEMENTATION
+#define STBI_WINDOWS_UTF8
 
 namespace Coco {
-
-	bool TextureImporter::LoadTexture(const char* path, unsigned char* data, uint& texture, int width, int height, int channels) {
+	bool TextureImporter::LoadTexture(const std::string& path, const std::string& textureName,  unsigned char* data, uint& texture, int width, int height, int channels) {
 		stbi_set_flip_vertically_on_load(true);
-		
-		data = stbi_load(path, &width, &height, &channels, 0);
-		if (!data)
+
+		if (!NameContainsOnlyASCII(textureName)) {
+			std::cout << "Cant load textures with non ascii name: " << textureName << std::endl;
+			return false;
+		}
+		std::string pathName = path + textureName;
+		data = stbi_load(pathName.c_str(), &width, &height, &channels, 0);
+
+		if (!data) 
 			return false;
 
 		glGenTextures(1, &texture);
@@ -34,6 +43,15 @@ namespace Coco {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		stbi_image_free(data);
 		return true;
+	}
+
+	bool TextureImporter::NameContainsOnlyASCII(std::string textureName) {
+		bool containsOnlyASCII = true;
+		for (auto c : textureName) 
+			if (!isascii(c))
+				containsOnlyASCII = false;
+
+		return containsOnlyASCII;
 	}
 
 }

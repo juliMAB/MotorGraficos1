@@ -14,12 +14,13 @@ namespace Coco {
 		int _bitDepth;
 		int _channels;
 		unsigned char* _texData;
-		const char* _path;
+		std::string _path;
+		std::string _name;
 	public:
-		ModelTexture(const char* path);
+		ModelTexture(	 const std::string path, const std::string name);
 		~ModelTexture();
 		bool LoadTexture();
-		bool LoadTexture(const char* path);
+		bool LoadTexture(const std::string path, const std::string name);
 		void UseTexture();
 		void StopTexture();
 		void ClearTexture();

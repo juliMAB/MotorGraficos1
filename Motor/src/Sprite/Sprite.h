@@ -36,7 +36,7 @@ namespace Coco {
 		Sprite(Renderer* rend);
 		Sprite(Renderer* rend, Material* mat);
 		~Sprite();
-		void LoadTexture(const char* path, bool transparent);
+		void LoadTexture(const char* path, const char* name, bool transparent);
 		void StartUseAnimation();
 		void SetAnimation(int columns, int rows, float framesPerSeconds);
 		void AddFrameToAnimation(int frameX, int frameY, int animation, int frame);

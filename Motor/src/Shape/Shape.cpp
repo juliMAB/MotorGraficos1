@@ -137,8 +137,8 @@ namespace Coco {
 		_renderer->SetAttribs(_normalLocation, 3, 8, 5);
 	}
 
-	void Shape::LoadTexture(const char* path) {
-		_texture = new ModelTexture(path);
+	void Shape::LoadTexture(const char* path, const char* name) {
+		_texture = new ModelTexture(path, name);
 		if (!_texture->LoadTexture()) {
 			std::cout << "Cant load texture in shape" << std::endl;
 			delete _texture;

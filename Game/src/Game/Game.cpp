@@ -75,11 +75,17 @@ namespace Coco {
 		_obsidianMaterial->SetSpecular(glm::vec3(0.332741f, 0.328634f, 0.346435f));
 		_obsidianMaterial->SetShininess(0.3f);
 
+		//_model5 = new Model(GetRenderer());
+		//_model5->LoadModel("res/models/knight/source/modelout.obj", "res/models/knight/source/", "destroyrider.tga.png");
+		//_model5->SetPositionModel(0,-1,-3);
+		//_model5->SetScaleModel(0.01f, 0.01f, 0.01f);
+		//_model5->SetRotationYModel(-1.75f);
+
 		_model5 = new Model(GetRenderer());
-		_model5->LoadModel("res/models/knight/source/modelout.obj", "res/models/knight/source/destroyrider.tga.png", TextureLoadType::Manual);
-		_model5->SetPositionModel(0,1,-5);
-		_model5->SetScaleModel(0.05f, 0.05f, 0.05f);
-		_model5->SetRotationYModel(-1.75f);
+		_model5->LoadModel("res/models/mona/mona model/mona.obj", "res/models/mona/mona model/");
+		_model5->SetPositionModel(0, -0.75f, -2);
+		//_model5->SetScaleModel(0.5f, 0.5f, 0.5f);
+		//_model5->SetRotationXModel(-1.75f);
 
 		//_model5 = new Model(GetRenderer());
 		//_model5->LoadModel("res/models/baphomet/source/body1.fbx", "res/models/baphomet/source/", TextureLoadType::Automatic);
@@ -95,26 +101,26 @@ namespace Coco {
 		////_model2->SetScaleModel(0.01f, 0.01f, 0.01f);
 		//_model2->SetRotationXModel(-1.25f);
 
-		_model1 = new Model(GetRenderer());
-		_model1->LoadModel("res/models/Banfield Ghost/banfieldghost.obj", "res/models/Banfield Ghost/Ghost_lambert1_BaseColor.png", TextureLoadType::Manual);
-		//_model1->SetMaterial(_obsidianMaterial);
-		_model1->SetPositionModel(-3, -2, -5);
-		_model1->SetScaleModel(0.5f, 0.5f, 0.5f);
-		
-		_model2 = new Model(GetRenderer());
-		_model2->LoadModel("res/models/BokitaGhost/ghost.obj", "res/models/BokitaGhost/Ghost_lambert1_BaseColor.png", TextureLoadType::Manual);
-		_model2->SetPositionModel(-1, -2, -5);
-		_model2->SetScaleModel(0.5f, 0.5f, 0.5f);
-		
-		_model3 = new Model(GetRenderer());
-		_model3->LoadModel("res/models/ChacaritaGhost/ChacaritaGhost.obj", "res/models/ChacaritaGhost/Ghost_lambert1_BaseColor.png", TextureLoadType::Manual);
-		_model3->SetPositionModel(1, -2, -5);
-		_model3->SetScaleModel(0.5f, 0.5f, 0.5f);
-		
-		_model4 = new Model(GetRenderer());
-		_model4->LoadModel("res/models/Olimpo ghost/olimpoghost.obj", "res/models/Olimpo ghost/Ghost_lambert1_BaseColor.png" , TextureLoadType::Manual);
-		_model4->SetPositionModel(3, -2, -5);
-		_model4->SetScaleModel(0.5f, 0.5f, 0.5f);
+		//_model1 = new Model(GetRenderer());
+		//_model1->LoadModel("res/models/Banfield Ghost/banfieldghost.obj", "res/models/Banfield Ghost/Ghost_lambert1_BaseColor.png");
+		////_model1->SetMaterial(_obsidianMaterial);
+		//_model1->SetPositionModel(-3, -2, -5);
+		//_model1->SetScaleModel(0.5f, 0.5f, 0.5f);
+		//
+		//_model2 = new Model(GetRenderer());
+		//_model2->LoadModel("res/models/BokitaGhost/ghost.obj", "res/models/BokitaGhost/Ghost_lambert1_BaseColor.png");
+		//_model2->SetPositionModel(-1, -2, -5);
+		//_model2->SetScaleModel(0.5f, 0.5f, 0.5f);
+		//
+		//_model3 = new Model(GetRenderer());
+		//_model3->LoadModel("res/models/ChacaritaGhost/ChacaritaGhost.obj", "res/models/ChacaritaGhost/Ghost_lambert1_BaseColor.png");
+		//_model3->SetPositionModel(1, -2, -5);
+		//_model3->SetScaleModel(0.5f, 0.5f, 0.5f);
+		//
+		//_model4 = new Model(GetRenderer());
+		//_model4->LoadModel("res/models/Olimpo ghost/olimpoghost.obj", "res/models/Olimpo ghost/Ghost_lambert1_BaseColor.png");
+		//_model4->SetPositionModel(3, -2, -5);
+		//_model4->SetScaleModel(0.5f, 0.5f, 0.5f);
 		//
 		//_shape = new Shape(GetRenderer());
 		//_shape->InitShape(TypeShape::Cube, TypeShader::Texture);
@@ -177,12 +183,12 @@ namespace Coco {
 		//	dirAux->SetDirection(glm::vec3(0, -1, 0));
 		//}
 
-		_model6 = new Model(GetRenderer());
-		_model6->LoadModel("res/models/claire/source/LXG1NDL0BZ814059Q0RW9HZXE.obj", "res/models/claire/source/", TextureLoadType::Automatic);
-		_model6->SetPositionModel(0, -1, -3);
-		//_model6->SetScaleModel(0.5f,0.5f,0.5f);
-		_model6->SetRotationXModel(0.25f);
-		_model6->SetRotationYModel(1.25f);
+		//_model6 = new Model(GetRenderer());
+		//_model6->LoadModel("res/models/claire/source/LXG1NDL0BZ814059Q0RW9HZXE.obj", "res/models/claire/source/");
+		//_model6->SetPositionModel(0, -1, -3);
+		////_model6->SetScaleModel(0.5f,0.5f,0.5f);
+		//_model6->SetRotationXModel(0.25f);
+		//_model6->SetRotationYModel(1.25f);
 		
 
 		//_sprite = new Sprite(GetRenderer());
@@ -229,9 +235,9 @@ namespace Coco {
 			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * timer));
 
 		if (Input::GetKeyDown(Keycode::R))
-			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * timer));
-		else if (Input::GetKeyDown(Keycode::T))
 			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * timer));
+		else if (Input::GetKeyDown(Keycode::T))
+			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * timer));
 
 		if (Input::GetKeyDown(Keycode::ALPHA0)) {
 			_camera->SetPos(0.0f, 0.0f, 0.0f);
@@ -254,12 +260,12 @@ namespace Coco {
 
 		//_shape->DrawShape();
 		//
-		_model1->DrawModel();
-		_model2->DrawModel();
-		_model3->DrawModel();
-		_model4->DrawModel();
+		//_model1->DrawModel();
+		//_model2->DrawModel();
+		//_model3->DrawModel();
+		//_model4->DrawModel();
 		_model5->DrawModel();
-		_model6->DrawModel();
+		//_model6->DrawModel();
 		//
 		//_shape2->DrawShape();
 

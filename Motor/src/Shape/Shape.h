@@ -56,7 +56,7 @@ namespace Coco {
 		Shape(Renderer* rend);
 		~Shape();
 		void InitShape(TypeShape type, TypeShader t);
-		void LoadTexture(const char* path);
+		void LoadTexture(const char* path, const char* name);
 		void DrawShape();
 		void SetMaterial(Material* m);
 		Material* GetMaterial();

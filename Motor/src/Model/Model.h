@@ -11,10 +11,6 @@
 
 namespace Coco {
 	typedef unsigned int uint;
-	static enum TextureLoadType {
-		Automatic,
-		Manual
-	};
 
 	class GraficosEngine_API Model : public Entity {
 		uint textureID;
@@ -28,7 +24,8 @@ namespace Coco {
 
 		void LoadNode(aiNode* node, const aiScene* scene);
 		void LoadMesh(aiMesh* mesh, const aiScene* scene);
-		void LoadMaterials(const aiScene* scene, const std::string& texturesLocation, TextureLoadType tlt);
+		void LoadMaterials(const aiScene* scene, std::string texturesLocation);
+		void LoadMaterials(const aiScene* scene, std::string textureLocation, std::string nameTexture);
 
 		bool _usingOriginalMaterial;
 		Material* _material;
@@ -36,7 +33,8 @@ namespace Coco {
 		Model(Renderer* rend);
 		~Model();
 
-		void LoadModel(const std::string& fileName, const std::string& texturesLocation, TextureLoadType tlt);
+		void LoadModel(std::string fileName, std::string texturesLocation);
+		void LoadModel(std::string fileName, std::string textureLocation, std::string nameTexture);
 		void DrawModel();
 		void ClearModel();
 

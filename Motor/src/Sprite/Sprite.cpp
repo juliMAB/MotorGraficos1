@@ -47,9 +47,9 @@ namespace Coco {
 			_animation = NULL;
 		}
 	}
-	void Sprite::LoadTexture(const char* path, bool transparent) {
+	void Sprite::LoadTexture(const char* path, const char* name, bool transparent) {
 		_transparent = transparent;
-		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels);
+		_textureImp.LoadTexture(path, name, _data, _texture, _width, _height, _channels);
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
