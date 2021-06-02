@@ -11,18 +11,16 @@ namespace Coco {
 		_channels = 0;
 		_path = path;
 	}
-
 	ModelTexture::~ModelTexture() {
 		ClearTexture();
 	}
 	bool ModelTexture::LoadTexture() {
-		return TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels, false);
+		return TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels);
 	}
 	bool ModelTexture::LoadTexture(const char* path) {
 		_path = path;
-		return TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels, false);
+		return TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels);
 	}
-
 	void ModelTexture::UseTexture() {
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);

@@ -76,11 +76,18 @@ namespace Coco {
 		_obsidianMaterial->SetShininess(0.3f);
 
 		_model5 = new Model(GetRenderer());
-		_model5->LoadModel("res/models/dragon/source/pose3.fbx", "res/models/dragon/source/", TextureLoadType::Automatic);
+		_model5->LoadModel("res/models/knight/source/modelout.obj", "res/models/knight/source/destroyrider.tga.png", TextureLoadType::Manual);
 		_model5->SetPositionModel(0,1,-5);
-		_model5->SetScaleModel(0.005f, 0.005f, 0.005f);
-		_model5->SetRotationXModel(-1.25f);
-		_model5->SetMaterial(_goldMaterial);
+		_model5->SetScaleModel(0.05f, 0.05f, 0.05f);
+		_model5->SetRotationYModel(-1.75f);
+
+		//_model5 = new Model(GetRenderer());
+		//_model5->LoadModel("res/models/baphomet/source/body1.fbx", "res/models/baphomet/source/", TextureLoadType::Automatic);
+		//_model5->SetPositionModel(0, 1, -5);
+		//_model5->SetScaleModel(0.05f, 0.05f, 0.05f);
+		//_model5->SetRotationXModel(-1.75);
+		//_model5->SetRotationYModel(1.75f);
+		//_model5->SetRotationZModel(-1.75);
 
 		//_model2 = new Model(GetRenderer());
 		//_model2->LoadModel("res/models/cat/source/cat_low.fbx", "res/models/cat/textures/");
@@ -125,18 +132,18 @@ namespace Coco {
 		//
 		//
 		
-		GetLightManager()->AddLight(TypeOfLight::Spot);
-		SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
-		if (_lightAux != NULL) {
-			_lightAux->SetPos(0, 3, -3);
-			_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
-			_lightAux->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-			_lightAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-			_lightAux->SetSpecular(glm::vec3(1.0f,1.0f,1.0f));
-			_lightAux->SetConstantLinearQuadratic(1.0f, 0.007f, 0.0002f);
-			_lightAux->SetCutOff(33.0f);
-			_lightAux->SetDirection(glm::vec3(0, -1, 0));
-		}
+		//GetLightManager()->AddLight(TypeOfLight::Spot);
+		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
+		//if (_lightAux != NULL) {
+		//	_lightAux->SetPos(0, 3, -3);
+		//	_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
+		//	_lightAux->SetAmbient(glm::vec3(1.0f,1.0f,1.0f));
+		//	_lightAux->SetDiffuse(glm::vec3( 0,0,0));
+		//	_lightAux->SetSpecular(glm::vec3(0,0,0));
+		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.007f, 0.0002f);
+		//	_lightAux->SetCutOff(33.0f);
+		//	_lightAux->SetDirection(glm::vec3(0, -1, 0));
+		//}
 
 		//
 		//GetLightManager()->AddLight(TypeOfLight::Point);
@@ -170,11 +177,14 @@ namespace Coco {
 		//	dirAux->SetDirection(glm::vec3(0, -1, 0));
 		//}
 
-		//_model6 = new Model(GetRenderer());
-		//_model6->LoadModel("res/models/mona/mona model/mona.fbx", "res/models/mona/mona model/", TextureLoadType::Automatic);
-		//_model6->SetPositionModel(0, -1, -3);
-		////_model6->SetScaleModel(0.5f,0.5f,0.5f);
-		//_model6->SetRotationXModel(-1.25f);
+		_model6 = new Model(GetRenderer());
+		_model6->LoadModel("res/models/claire/source/LXG1NDL0BZ814059Q0RW9HZXE.obj", "res/models/claire/source/", TextureLoadType::Automatic);
+		_model6->SetPositionModel(0, -1, -3);
+		//_model6->SetScaleModel(0.5f,0.5f,0.5f);
+		_model6->SetRotationXModel(0.25f);
+		_model6->SetRotationYModel(1.25f);
+		
+
 		//_sprite = new Sprite(GetRenderer());
 		//_sprite->LoadTexture("res/textures/textura final.jpg",false);
 	}
@@ -236,8 +246,8 @@ namespace Coco {
 		//_model3->SetRotationModel(rotY,rotY,rotY);
 		//_model4->SetRotationModel(rotY,rotY,rotY);
 		//
-		GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->GetFront());
-		GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z);
+		//GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->GetFront());
+		//GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z);
 
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
@@ -249,7 +259,7 @@ namespace Coco {
 		_model3->DrawModel();
 		_model4->DrawModel();
 		_model5->DrawModel();
-		//_model6->DrawModel();
+		_model6->DrawModel();
 		//
 		//_shape2->DrawShape();
 

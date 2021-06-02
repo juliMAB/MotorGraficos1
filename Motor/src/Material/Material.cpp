@@ -8,7 +8,7 @@ namespace Coco {
 		_diffuse = glm::vec3(0.0f, 0.0f, 0.0f);
 		_specular = glm::vec3(0.0f, 0.0f, 0.0f);
 		_renderer = rend;
-		_uniformShininess =			glGetUniformLocation(_renderer->GetShader(), "material.shininess");
+		_uniformShininess =	glGetUniformLocation(_renderer->GetShader(), "material.shininess");
 		_uniformAmbient =	glGetUniformLocation(_renderer->GetShader(), "material.ambient");
 		_uniformDiffuse =	glGetUniformLocation(_renderer->GetShader(), "material.diffuse");
 		_uniformSpecular =	glGetUniformLocation(_renderer->GetShader(), "material.specular");

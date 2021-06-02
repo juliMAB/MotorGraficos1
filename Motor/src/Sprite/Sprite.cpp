@@ -28,12 +28,14 @@ namespace Coco {
 		_renderer->SetIndexThings(tamVertsTex, posIndexsTex, _ibo);
 		_animation = NULL;
 		_settedAnimsValues = false;
+		_transparent = false;
 	}
 	Sprite::Sprite(Renderer* rend) : Entity2D(rend, NULL) {
 		tamVertsTex = sizeof(texVertices);
 		_vb = texVertices;
 		_animation = NULL;
 		_settedAnimsValues = false;
+		_transparent = false;
 	}
 	Sprite::~Sprite() { 
 		glDeleteTextures(1, &_texture); 
@@ -47,7 +49,7 @@ namespace Coco {
 	}
 	void Sprite::LoadTexture(const char* path, bool transparent) {
 		_transparent = transparent;
-		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels, _transparent);
+		_textureImp.LoadTexture(path, _data, _texture, _width, _height, _channels);
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");

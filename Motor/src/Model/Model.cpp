@@ -9,10 +9,10 @@ namespace Coco {
 	Model::Model(Renderer* rend) : Entity(rend) {
 		_material = NULL;
 		_material = new Material(rend);
-		_material->SetAmbient(glm::vec3( 1,1,1));
-		_material->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
-		_material->SetSpecular(glm::vec3(0.5f,0.5f,0.5f));
-		_material->SetShininess(0.25f);
+		_material->SetAmbient(glm::vec3(1,1,1));
+		_material->SetDiffuse(glm::vec3( 0,0,0));
+		_material->SetSpecular(glm::vec3(0,0,0));
+		_material->SetShininess(1);
 		_usingOriginalMaterial = true;
 	}
 	Model::~Model() {
@@ -25,7 +25,7 @@ namespace Coco {
 
 	void Model::LoadModel(const std::string& fileName, const std::string& texturesLocation, TextureLoadType tlt) {
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(fileName, aiProcess_Triangulate);
+		const aiScene* scene = importer.ReadFile(fileName, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 
 		if (!scene) {
 			std::cout << "Model: " << fileName << " cant be loaded pa: " << importer.GetErrorString() << std::endl;
@@ -128,7 +128,7 @@ namespace Coco {
 						std::string fileName = std::string(path.data).substr(idx + 1);
 						std::string texPath = texturesLocation + fileName;
 						_texturesList[i] = new ModelTexture(texPath.c_str());
-
+						
 						if (!_texturesList[i]->LoadTexture()) {
 							std::cout << "Failed to load texture at: " << texPath << std::endl;
 							delete _texturesList[i];
