@@ -21,7 +21,7 @@ namespace Coco {
 		~Game();
 		void Play();
 		void Start() override;
-		void Update() override;
+		void Update(float deltaTime) override;
 		void End() override;
 	};
 

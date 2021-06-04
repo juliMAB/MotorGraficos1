@@ -53,7 +53,7 @@ namespace Coco {
 	}
 
 	void Mesh::RenderMesh() {
-		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);
+		_renderer->UpdateMVP(matrix.model, _uniformModel, _uniformView, _uniformProjection);
 		_renderer->DrawMesh(indexCount, VAO, VBO, IBO);
 	}
 

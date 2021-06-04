@@ -11,6 +11,7 @@
 #include "../src/Camera/Camera.h"
 #include "../src/Light/LightManager.h"
 #include "../Model/Model.h"
+#include "../Timer/Timer.h"
 
 struct GLFWmonitor;
 
@@ -36,7 +37,7 @@ namespace Coco {
 		LightManager* GetLightManager();
 
 		virtual void Start() = 0;
-		virtual void Update() = 0;
+		virtual void Update(float deltaTime) = 0;
 		void virtual End() = 0;
 	};
 

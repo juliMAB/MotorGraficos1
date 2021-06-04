@@ -55,10 +55,11 @@ namespace Coco {
 		_renderer->CreateShader("res/Shaders/vertex.shader", "res/Shaders/fragment.shader");
 		_lightManager = new LightManager(_renderer);
 	}
-
+	float deltaTime;
 	void GameBase::UpdateEngine() {
 		while (_window->CheckIfWindowIsOpen()) {
-			Update();
+			Timer::DeltaTime(deltaTime);
+			Update(deltaTime);
 			glfwPollEvents();
 		}
 	}

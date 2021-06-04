@@ -7,15 +7,10 @@
 namespace Coco {
 	typedef unsigned int uint;
 	class GraficosEngine_API Camera : public Entity{
-		glm::vec3 _front;
-		glm::vec3 _up;
-		glm::vec3 _right;
-		glm::vec3 _worldUp;
 		uint _uniformCameraPosition;
 		float _yaw;
 		float _pitch;
 	public:
-		Camera();
 		Camera(Renderer* r);
 		~Camera();
 		void InitCamera(glm::vec3 pos, glm::vec3 up, float yaw, float pitch);
@@ -26,9 +21,6 @@ namespace Coco {
 		void SetYaw(float y);
 		float GetPitch();
 		float GetYaw();
-		glm::vec3 GetFront();
-		glm::vec3 GetUp();
-		glm::vec3 GetRight();
 	};
 
 }

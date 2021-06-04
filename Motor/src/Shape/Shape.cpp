@@ -151,7 +151,7 @@ namespace Coco {
 	}
 
 	void Shape::DrawShape() {
-		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);
+		_renderer->UpdateMVP(matrix.model, _uniformModel, _uniformView, _uniformProjection);
 
 		if (_material != NULL)
 			_renderer->UseMaterial(_material->GetAmbient(), _material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),

@@ -88,7 +88,7 @@ namespace Coco {
 			BlendSprite();
 		glEnable(GL_TEXTURE_2D);
 
-		_renderer->UpdateMVP(model, _uniformModel, _uniformView, _uniformProjection);
+		_renderer->UpdateMVP(matrix.model, _uniformModel, _uniformView, _uniformProjection);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);

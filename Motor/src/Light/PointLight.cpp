@@ -33,7 +33,7 @@ namespace Coco {
 	}
 	void PointLight::UseLight() {
 		glUseProgram(_renderer->GetShader());
-		glUniform3f(_uniformPosition, positionVec.x, positionVec.y, positionVec.z);
+		glUniform3f(_uniformPosition, transform.position.x, transform.position.y, transform.position.z);
 		glUniform3f(_uniformColour, _colour.x, _colour.y, _colour.z);
 		glUniform3f(_uniformAmbient, _ambient.x, _ambient.y, _ambient.z);
 		glUniform3f(_uniformDiffuse, _diffuse.x, _diffuse.y, _diffuse.z);

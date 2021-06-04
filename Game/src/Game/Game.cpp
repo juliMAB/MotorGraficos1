@@ -1,7 +1,6 @@
 ﻿#include "Game.h"
 #include <time.h>
 #include <iostream>
-#include "../src/Timer/Timer.h"
 #include <time.h>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -84,6 +83,7 @@ namespace Coco {
 		_model5 = new Model(GetRenderer());
 		_model5->LoadModel("res/models/mona/mona model/mona.obj", "res/models/mona/mona model/");
 		_model5->SetPositionModel(0, -0.75f, -2);
+		_model5->SetRotationYModel(90.0f);
 		//_model5->SetScaleModel(0.5f, 0.5f, 0.5f);
 		//_model5->SetRotationXModel(-1.75f);
 
@@ -200,7 +200,6 @@ namespace Coco {
 
 	float speed = 5.0f;
 	float speedRotationCamera = 200.0f;
-	float timer = 0.0f;
 	bool usingLight = true;
 
 	float timerLight = 0.0f;
@@ -208,36 +207,38 @@ namespace Coco {
 
 	float rotY = 0;
 
-	void Game::Update() {
+	void Game::Update(float deltaTime) {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
-		Timer::DeltaTime(timer);
+		//if (Input::GetKeyDown(Keycode::W))
+		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y + (speed * deltaTime), _camera->transform.position.z);
+		//else if (Input::GetKeyDown(Keycode::S))
+		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y - (speed * deltaTime), _camera->transform.position.z);
+		//
+		//if (Input::GetKeyDown(Keycode::A))
+		//	_camera->SetPos(_camera->transform.position.x - (speed * deltaTime), _camera->transform.position.y, _camera->transform.position.z);
+		//else if (Input::GetKeyDown(Keycode::D))
+		//	_camera->SetPos(_camera->transform.position.x + (speed * deltaTime), _camera->transform.position.y, _camera->transform.position.z);
+		//if (Input::GetKeyDown(Keycode::Q))
+		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z + (speed * deltaTime));
+		//else if (Input::GetKeyDown(Keycode::E))
+		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z - (speed * deltaTime));
+
+
+		glm::vec3 nextPos = _camera->transform.position + (_camera->transform.forward * speed * deltaTime);
+		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
+			_camera->SetPos(nextPos.x, nextPos.y, nextPos.z);
 
 		if (Input::GetKeyDown(Keycode::W))
-			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y + (speed * timer), _camera->positionVec.z);
+			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * deltaTime));
 		else if (Input::GetKeyDown(Keycode::S))
-			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y - (speed * timer), _camera->positionVec.z);
+			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * deltaTime));
 
 		if (Input::GetKeyDown(Keycode::A))
-			_camera->SetPos(_camera->positionVec.x - (speed * timer), _camera->positionVec.y, _camera->positionVec.z);
+			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * deltaTime));
 		else if (Input::GetKeyDown(Keycode::D))
-			_camera->SetPos(_camera->positionVec.x + (speed * timer), _camera->positionVec.y, _camera->positionVec.z);
-		if (Input::GetKeyDown(Keycode::Q))
-			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z + (speed * timer));
-		else if (Input::GetKeyDown(Keycode::E))
-			_camera->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z - (speed * timer));
-
-
-		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
-			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * timer));
-		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
-			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * timer));
-
-		if (Input::GetKeyDown(Keycode::R))
-			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * timer));
-		else if (Input::GetKeyDown(Keycode::T))
-			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * timer));
+			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * deltaTime));
 
 		if (Input::GetKeyDown(Keycode::ALPHA0)) {
 			_camera->SetPos(0.0f, 0.0f, 0.0f);
@@ -245,7 +246,23 @@ namespace Coco {
 			_camera->SetYaw(-90.0f);
 		}
 
-		rotY += timer * 5.0f;
+		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
+			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * deltaTime));
+		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
+			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * deltaTime));
+
+		if (Input::GetKeyDown(Keycode::R))
+			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * deltaTime));
+		else if (Input::GetKeyDown(Keycode::T))
+			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * deltaTime));
+
+		if (Input::GetKeyDown(Keycode::ALPHA0)) {
+			_camera->SetPos(0.0f, 0.0f, 0.0f);
+			_camera->SetPitch(0.0f);
+			_camera->SetYaw(-90.0f);
+		}
+
+		rotY += deltaTime * 5.0f;
 
 		//_model1->SetRotationModel(rotY,rotY,rotY);
 		//_model2->SetRotationModel(rotY,rotY,rotY);

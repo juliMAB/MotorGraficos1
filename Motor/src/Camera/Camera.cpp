@@ -11,24 +11,24 @@ namespace Coco {
 		_worldUp = up;
 		_yaw = yaw;
 		_pitch = pitch;
-		_front = glm::vec3(0.0f, 0.0f, -1.0f);
+		transform.forward = glm::vec3(0.0f, 0.0f, -1.0f);
 		_uniformCameraPosition = glGetUniformLocation(_renderer->GetShader(), "eyePosition");
 		UpdateCamera();
 	}
 	glm::mat4 Camera::CalculateViewMatrix() {
-		return glm::lookAt(positionVec, positionVec + _front, _up);
+		return glm::lookAt(transform.position, transform.position + transform.forward, transform.up);
 	}
 	void Camera::UpdateCamera() {
-		_front.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-		_front.y = sin(glm::radians(_pitch));
-		_front.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
-		_front = glm::normalize(_front);
+		transform.forward.x = cos(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+		transform.forward.y = sin(glm::radians(_pitch));
+		transform.forward.z = sin(glm::radians(_yaw)) * cos(glm::radians(_pitch));
+		transform.forward = glm::normalize(transform.forward);
 
-		_right = glm::normalize(glm::cross(_front, _worldUp));
-		_up = glm::normalize(glm::cross(_right, _front));
+		transform.right = glm::normalize(glm::cross(transform.forward, _worldUp));
+		transform.up = glm::normalize(glm::cross(transform.right, transform.forward));
 	}
 	void Camera::UseCamera() {
-		_renderer->UseCamera(positionVec, _uniformCameraPosition);
+		_renderer->UseCamera(transform.position, _uniformCameraPosition);
 	}
 	void Camera::SetPitch(float p) {
 		_pitch = p;
@@ -43,14 +43,5 @@ namespace Coco {
 	}
 	float Camera::GetYaw() {
 		return _yaw;
-	}
-	glm::vec3 Camera::GetFront() {
-		return _front;
-	}
-	glm::vec3 Camera::GetUp() {
-		return _up;
-	}
-	glm::vec3 Camera::GetRight() {
-		return _right;
 	}
 }
