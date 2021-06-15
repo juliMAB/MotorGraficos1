@@ -40,13 +40,13 @@ namespace Coco {
 
 		void SetMaterial(Material* mat);
 
-		void SetScaleModel(float x, float y, float z);
-		void SetRotationXModel(float x);
-		void SetRotationYModel(float y);
-		void SetRotationZModel(float z);
-		void SetRotationModel(float x, float y, float z);
-		void SetPositionModel(float x, float y, float z);
-
+		void SetPos(float x, float y, float z)			override;
+		void SetPos(glm::vec3 pos)						override;
+		void SetRotX(float x)							override;
+		void SetRotY(float y)							override;
+		void SetRotZ(float z)							override;
+		void SetRotations(float x, float y, float z)	override;
+		void SetScale(float x, float y, float z)		override;
 
 	};
 

@@ -10,7 +10,7 @@ namespace Coco {
 		_material = NULL;
 		_material = new Material(rend);
 		_material->SetAmbient(glm::vec3(1, 1, 1));
-		_material->SetDiffuse(glm::vec3(0, 0, 0));
+		_material->SetDiffuse(glm::vec3(1, 1, 1));
 		_material->SetSpecular(glm::vec3(0, 0, 0));
 		_material->SetShininess(1);
 		_usingOriginalMaterial = true;
@@ -184,40 +184,50 @@ namespace Coco {
 		}
 	}
 
-	void Model::SetScaleModel(float x, float y, float z) {
-		SetScale(x, y, z);
+	void Model::SetScale(float x, float y, float z) {
+		transform.scale = { x, y, z };
+		matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetScale(x, y, z);
 	}
-	void Model::SetRotationXModel(float x) {
-		SetRotX(x);
+	void Model::SetRotX(float x) {
+		transform.rotation.x = x;
+		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetRotX(x);
 	}
-	void Model::SetRotationYModel(float y) {
-		SetRotY(y);
+	void Model::SetRotY(float y) {
+		transform.rotation.y = y;
+		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetRotY(y);
 	}
-	void Model::SetRotationZModel(float z) {
-		SetRotZ(z);
+	void Model::SetRotZ(float z) {
+		transform.rotation.z = z;
+		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetRotZ(z);
 	}
-	void Model::SetRotationModel(float x, float y, float z) {
-		SetRotX(x);
-		SetRotY(y);
-		SetRotZ(z);
-		for (int i = 0; i < _meshList.size(); i++) {
-			_meshList[i]->SetRotX(x);
-			_meshList[i]->SetRotY(y);
-			_meshList[i]->SetRotZ(z);
-		}
+	void Model::SetRotations(float x, float y, float z) {
+		transform.rotation = glm::vec3(x, y, z);
+		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+		for (int i = 0; i < _meshList.size(); i++) 
+			_meshList[i]->SetRotations(x, y, z);
 	}
-	void Model::SetPositionModel(float x, float y, float z) {
-		SetPos(x, y, z);
+	void Model::SetPos(float x, float y, float z) {
+		transform.position = { x, y, z };
+		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetPos(x, y, z);
+	}
+
+	void Model::SetPos(glm::vec3 pos) {
+		transform.position = pos;
+		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
+		for (int i = 0; i < _meshList.size(); i++)
+			_meshList[i]->SetPos(pos);
 	}
 
 }

@@ -5,6 +5,7 @@
 #include "../src/Renderer/Renderer.h"
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace Coco {
 
@@ -14,6 +15,7 @@ namespace Coco {
 			glm::vec3 position;
 			glm::vec3 rotation;
 			glm::vec3 scale;
+			glm::quat rotationQuaternion;
 
 			glm::vec3 forward;
 			glm::vec3 up;
@@ -31,6 +33,7 @@ namespace Coco {
 		glm::vec3 _worldUp;
 		Renderer* _renderer;
 		void UpdateMatrixData();
+		void UpdateTransformsData();
 
 		uint _uniformModel;
 		uint _uniformView;
@@ -38,6 +41,7 @@ namespace Coco {
 		uint _positionLocation;
 		uint _texLocation;
 		uint _normalLocation;
+
 	public:
 		Entity(Renderer* rend);
 		~Entity();
@@ -47,11 +51,13 @@ namespace Coco {
 
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
-		void SetPos(float x, float y, float z);
-		void SetRotX(float x);
-		void SetRotY(float y);
-		void SetRotZ(float z);
-		void SetScale(float x, float y, float z);
+		virtual void SetPos(float x, float y, float z);
+		virtual void SetPos(glm::vec3 pos);
+		virtual void SetRotX(float x);
+		virtual void SetRotY(float y);
+		virtual void SetRotZ(float z);
+		virtual void SetRotations(float x,float y,float z);
+		virtual void SetScale(float x, float y, float z);
 	};
 
 }

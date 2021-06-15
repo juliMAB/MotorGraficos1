@@ -3,6 +3,7 @@
 #include <iostream>
 #include <time.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace Coco {
 
@@ -53,14 +54,13 @@ namespace Coco {
 			_model6 = NULL;
 		}
 	}
+
 	void Game::Start() {
 		StartEngine(1366, 768, "Coco");
 		srand(time(NULL));
 
 		_camera = new Camera(GetRenderer());
-		_camera->InitCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f);
-		_camera->SetPos(0.0f, 0.0f, 0.0f);
-		GetRenderer()->SetView(_camera->CalculateViewMatrix());
+		_camera->InitCamera(glm::vec3(0,0,0), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		_goldMaterial = new Material(GetRenderer());
 		_goldMaterial->SetAmbient(glm::vec3(0.24725f, 0.1995f, 0.0745f));
@@ -80,10 +80,10 @@ namespace Coco {
 		//_model5->SetScaleModel(0.01f, 0.01f, 0.01f);
 		//_model5->SetRotationYModel(-1.75f);
 
-		_model5 = new Model(GetRenderer());
-		_model5->LoadModel("res/models/mona/mona model/mona.obj", "res/models/mona/mona model/");
-		_model5->SetPositionModel(0, -0.75f, -2);
-		_model5->SetRotationYModel(90.0f);
+		//_model5 = new Model(GetRenderer());
+		//_model5->LoadModel("res/models/mona/mona model/mona.obj", "res/models/mona/mona model/");
+		//_model5->SetPositionModel(0, -0.75f, -2);
+		//_model5->SetRotationYModel(90.0f);
 		//_model5->SetScaleModel(0.5f, 0.5f, 0.5f);
 		//_model5->SetRotationXModel(-1.75f);
 
@@ -101,27 +101,44 @@ namespace Coco {
 		////_model2->SetScaleModel(0.01f, 0.01f, 0.01f);
 		//_model2->SetRotationXModel(-1.25f);
 
-		//_model1 = new Model(GetRenderer());
-		//_model1->LoadModel("res/models/Banfield Ghost/banfieldghost.obj", "res/models/Banfield Ghost/Ghost_lambert1_BaseColor.png");
-		////_model1->SetMaterial(_obsidianMaterial);
-		//_model1->SetPositionModel(-3, -2, -5);
-		//_model1->SetScaleModel(0.5f, 0.5f, 0.5f);
+		_model1 = new Model(GetRenderer());
+		_model1->LoadModel("res/models/Banfield Ghost/ghost.obj", "res/models/Banfield Ghost/","Ghost_lambert1_BaseColor.png");
+		//_model1->SetMaterial(_obsidianMaterial);
+		_model1->SetPos(-3, 0, 5);
+		_model1->SetScale(0.5f, 0.5f, 0.5f);
+		_model1->SetRotY(180);
+
+		_model2 = new Model(GetRenderer());
+		_model2->LoadModel("res/models/BokitaGhost/ghost.obj", "res/models/BokitaGhost/","Ghost_lambert1_BaseColor.png");
+		_model2->SetPos(-1, 0, 5);
+		_model2->SetScale(0.5f, 0.5f, 0.5f);
+		_model2->SetRotY(180);
+
+		_model3 = new Model(GetRenderer());
+		_model3->LoadModel("res/models/ChacaritaGhost/ghost.obj", "res/models/ChacaritaGhost/","Ghost_lambert1_BaseColor.png");
+		_model3->SetPos(1, 0, 5);
+		_model3->SetScale(0.5f, 0.5f, 0.5f);
+		_model3->SetRotY(180);
+
+		_model4 = new Model(GetRenderer());
+		_model4->LoadModel("res/models/Olimpo ghost/ghost.obj", "res/models/Olimpo ghost/", "Ghost_lambert1_BaseColor.png");
+		_model4->SetPos(3, 0, 5);
+		_model4->SetScale(0.5f, 0.5f, 0.5f);
+		_model4->SetRotY(180);
+
+		//std::cout << "rot x: " << _model4->transform.rotationQuaternion.x << " y: " << _model4->transform.rotationQuaternion.y << " z: " << _model4->transform.rotationQuaternion.z << " w: " << _model4->transform.rotationQuaternion.w<< std::endl;
+		//std::cout << "for x: " << _model4->transform.forward.x << " y: " << _model4->transform.forward.y << " z: " << _model4->transform.forward.z << std::endl;
+		//std::cout << "up x: " << _model4->transform.up.x << " y: " << _model4->transform.up.y << " z: " << _model4->transform.up.z << std::endl;
+		//std::cout << "right x: " << _model4->transform.right.x << " y: " << _model4->transform.right.y << " z: " << _model4->transform.right.z << std::endl;
+		
+		//_camera->LookAt(_model4->transform.position);
+
+		//_model4->SetPos(_model4->transform.position, (_model4->transform.forward * 3.0f));
+
+		//std::cout << "mtp x: " << _model4->transform.position.x << " y: " << _model4->transform.position.y << " z: " << _model4->transform.position.z << std::endl;
 		//
-		//_model2 = new Model(GetRenderer());
-		//_model2->LoadModel("res/models/BokitaGhost/ghost.obj", "res/models/BokitaGhost/Ghost_lambert1_BaseColor.png");
-		//_model2->SetPositionModel(-1, -2, -5);
-		//_model2->SetScaleModel(0.5f, 0.5f, 0.5f);
-		//
-		//_model3 = new Model(GetRenderer());
-		//_model3->LoadModel("res/models/ChacaritaGhost/ChacaritaGhost.obj", "res/models/ChacaritaGhost/Ghost_lambert1_BaseColor.png");
-		//_model3->SetPositionModel(1, -2, -5);
-		//_model3->SetScaleModel(0.5f, 0.5f, 0.5f);
-		//
-		//_model4 = new Model(GetRenderer());
-		//_model4->LoadModel("res/models/Olimpo ghost/olimpoghost.obj", "res/models/Olimpo ghost/Ghost_lambert1_BaseColor.png");
-		//_model4->SetPositionModel(3, -2, -5);
-		//_model4->SetScaleModel(0.5f, 0.5f, 0.5f);
-		//
+		//std::cout << "mtp + mtf: x: " << _model4->transform.position.x + _model4->transform.forward.x << " y: " << _model4->transform.position.y + _model4->transform.forward.y << " z: " << _model4->transform.position.z + _model4->transform.forward.z << std::endl;
+
 		//_shape = new Shape(GetRenderer());
 		//_shape->InitShape(TypeShape::Cube, TypeShader::Texture);
 		//_shape->SetScale(0.33f, 0.33f, 0.33f);
@@ -137,32 +154,32 @@ namespace Coco {
 		////
 		//
 		//
-		
+
 		//GetLightManager()->AddLight(TypeOfLight::Spot);
 		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
 		//if (_lightAux != NULL) {
-		//	_lightAux->SetPos(0, 3, -3);
+		//	_lightAux->SetPos(0, 0, -2);
 		//	_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
-		//	_lightAux->SetAmbient(glm::vec3(1.0f,1.0f,1.0f));
-		//	_lightAux->SetDiffuse(glm::vec3( 0,0,0));
-		//	_lightAux->SetSpecular(glm::vec3(0,0,0));
-		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.007f, 0.0002f);
+		//	_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
+		//	_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
+		//	_lightAux->SetSpecular(glm::vec3(1,1,1));
+		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
 		//	_lightAux->SetCutOff(33.0f);
-		//	_lightAux->SetDirection(glm::vec3(0, -1, 0));
+		//	_lightAux->SetDirection(glm::vec3(0,0,1));
 		//}
 
 		//
-		//GetLightManager()->AddLight(TypeOfLight::Point);
-		//PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
-		//if (_lightAux2 != NULL) {
-		//	_lightAux2->SetPos(-3, 3,-5);
-		//	_lightAux2->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-		//	_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-		//	_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-		//	_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-		//	_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-		//}
-		//
+		GetLightManager()->AddLight(TypeOfLight::Point);
+		PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
+		if (_lightAux2 != NULL) {
+			_lightAux2->SetPos(0,0,3);
+			_lightAux2->SetColour(glm::vec3(1.0f,1.0f,1.0f));
+			_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+			_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+			_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+			_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		}
+		
 		// 
 		//GetLightManager()->AddLight(TypeOfLight::Directional);
 		//GetLightManager()->AddLight(TypeOfLight::Directional);
@@ -170,12 +187,12 @@ namespace Coco {
 		//DirectionalLight* dirAux = GetLightManager()->GetDirectionalLightByIndex(0);
 		//if (dirAux != NULL) {
 		//	dirAux->SetColour(glm::vec3(1, 1, 1));
-		//	dirAux->SetDirection(glm::vec3(0, 0, -1));
-		//	dirAux->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+		//	dirAux->SetDirection(glm::vec3(0, 0, 1));
+		//	dirAux->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
 		//	dirAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
 		//	dirAux->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
 		//}
-	 	//
+		//
 		//dirAux = GetLightManager()->GetDirectionalLightByIndex(1);
 		//
 		//if (dirAux != NULL) {
@@ -189,7 +206,7 @@ namespace Coco {
 		////_model6->SetScaleModel(0.5f,0.5f,0.5f);
 		//_model6->SetRotationXModel(0.25f);
 		//_model6->SetRotationYModel(1.25f);
-		
+
 
 		//_sprite = new Sprite(GetRenderer());
 		//_sprite->LoadTexture("res/textures/textura final.jpg",false);
@@ -199,7 +216,7 @@ namespace Coco {
 	}
 
 	float speed = 5.0f;
-	float speedRotationCamera = 200.0f;
+	float speedRotationCamera = 100.0f;
 	bool usingLight = true;
 
 	float timerLight = 0.0f;
@@ -209,7 +226,6 @@ namespace Coco {
 
 	void Game::Update(float deltaTime) {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
-		GetRenderer()->SetView(_camera->CalculateViewMatrix());
 
 		//if (Input::GetKeyDown(Keycode::W))
 		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y + (speed * deltaTime), _camera->transform.position.z);
@@ -226,62 +242,66 @@ namespace Coco {
 		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z - (speed * deltaTime));
 
 
-		glm::vec3 nextPos = _camera->transform.position + (_camera->transform.forward * speed * deltaTime);
-		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
-			_camera->SetPos(nextPos.x, nextPos.y, nextPos.z);
-
 		if (Input::GetKeyDown(Keycode::W))
-			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * deltaTime));
+			_camera->SetPos(_camera->transform.position + (glm::vec3(0, 1, 0) * speed * deltaTime));
 		else if (Input::GetKeyDown(Keycode::S))
-			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * deltaTime));
+			_camera->SetPos(_camera->transform.position + (glm::vec3(0, -1, 0) * speed * deltaTime));
 
 		if (Input::GetKeyDown(Keycode::A))
-			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * deltaTime));
+			_camera->SetPos(_camera->transform.position + (glm::vec3(1, 0, 0) * speed * deltaTime));
 		else if (Input::GetKeyDown(Keycode::D))
-			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * deltaTime));
-
-		if (Input::GetKeyDown(Keycode::ALPHA0)) {
-			_camera->SetPos(0.0f, 0.0f, 0.0f);
-			_camera->SetPitch(0.0f);
-			_camera->SetYaw(-90.0f);
-		}
+			_camera->SetPos(_camera->transform.position + (glm::vec3(-1, 0, 0) * speed * deltaTime));
 
 		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
-			_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * deltaTime));
+			_camera->SetPos(_camera->transform.position + (glm::vec3(0, 0, 1) * speed * deltaTime));
 		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
-			_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * deltaTime));
+			_camera->SetPos(_camera->transform.position + (glm::vec3(0,0, -1) * speed * deltaTime));
 
-		if (Input::GetKeyDown(Keycode::R))
-			_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * deltaTime));
-		else if (Input::GetKeyDown(Keycode::T))
-			_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * deltaTime));
+		if (Input::GetKeyDown(Keycode::Q))
+			_camera->SetRotY(_camera->transform.rotation.y + (speedRotationCamera * deltaTime));
+		else if (Input::GetKeyDown(Keycode::E))
+			_camera->SetRotY(_camera->transform.rotation.y - (speedRotationCamera * deltaTime));
 
 		if (Input::GetKeyDown(Keycode::ALPHA0)) {
 			_camera->SetPos(0.0f, 0.0f, 0.0f);
-			_camera->SetPitch(0.0f);
-			_camera->SetYaw(-90.0f);
+			_camera->SetRotations(0, 0, 0);
 		}
+		
+		//if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
+		//	_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * deltaTime));
+		//else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
+		//	_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * deltaTime));
+		//
+		//if (Input::GetKeyDown(Keycode::R))
+		//	_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * deltaTime));
+		//else if (Input::GetKeyDown(Keycode::T))
+		//	_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * deltaTime));
 
-		rotY += deltaTime * 5.0f;
+		//rotY += deltaTime * 50.0f;
+
+		//_model4->SetPositionModel(_model4->transform.position, _model4->transform.forward * deltaTime);
+
 
 		//_model1->SetRotationModel(rotY,rotY,rotY);
 		//_model2->SetRotationModel(rotY,rotY,rotY);
 		//_model3->SetRotationModel(rotY,rotY,rotY);
-		//_model4->SetRotationModel(rotY,rotY,rotY);
+		//_model4->SetRotationModel(rotY,0,0);
 		//
 		//GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->GetFront());
 		//GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z);
 
+		_camera->LookAt(_camera->transform.position + _camera->transform.forward);
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
+		GetRenderer()->SetView(_camera->GetViewMatrix());
 
 		//_shape->DrawShape();
 		//
-		//_model1->DrawModel();
-		//_model2->DrawModel();
-		//_model3->DrawModel();
-		//_model4->DrawModel();
-		_model5->DrawModel();
+		_model1->DrawModel();
+		_model2->DrawModel();
+		_model3->DrawModel();
+		_model4->DrawModel();
+		//_model5->DrawModel();
 		//_model6->DrawModel();
 		//
 		//_shape2->DrawShape();
