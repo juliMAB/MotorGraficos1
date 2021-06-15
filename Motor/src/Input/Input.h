@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include "../src/Exports/Exports.h"
+#include <queue>
 
 struct GLFWwindow;
 namespace Coco {
@@ -134,6 +135,8 @@ namespace Coco {
 	};
 	class GraficosEngine_API Input {
 	public:
+		static void StartInputSystem();
+		static void CheckClearInputList();
 		static bool GetKeyDown(Keycode k);
 		static bool GetKeyUp(Keycode k);
 		static bool GetKey(Keycode k);

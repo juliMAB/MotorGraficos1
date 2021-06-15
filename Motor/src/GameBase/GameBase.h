@@ -20,7 +20,6 @@ namespace Coco {
 	class GraficosEngine_API GameBase {
 		Window* _window;
 		Renderer* _renderer;
-		Input* _input;
 		CollisionManager* _collisionManager;
 		LightManager* _lightManager;
 	public:

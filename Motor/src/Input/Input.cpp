@@ -4,21 +4,38 @@
 #include <iostream>
 namespace Coco {
 	static GLFWwindow* _window;
-	//static bool keyPressed = false;
-	//static Keycode keyP = Keycode::GRAVE_ACCENT;
-	bool Input::GetKeyDown(Keycode k) {
-		//if (k != keyP && glfwGetKey(_window, k) == GLFW_PRESS) {
-		//	keyP = k;
-		//	return (glfwGetKey(_window, k) == GLFW_PRESS);
-		//}
-		//else if (k == keyP && glfwGetKey(_window, k) == GLFW_PRESS) 
-		//	return false;
-		//else if (!glfwGetKey(_window, k) == GLFW_PRESS) {
-		//	keyP = Keycode::GRAVE_ACCENT;
-		//	return false;
-		//}
-		return (glfwGetKey(_window, k) == GLFW_PRESS);
+	static int usedInputs = 0;
+	static const int _inputsListSize = 12;
+	static int _inputs[_inputsListSize];
+
+	void Input::StartInputSystem() {
+		for (int i = 0; i < _inputsListSize; i++)
+			_inputs[i] = -1;
 	}
+
+	void Input::CheckClearInputList() {
+		for (int i = 0; i < _inputsListSize; i++)
+			if (_inputs[i] != -1)
+				if ( glfwGetKey(_window, _inputs[i]) == GLFW_RELEASE )
+					_inputs[i] = -1;
+	}
+
+	bool Input::GetKeyDown(Keycode k) {
+		if (glfwGetKey(_window, k) == GLFW_PRESS) {
+			for (int i = 0; i < _inputsListSize; i++)
+				if (k == _inputs[i])
+					return false;
+			
+			_inputs[usedInputs] = k;
+			usedInputs++;
+			if (usedInputs >= _inputsListSize)
+				usedInputs = 0;
+			
+			return true;
+		}
+		return false;
+	}
+
 	bool Input::GetKeyUp(Keycode k) {
 		return (glfwGetKey(_window, k) == GLFW_RELEASE);
 	}

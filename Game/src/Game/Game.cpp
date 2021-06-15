@@ -169,33 +169,11 @@ namespace Coco {
 
 	float rotY = 0;
 
+	bool inFirstPersonMode = true;
+
 	void Game::Update(float deltaTime) {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 
-		//if (Input::GetKeyDown(Keycode::W))
-		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0, 1, 0) * speed * deltaTime));
-		//else if (Input::GetKeyDown(Keycode::S))
-		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0, -1, 0) * speed * deltaTime));
-		//
-		//if (Input::GetKeyDown(Keycode::A))
-		//	_camera->SetPos(_camera->transform.position + (glm::vec3(1, 0, 0) * speed * deltaTime));
-		//else if (Input::GetKeyDown(Keycode::D))
-		//	_camera->SetPos(_camera->transform.position + (glm::vec3(-1, 0, 0) * speed * deltaTime));
-		//
-		//if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
-		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0, 0, 1) * speed * deltaTime));
-		//else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
-		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0,0, -1) * speed * deltaTime));
-		//
-		//if (Input::GetKeyDown(Keycode::Q))
-		//	_camera->SetRotY(_camera->transform.rotation.y + (speedRotationCamera * deltaTime));
-		//else if (Input::GetKeyDown(Keycode::E))
-		//	_camera->SetRotY(_camera->transform.rotation.y - (speedRotationCamera * deltaTime));
-		//
-		//if (Input::GetKeyDown(Keycode::ALPHA0)) {
-		//	_camera->SetPos(0.0f, 0.0f, 0.0f);
-		//	_camera->SetRotations(0, 0, 0);
-		//}
 
 		rotY += deltaTime * 50.0f;
 
@@ -204,17 +182,51 @@ namespace Coco {
 		_model3->SetRotY(rotY);
 		_model4->SetRotY(rotY);
 
+		if (Input::GetKeyDown(Keycode::ENTER)) {
+			_camera->SetPos(0.0f, 0.0f, 0.0f);
+			_camera->SetRotations(0, 0, 0);
+			inFirstPersonMode = !inFirstPersonMode;
+		}
+		if (inFirstPersonMode) {
+			if (Input::GetKeyDown(Keycode::ALPHA1))
+				_camera->SetEntity(_model1);
+			if (Input::GetKeyDown(Keycode::ALPHA2))
+				_camera->SetEntity(_model2);
+			if (Input::GetKeyDown(Keycode::ALPHA3))
+				_camera->SetEntity(_model3);
+			if (Input::GetKeyDown(Keycode::ALPHA4))
+				_camera->SetEntity(_model4);
 
-		if (Input::GetKeyDown(Keycode::ALPHA1))
-			_camera->SetEntity(_model1);
-		if (Input::GetKeyDown(Keycode::ALPHA2))
-			_camera->SetEntity(_model2);
-		if (Input::GetKeyDown(Keycode::ALPHA3))
-			_camera->SetEntity(_model3);
-		if (Input::GetKeyDown(Keycode::ALPHA4))
-			_camera->SetEntity(_model4);
+			_camera->LookFromEntity(glm::vec3(0, 1.66f, 0));
+		}
+		else {
+			if (Input::GetKey(Keycode::W))
+				_camera->SetPos(_camera->transform.position + (glm::vec3(0, 1, 0) * speed * deltaTime));
+			else if (Input::GetKey(Keycode::S))
+				_camera->SetPos(_camera->transform.position + (glm::vec3(0, -1, 0) * speed * deltaTime));
+			
+			if (Input::GetKey(Keycode::A))
+				_camera->SetPos(_camera->transform.position + (glm::vec3(1, 0, 0) * speed * deltaTime));
+			else if (Input::GetKey(Keycode::D))
+				_camera->SetPos(_camera->transform.position + (glm::vec3(-1, 0, 0) * speed * deltaTime));
+			
+			if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
+				_camera->SetPos(_camera->transform.position + (glm::vec3(0, 0, 1) * speed * deltaTime));
+			else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
+				_camera->SetPos(_camera->transform.position + (glm::vec3(0,0, -1) * speed * deltaTime));
+			
+			if (Input::GetKey(Keycode::Q))
+				_camera->SetRotY(_camera->transform.rotation.y + (speedRotationCamera * deltaTime));
+			else if (Input::GetKey(Keycode::E))
+				_camera->SetRotY(_camera->transform.rotation.y - (speedRotationCamera * deltaTime));
+			
+			if (Input::GetKeyDown(Keycode::ALPHA0)) {
+				_camera->SetPos(0.0f, 0.0f, 0.0f);
+				_camera->SetRotations(0, 0, 0);
+			}
 
-		_camera->LookFromEntity(glm::vec3(0,1.66f,0));
+			_camera->LookAt(_camera->transform.position + _camera->transform.forward);
+		}
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
 		GetRenderer()->SetView(_camera->GetViewMatrix());

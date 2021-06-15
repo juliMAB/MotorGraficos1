@@ -17,8 +17,6 @@ namespace Coco {
 			delete _window;
 		if (_renderer != NULL)
 			delete _renderer;
-		if (_input != NULL)
-			delete _input;
 		if (_collisionManager != NULL)
 			delete _collisionManager;
 		if (_lightManager != NULL)
@@ -44,7 +42,8 @@ namespace Coco {
 		glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
 
 		_window->InitWindow();
-		_input->SetWindow(_window->GetWindow());
+		Input::SetWindow(_window->GetWindow());
+		Input::StartInputSystem();
 		
 		if (!_renderer->InitGlew()) {
 			glfwTerminate();
@@ -60,6 +59,7 @@ namespace Coco {
 		while (_window->CheckIfWindowIsOpen()) {
 			Timer::DeltaTime(deltaTime);
 			Update(deltaTime);
+			Input::CheckClearInputList();
 			glfwPollEvents();
 		}
 	}
@@ -73,9 +73,6 @@ namespace Coco {
 	}
 	Renderer* GameBase::GetRenderer() {
 		return _renderer;
-	}
-	Input* GameBase::GetInput() {
-		return _input;
 	}
 	LightManager* GameBase::GetLightManager() {
 		return _lightManager;
