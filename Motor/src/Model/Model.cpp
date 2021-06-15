@@ -48,6 +48,11 @@ namespace Coco {
 	}
 
 	void Model::DrawModel() {
+		if (!_canDraw) {
+			_canDraw = true;
+			return;
+		}
+
 		for (int i = 0; i < _meshList.size(); i++) {
 			uint materialIndex = _meshesToTex[i];
 
@@ -58,12 +63,12 @@ namespace Coco {
 				_renderer->UseMaterial(_material->GetAmbient(), _material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
 					_material->GetUniformAmbient(), _material->GetUniformSpecular(), _material->GetUniformDiffuse(), _material->GetUniformShininess());
 
-
 			_meshList[i]->RenderMesh();
 
 			if (materialIndex < _texturesList.size() && _texturesList[materialIndex])
 				_texturesList[materialIndex]->StopTexture();
 		}
+
 	}
 	void Model::SetMaterial(Material* mat) {
 		if (_material != NULL) {
@@ -216,6 +221,11 @@ namespace Coco {
 		for (int i = 0; i < _meshList.size(); i++) 
 			_meshList[i]->SetRotations(x, y, z);
 	}
+	
+	void Model::SetRotations(glm::vec3 rotation) {
+		SetRotations(rotation.x, rotation.y, rotation.z);
+	}
+
 	void Model::SetPos(float x, float y, float z) {
 		transform.position = { x, y, z };
 		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
@@ -224,10 +234,7 @@ namespace Coco {
 	}
 
 	void Model::SetPos(glm::vec3 pos) {
-		transform.position = pos;
-		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
-		for (int i = 0; i < _meshList.size(); i++)
-			_meshList[i]->SetPos(pos);
+		SetPos(pos.x, pos.y, pos.z);
 	}
 
 }

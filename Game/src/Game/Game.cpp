@@ -45,14 +45,6 @@ namespace Coco {
 			delete _model4;
 			_model4 = NULL;
 		}
-		if (_model5 != NULL) {
-			delete _model5;
-			_model5 = NULL;
-		}
-		if (_model6 != NULL) {
-			delete _model6;
-			_model6 = NULL;
-		}
 	}
 
 	void Game::Start() {
@@ -60,7 +52,6 @@ namespace Coco {
 		srand(time(NULL));
 
 		_camera = new Camera(GetRenderer());
-		_camera->InitCamera(glm::vec3(0,0,0), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		_goldMaterial = new Material(GetRenderer());
 		_goldMaterial->SetAmbient(glm::vec3(0.24725f, 0.1995f, 0.0745f));
@@ -74,36 +65,9 @@ namespace Coco {
 		_obsidianMaterial->SetSpecular(glm::vec3(0.332741f, 0.328634f, 0.346435f));
 		_obsidianMaterial->SetShininess(0.3f);
 
-		//_model5 = new Model(GetRenderer());
-		//_model5->LoadModel("res/models/knight/source/modelout.obj", "res/models/knight/source/", "destroyrider.tga.png");
-		//_model5->SetPositionModel(0,-1,-3);
-		//_model5->SetScaleModel(0.01f, 0.01f, 0.01f);
-		//_model5->SetRotationYModel(-1.75f);
-
-		//_model5 = new Model(GetRenderer());
-		//_model5->LoadModel("res/models/mona/mona model/mona.obj", "res/models/mona/mona model/");
-		//_model5->SetPositionModel(0, -0.75f, -2);
-		//_model5->SetRotationYModel(90.0f);
-		//_model5->SetScaleModel(0.5f, 0.5f, 0.5f);
-		//_model5->SetRotationXModel(-1.75f);
-
-		//_model5 = new Model(GetRenderer());
-		//_model5->LoadModel("res/models/baphomet/source/body1.fbx", "res/models/baphomet/source/", TextureLoadType::Automatic);
-		//_model5->SetPositionModel(0, 1, -5);
-		//_model5->SetScaleModel(0.05f, 0.05f, 0.05f);
-		//_model5->SetRotationXModel(-1.75);
-		//_model5->SetRotationYModel(1.75f);
-		//_model5->SetRotationZModel(-1.75);
-
-		//_model2 = new Model(GetRenderer());
-		//_model2->LoadModel("res/models/cat/source/cat_low.fbx", "res/models/cat/textures/");
-		//_model2->SetPositionModel(0, 1, -5);
-		////_model2->SetScaleModel(0.01f, 0.01f, 0.01f);
-		//_model2->SetRotationXModel(-1.25f);
 
 		_model1 = new Model(GetRenderer());
 		_model1->LoadModel("res/models/Banfield Ghost/ghost.obj", "res/models/Banfield Ghost/","Ghost_lambert1_BaseColor.png");
-		//_model1->SetMaterial(_obsidianMaterial);
 		_model1->SetPos(-3, 0, 5);
 		_model1->SetScale(0.5f, 0.5f, 0.5f);
 		_model1->SetRotY(180);
@@ -126,18 +90,10 @@ namespace Coco {
 		_model4->SetScale(0.5f, 0.5f, 0.5f);
 		_model4->SetRotY(180);
 
-		//std::cout << "rot x: " << _model4->transform.rotationQuaternion.x << " y: " << _model4->transform.rotationQuaternion.y << " z: " << _model4->transform.rotationQuaternion.z << " w: " << _model4->transform.rotationQuaternion.w<< std::endl;
-		//std::cout << "for x: " << _model4->transform.forward.x << " y: " << _model4->transform.forward.y << " z: " << _model4->transform.forward.z << std::endl;
-		//std::cout << "up x: " << _model4->transform.up.x << " y: " << _model4->transform.up.y << " z: " << _model4->transform.up.z << std::endl;
-		//std::cout << "right x: " << _model4->transform.right.x << " y: " << _model4->transform.right.y << " z: " << _model4->transform.right.z << std::endl;
-		
+		_camera->SetEntity(_model4);
+
 		//_camera->LookAt(_model4->transform.position);
-
 		//_model4->SetPos(_model4->transform.position, (_model4->transform.forward * 3.0f));
-
-		//std::cout << "mtp x: " << _model4->transform.position.x << " y: " << _model4->transform.position.y << " z: " << _model4->transform.position.z << std::endl;
-		//
-		//std::cout << "mtp + mtf: x: " << _model4->transform.position.x + _model4->transform.forward.x << " y: " << _model4->transform.position.y + _model4->transform.forward.y << " z: " << _model4->transform.position.z + _model4->transform.forward.z << std::endl;
 
 		//_shape = new Shape(GetRenderer());
 		//_shape->InitShape(TypeShape::Cube, TypeShader::Texture);
@@ -155,30 +111,30 @@ namespace Coco {
 		//
 		//
 
-		//GetLightManager()->AddLight(TypeOfLight::Spot);
-		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
-		//if (_lightAux != NULL) {
-		//	_lightAux->SetPos(0, 0, -2);
-		//	_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
-		//	_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
-		//	_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
-		//	_lightAux->SetSpecular(glm::vec3(1,1,1));
-		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-		//	_lightAux->SetCutOff(33.0f);
-		//	_lightAux->SetDirection(glm::vec3(0,0,1));
-		//}
+		GetLightManager()->AddLight(TypeOfLight::Spot);
+		SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
+		if (_lightAux != NULL) {
+			_lightAux->SetPos(0, 0, -2);
+			_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
+			_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
+			_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
+			_lightAux->SetSpecular(glm::vec3(1,1,1));
+			_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+			_lightAux->SetCutOff(33.0f);
+			_lightAux->SetDirection(glm::vec3(0,0,1));
+		}
 
 		//
-		GetLightManager()->AddLight(TypeOfLight::Point);
-		PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
-		if (_lightAux2 != NULL) {
-			_lightAux2->SetPos(0,0,3);
-			_lightAux2->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-			_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-			_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-			_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-			_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-		}
+		//GetLightManager()->AddLight(TypeOfLight::Point);
+		//PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
+		//if (_lightAux2 != NULL) {
+		//	_lightAux2->SetPos(0,0,3);
+		//	_lightAux2->SetColour(glm::vec3(1.0f,1.0f,1.0f));
+		//	_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+		//	_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+		//	_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+		//	_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		//}
 		
 		// 
 		//GetLightManager()->AddLight(TypeOfLight::Directional);
@@ -199,17 +155,6 @@ namespace Coco {
 		//	dirAux->SetColour(glm::vec3(1.0f, 0, 1.0f));
 		//	dirAux->SetDirection(glm::vec3(0, -1, 0));
 		//}
-
-		//_model6 = new Model(GetRenderer());
-		//_model6->LoadModel("res/models/claire/source/LXG1NDL0BZ814059Q0RW9HZXE.obj", "res/models/claire/source/");
-		//_model6->SetPositionModel(0, -1, -3);
-		////_model6->SetScaleModel(0.5f,0.5f,0.5f);
-		//_model6->SetRotationXModel(0.25f);
-		//_model6->SetRotationYModel(1.25f);
-
-
-		//_sprite = new Sprite(GetRenderer());
-		//_sprite->LoadTexture("res/textures/textura final.jpg",false);
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -228,82 +173,62 @@ namespace Coco {
 		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 
 		//if (Input::GetKeyDown(Keycode::W))
-		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y + (speed * deltaTime), _camera->transform.position.z);
+		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0, 1, 0) * speed * deltaTime));
 		//else if (Input::GetKeyDown(Keycode::S))
-		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y - (speed * deltaTime), _camera->transform.position.z);
+		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0, -1, 0) * speed * deltaTime));
 		//
 		//if (Input::GetKeyDown(Keycode::A))
-		//	_camera->SetPos(_camera->transform.position.x - (speed * deltaTime), _camera->transform.position.y, _camera->transform.position.z);
+		//	_camera->SetPos(_camera->transform.position + (glm::vec3(1, 0, 0) * speed * deltaTime));
 		//else if (Input::GetKeyDown(Keycode::D))
-		//	_camera->SetPos(_camera->transform.position.x + (speed * deltaTime), _camera->transform.position.y, _camera->transform.position.z);
-		//if (Input::GetKeyDown(Keycode::Q))
-		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z + (speed * deltaTime));
-		//else if (Input::GetKeyDown(Keycode::E))
-		//	_camera->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z - (speed * deltaTime));
-
-
-		if (Input::GetKeyDown(Keycode::W))
-			_camera->SetPos(_camera->transform.position + (glm::vec3(0, 1, 0) * speed * deltaTime));
-		else if (Input::GetKeyDown(Keycode::S))
-			_camera->SetPos(_camera->transform.position + (glm::vec3(0, -1, 0) * speed * deltaTime));
-
-		if (Input::GetKeyDown(Keycode::A))
-			_camera->SetPos(_camera->transform.position + (glm::vec3(1, 0, 0) * speed * deltaTime));
-		else if (Input::GetKeyDown(Keycode::D))
-			_camera->SetPos(_camera->transform.position + (glm::vec3(-1, 0, 0) * speed * deltaTime));
-
-		if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
-			_camera->SetPos(_camera->transform.position + (glm::vec3(0, 0, 1) * speed * deltaTime));
-		else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
-			_camera->SetPos(_camera->transform.position + (glm::vec3(0,0, -1) * speed * deltaTime));
-
-		if (Input::GetKeyDown(Keycode::Q))
-			_camera->SetRotY(_camera->transform.rotation.y + (speedRotationCamera * deltaTime));
-		else if (Input::GetKeyDown(Keycode::E))
-			_camera->SetRotY(_camera->transform.rotation.y - (speedRotationCamera * deltaTime));
-
-		if (Input::GetKeyDown(Keycode::ALPHA0)) {
-			_camera->SetPos(0.0f, 0.0f, 0.0f);
-			_camera->SetRotations(0, 0, 0);
-		}
-		
+		//	_camera->SetPos(_camera->transform.position + (glm::vec3(-1, 0, 0) * speed * deltaTime));
+		//
 		//if (Input::GetMouseButtonDown(MouseButtons::LEFT_MOUSE_BUTTON))
-		//	_camera->SetPitch(_camera->GetPitch() + (speedRotationCamera * deltaTime));
+		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0, 0, 1) * speed * deltaTime));
 		//else if (Input::GetMouseButtonDown(MouseButtons::RIGHT_MOUSE_BUTTON))
-		//	_camera->SetPitch(_camera->GetPitch() - (speedRotationCamera * deltaTime));
+		//	_camera->SetPos(_camera->transform.position + (glm::vec3(0,0, -1) * speed * deltaTime));
 		//
-		//if (Input::GetKeyDown(Keycode::R))
-		//	_camera->SetYaw(_camera->GetYaw() - (speedRotationCamera * deltaTime));
-		//else if (Input::GetKeyDown(Keycode::T))
-		//	_camera->SetYaw(_camera->GetYaw() + (speedRotationCamera * deltaTime));
-
-		//rotY += deltaTime * 50.0f;
-
-		//_model4->SetPositionModel(_model4->transform.position, _model4->transform.forward * deltaTime);
-
-
-		//_model1->SetRotationModel(rotY,rotY,rotY);
-		//_model2->SetRotationModel(rotY,rotY,rotY);
-		//_model3->SetRotationModel(rotY,rotY,rotY);
-		//_model4->SetRotationModel(rotY,0,0);
+		//if (Input::GetKeyDown(Keycode::Q))
+		//	_camera->SetRotY(_camera->transform.rotation.y + (speedRotationCamera * deltaTime));
+		//else if (Input::GetKeyDown(Keycode::E))
+		//	_camera->SetRotY(_camera->transform.rotation.y - (speedRotationCamera * deltaTime));
 		//
-		//GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->GetFront());
-		//GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->positionVec.x, _camera->positionVec.y, _camera->positionVec.z);
+		//if (Input::GetKeyDown(Keycode::ALPHA0)) {
+		//	_camera->SetPos(0.0f, 0.0f, 0.0f);
+		//	_camera->SetRotations(0, 0, 0);
+		//}
 
-		_camera->LookAt(_camera->transform.position + _camera->transform.forward);
+		rotY += deltaTime * 50.0f;
+
+		_model1->SetRotY(rotY);
+		_model2->SetRotY(rotY);
+		_model3->SetRotY(rotY);
+		_model4->SetRotY(rotY);
+
+
+		if (Input::GetKeyDown(Keycode::ALPHA1))
+			_camera->SetEntity(_model1);
+		if (Input::GetKeyDown(Keycode::ALPHA2))
+			_camera->SetEntity(_model2);
+		if (Input::GetKeyDown(Keycode::ALPHA3))
+			_camera->SetEntity(_model3);
+		if (Input::GetKeyDown(Keycode::ALPHA4))
+			_camera->SetEntity(_model4);
+
+		_camera->LookFromEntity(glm::vec3(0,1.66f,0));
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
 		GetRenderer()->SetView(_camera->GetViewMatrix());
 
+		GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->transform.forward);
+		GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z);
+		
 		//_shape->DrawShape();
 		//
 		_model1->DrawModel();
 		_model2->DrawModel();
 		_model3->DrawModel();
 		_model4->DrawModel();
-		//_model5->DrawModel();
-		//_model6->DrawModel();
-		//
+
 		//_shape2->DrawShape();
 
 		GetWindow()->SwapBuffers();

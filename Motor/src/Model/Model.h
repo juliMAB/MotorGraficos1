@@ -46,6 +46,7 @@ namespace Coco {
 		void SetRotY(float y)							override;
 		void SetRotZ(float z)							override;
 		void SetRotations(float x, float y, float z)	override;
+		void SetRotations(glm::vec3 rotation)			override;
 		void SetScale(float x, float y, float z)		override;
 
 	};

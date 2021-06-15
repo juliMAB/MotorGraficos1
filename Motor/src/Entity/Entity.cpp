@@ -28,6 +28,9 @@ namespace Coco {
 	Entity::~Entity() {
 
 	}
+	void Entity::SetCanDraw(bool cd) {
+		_canDraw = cd;
+	}
 	void Entity::SetRenderer(Renderer* r) {
 		_renderer = r;
 	}
@@ -89,9 +92,7 @@ namespace Coco {
 		UpdateMatrixData();
 	}
 	void Entity::SetPos(glm::vec3 pos) {
-		transform.position = pos;
-		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
-		UpdateMatrixData();
+		SetPos(pos.x, pos.y, pos.z);
 	}
 	void Entity::SetRotX(float x) {
 		transform.rotation.x = x;
@@ -118,6 +119,9 @@ namespace Coco {
 		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 		UpdateMatrixData();
 		UpdateTransformsData();
+	}
+	void Entity::SetRotations(glm::vec3 rotation) {
+		SetRotations(rotation.x, rotation.y, rotation.z);
 	}
 	void Entity::SetScale(float x, float y, float z) {
 		transform.scale = { x, y, z };

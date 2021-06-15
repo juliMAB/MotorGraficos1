@@ -9,12 +9,15 @@ namespace Coco {
 	class GraficosEngine_API Camera : public Entity{
 		uint _uniformCameraPosition;
 		glm::mat4 _viewMatrix;
+		Entity* _entity;
 	public:
 		Camera(Renderer* r);
 		~Camera();
-		void InitCamera(glm::vec3 pos, glm::vec3 up);
 		glm::mat4 GetViewMatrix();
 		void LookAt(glm::vec3 direction);
+		void LookFromEntity();
+		void LookFromEntity(glm::vec3 offset);
+		void SetEntity(Entity* entity);
 		void UseCamera();
 	};
 

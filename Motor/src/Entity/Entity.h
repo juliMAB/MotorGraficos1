@@ -42,13 +42,15 @@ namespace Coco {
 		uint _texLocation;
 		uint _normalLocation;
 
+		bool _canDraw;
 	public:
 		Entity(Renderer* rend);
 		~Entity();
 
 		Transform transform;
 		Matrix matrix;
-
+		
+		void SetCanDraw(bool cd);
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
 		virtual void SetPos(float x, float y, float z);
@@ -56,7 +58,8 @@ namespace Coco {
 		virtual void SetRotX(float x);
 		virtual void SetRotY(float y);
 		virtual void SetRotZ(float z);
-		virtual void SetRotations(float x,float y,float z);
+		virtual void SetRotations(float x, float y, float z);
+		virtual void SetRotations(glm::vec3 rotation);
 		virtual void SetScale(float x, float y, float z);
 	};
 
