@@ -13,6 +13,7 @@ namespace Coco {
 		Model* _model2;
 		Model* _model3;
 		Model* _model4;
+		Model* _model5;
 	public:
 		Game();
 		~Game();

@@ -45,12 +45,16 @@ namespace Coco {
 			delete _model4;
 			_model4 = NULL;
 		}
+		if (_model5 != NULL) {
+			delete _model5;
+			_model5 = NULL;
+		}
 	}
 
 	void Game::Start() {
 		StartEngine(1366, 768, "Coco");
 		srand(time(NULL));
-
+		
 		_camera = new Camera(GetRenderer());
 
 		_goldMaterial = new Material(GetRenderer());
@@ -71,13 +75,13 @@ namespace Coco {
 		_model1->SetPos(-3, 0, 5);
 		_model1->SetScale(0.5f, 0.5f, 0.5f);
 		_model1->SetRotY(180);
-
+		
 		_model2 = new Model(GetRenderer());
 		_model2->LoadModel("res/models/BokitaGhost/ghost.obj", "res/models/BokitaGhost/","Ghost_lambert1_BaseColor.png");
 		_model2->SetPos(-1, 0, 5);
 		_model2->SetScale(0.5f, 0.5f, 0.5f);
 		_model2->SetRotY(180);
-
+		
 		_model3 = new Model(GetRenderer());
 		_model3->LoadModel("res/models/ChacaritaGhost/ghost.obj", "res/models/ChacaritaGhost/","Ghost_lambert1_BaseColor.png");
 		_model3->SetPos(1, 0, 5);
@@ -89,6 +93,11 @@ namespace Coco {
 		_model4->SetPos(3, 0, 5);
 		_model4->SetScale(0.5f, 0.5f, 0.5f);
 		_model4->SetRotY(180);
+
+		_model5 = new Model(GetRenderer());
+		_model5->LoadModel("res/models/helicopter/uh60.obj", "res/models/helicopter/");
+		_model5->SetPos(3, 0, 15);
+		_model5->SetScale(0.25f, 0.25f, 0.25f);
 
 		_camera->SetEntity(_model4);
 
@@ -111,18 +120,18 @@ namespace Coco {
 		//
 		//
 
-		GetLightManager()->AddLight(TypeOfLight::Spot);
-		SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
-		if (_lightAux != NULL) {
-			_lightAux->SetPos(0, 0, -2);
-			_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
-			_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
-			_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
-			_lightAux->SetSpecular(glm::vec3(1,1,1));
-			_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-			_lightAux->SetCutOff(33.0f);
-			_lightAux->SetDirection(glm::vec3(0,0,1));
-		}
+		//GetLightManager()->AddLight(TypeOfLight::Spot);
+		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
+		//if (_lightAux != NULL) {
+		//	_lightAux->SetPos(0, 0, -2);
+		//	_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
+		//	_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
+		//	_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
+		//	_lightAux->SetSpecular(glm::vec3(1,1,1));
+		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
+		//	_lightAux->SetCutOff(33.0f);
+		//	_lightAux->SetDirection(glm::vec3(0,0,1));
+		//}
 
 		//
 		//GetLightManager()->AddLight(TypeOfLight::Point);
@@ -231,8 +240,8 @@ namespace Coco {
 		GetLightManager()->UseLights();
 		GetRenderer()->SetView(_camera->GetViewMatrix());
 
-		GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->transform.forward);
-		GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z);
+		//GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->transform.forward);
+		//GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z);
 		
 		//_shape->DrawShape();
 		//
@@ -240,6 +249,7 @@ namespace Coco {
 		_model2->DrawModel();
 		_model3->DrawModel();
 		_model4->DrawModel();
+		_model5->DrawModel();
 
 		//_shape2->DrawShape();
 

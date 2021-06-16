@@ -2,9 +2,10 @@
 #define MODEL_H
 
 #include "../Exports/Exports.h"
-#include "../Entity/Entity.h"
 
-#include "ModelImporter.h"
+#include <vector>
+
+#include "../Entity/Entity.h"
 #include "Mesh.h"
 #include "ModelTexture.h"
 #include "../Material/Material.h"
@@ -21,12 +22,7 @@ namespace Coco {
 		std::vector<Mesh*> _meshList;
 		std::vector<uint> _meshesToTex;
 		std::vector<ModelTexture*> _texturesList;
-
-		void LoadNode(aiNode* node, const aiScene* scene);
-		void LoadMesh(aiMesh* mesh, const aiScene* scene);
-		void LoadMaterials(const aiScene* scene, std::string texturesLocation);
-		void LoadMaterials(const aiScene* scene, std::string textureLocation, std::string nameTexture);
-
+		
 		bool _usingOriginalMaterial;
 		Material* _material;
 	public:
