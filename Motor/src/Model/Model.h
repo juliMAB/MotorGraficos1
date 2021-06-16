@@ -29,6 +29,9 @@ namespace Coco {
 		Model(Renderer* rend);
 		~Model();
 
+
+		void SetAffectedByLight(bool abl) override;
+
 		void LoadModel(std::string fileName, std::string texturesLocation);
 		void LoadModel(std::string fileName, std::string textureLocation, std::string nameTexture);
 		void DrawModel();

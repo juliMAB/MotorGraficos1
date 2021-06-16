@@ -12,8 +12,8 @@ namespace Coco {
 	Model::Model(Renderer* rend) : Entity(rend) {
 		_material = NULL;
 		_material = new Material(rend);
-		_material->SetAmbient(glm::vec3(1, 1, 1));
-		_material->SetDiffuse(glm::vec3(1, 1, 1));
+		_material->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
+		_material->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
 		_material->SetSpecular(glm::vec3(0, 0, 0));
 		_material->SetShininess(1);
 		_usingOriginalMaterial = true;
@@ -24,6 +24,12 @@ namespace Coco {
 			_material = NULL;
 		}
 		ClearModel();
+	}
+
+	void Model::SetAffectedByLight(bool abl) {
+		_affectedByLight = abl;
+		for (int i = 0; i < _meshList.size(); i++) 
+			_meshList[i]->SetAffectedByLight(abl);
 	}
 
 	void Model::LoadModel(std::string fileName, std::string texturesLocation) {

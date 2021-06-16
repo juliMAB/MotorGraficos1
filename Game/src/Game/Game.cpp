@@ -13,9 +13,13 @@ namespace Coco {
 			delete _shape;
 			_shape = NULL;
 		}
-		if (_shape != NULL) {
+		if (_shape2 != NULL) {
 			delete _shape2;
 			_shape2 = NULL;
+		}
+		if (_shape3 != NULL) {
+			delete _shape3;
+			_shape3 = NULL;
 		}
 		if (_camera != NULL) {
 			delete _camera;
@@ -49,6 +53,10 @@ namespace Coco {
 			delete _model5;
 			_model5 = NULL;
 		}
+		if (_model6 != NULL) {
+			delete _model6;
+			_model6 = NULL;
+		}
 	}
 
 	void Game::Start() {
@@ -75,13 +83,15 @@ namespace Coco {
 		_model1->SetPos(-3, 0, 5);
 		_model1->SetScale(0.5f, 0.5f, 0.5f);
 		_model1->SetRotY(180);
-		
+		_model1->SetMaterial(_goldMaterial);
+
 		_model2 = new Model(GetRenderer());
 		_model2->LoadModel("res/models/BokitaGhost/ghost.obj", "res/models/BokitaGhost/","Ghost_lambert1_BaseColor.png");
 		_model2->SetPos(-1, 0, 5);
 		_model2->SetScale(0.5f, 0.5f, 0.5f);
 		_model2->SetRotY(180);
-		
+		_model2->SetMaterial(_obsidianMaterial);
+
 		_model3 = new Model(GetRenderer());
 		_model3->LoadModel("res/models/ChacaritaGhost/ghost.obj", "res/models/ChacaritaGhost/","Ghost_lambert1_BaseColor.png");
 		_model3->SetPos(1, 0, 5);
@@ -99,71 +109,89 @@ namespace Coco {
 		_model5->SetPos(3, 0, 15);
 		_model5->SetScale(0.25f, 0.25f, 0.25f);
 
+		_model6 = new Model(GetRenderer());
+		_model6->LoadModel("res/models/chicken/Chicken1.fbx", "res/models/chicken/");
+		_model6->SetPos(0, 2, 7);
+		_model6->SetRotY(180);
+		//_model6->SetAffectedByLight(false);
+
+		//_model6->SetScale(0.25f, 0.25f, 0.25f);
+
 		_camera->SetEntity(_model4);
 
 		//_camera->LookAt(_model4->transform.position);
 		//_model4->SetPos(_model4->transform.position, (_model4->transform.forward * 3.0f));
 
-		//_shape = new Shape(GetRenderer());
-		//_shape->InitShape(TypeShape::Cube, TypeShader::Texture);
-		//_shape->SetScale(0.33f, 0.33f, 0.33f);
-		//_shape->SetPos(0.0f, 0.0f, -3.0f);
-		//_shape->LoadTexture("res/textures/img1.jpg");
-		////_shape->SetMaterial(_goldMaterial);
-		////
-		//_shape2 = new Shape(GetRenderer());
-		//_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
-		//_shape2->SetScale(0.33f, 0.33f, 0.33f);
-		//_shape2->SetPos(0.0f, 2.0f, -3.0f);
-		//_shape2->SetMaterial(_goldMaterial);
-		////
+		_shape = new Shape(GetRenderer());
+		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
+		_shape->SetScale(0.33f, 0.33f, 0.33f);
+		_shape->SetPos(0.0f, 0.0f, 5);
+		//_shape->LoadTexture("res/textures/", "img1.jpg");
+		_shape->SetMaterial(_goldMaterial);
+		_shape->SetAffectedByLight(false);
+
+		//
+		_shape2 = new Shape(GetRenderer());
+		_shape2->InitShape(TypeShape::Cube, TypeShader::Colour);
+		_shape2->SetScale(0.33f, 0.33f, 0.33f);
+		_shape2->SetPos(0.0f, 2.0f, 5);
+		//_shape2->SetMaterial(_obsidianMaterial);
+		_shape2->SetAffectedByLight(false);
+
+		_shape3 = new Shape(GetRenderer());
+		_shape3->InitShape(TypeShape::Cube, TypeShader::Colour);
+		_shape3->SetScale(0.33f, 0.33f, 0.33f);
+		_shape3->SetPos(0.0f, 1.0f, 5);
+		_shape3->SetMaterial(_goldMaterial);
+
+		//
 		//
 		//
 
-		//GetLightManager()->AddLight(TypeOfLight::Spot);
-		//SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
-		//if (_lightAux != NULL) {
-		//	_lightAux->SetPos(0, 0, -2);
-		//	_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
-		//	_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
-		//	_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
-		//	_lightAux->SetSpecular(glm::vec3(1,1,1));
-		//	_lightAux->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-		//	_lightAux->SetCutOff(33.0f);
-		//	_lightAux->SetDirection(glm::vec3(0,0,1));
-		//}
+		GetLightManager()->AddLight(TypeOfLight::Spot);
+		SpotLight* _lightAux = GetLightManager()->GetSpotLightByIndex(0);
+		if (_lightAux != NULL) {
+			_lightAux->SetPos(0, 0, -2);
+			_lightAux->SetColour(glm::vec3(1.0f, 1.0f, 1.0f));
+			_lightAux->SetAmbient(glm::vec3(0.33f,0.33f,0.33f));
+			_lightAux->SetDiffuse(glm::vec3( 0.5,0.5,0.5));
+			_lightAux->SetSpecular(glm::vec3(1,1,1));
+			_lightAux->SetConstantLinearQuadratic(1.0f, 0.007f, 0.0002f);
+			_lightAux->SetCutOff(33.0f);
+			_lightAux->SetDirection(glm::vec3(0,0,1));
+		}
 
 		//
-		//GetLightManager()->AddLight(TypeOfLight::Point);
-		//PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
-		//if (_lightAux2 != NULL) {
-		//	_lightAux2->SetPos(0,0,3);
-		//	_lightAux2->SetColour(glm::vec3(1.0f,1.0f,1.0f));
-		//	_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
-		//	_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-		//	_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-		//	_lightAux2->SetConstantLinearQuadratic(1.0f, 0.09f, 0.032f);
-		//}
+		GetLightManager()->AddLight(TypeOfLight::Point);
+		PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
+		if (_lightAux2 != NULL) {
+			_lightAux2->SetPos(0,0,3);
+			_lightAux2->SetColour(glm::vec3(1.0f,1.0f,1.0f));
+			_lightAux2->SetAmbient(glm::vec3(0.2f, 0.2f, 0.2f));
+			_lightAux2->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+			_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+			_lightAux2->SetConstantLinearQuadratic(1.0f, 0.045f, 0.0075f);
+		}
 		
 		// 
-		//GetLightManager()->AddLight(TypeOfLight::Directional);
-		//GetLightManager()->AddLight(TypeOfLight::Directional);
-		////
-		//DirectionalLight* dirAux = GetLightManager()->GetDirectionalLightByIndex(0);
-		//if (dirAux != NULL) {
-		//	dirAux->SetColour(glm::vec3(1, 1, 1));
-		//	dirAux->SetDirection(glm::vec3(0, 0, 1));
-		//	dirAux->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
-		//	dirAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
-		//	dirAux->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-		//}
+		GetLightManager()->AddLight(TypeOfLight::Directional);
+		GetLightManager()->AddLight(TypeOfLight::Directional);
 		//
-		//dirAux = GetLightManager()->GetDirectionalLightByIndex(1);
-		//
-		//if (dirAux != NULL) {
-		//	dirAux->SetColour(glm::vec3(1.0f, 0, 1.0f));
-		//	dirAux->SetDirection(glm::vec3(0, -1, 0));
-		//}
+		DirectionalLight* dirAux = GetLightManager()->GetDirectionalLightByIndex(0);
+		if (dirAux != NULL) {
+			dirAux->SetColour(glm::vec3(1, 1, 1));
+			dirAux->SetDirection(glm::vec3(0, 0, 1));
+			dirAux->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
+			dirAux->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+			dirAux->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+		}
+		
+		dirAux = GetLightManager()->GetDirectionalLightByIndex(1);
+		
+		if (dirAux != NULL) {
+			dirAux->SetColour(glm::vec3(1.0f, 0, 1.0f));
+			dirAux->SetDirection(glm::vec3(0, -1, 0));
+		}
 	}
 	void Game::Play() {
 		UpdateEngine();
@@ -181,7 +209,7 @@ namespace Coco {
 	bool inFirstPersonMode = true;
 
 	void Game::Update(float deltaTime) {
-		GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
+		GetWindow()->ClearWindow(0.15f, 0.15f, 0.15f, 1.0f);
 
 
 		rotY += deltaTime * 50.0f;
@@ -189,7 +217,8 @@ namespace Coco {
 		_model1->SetRotY(rotY);
 		_model2->SetRotY(rotY);
 		_model3->SetRotY(rotY);
-		_model4->SetRotY(rotY);
+		//_model4->SetRotY(rotY);
+		_model4->SetRotations(rotY, rotY, rotY);
 
 		if (Input::GetKeyDown(Keycode::ENTER)) {
 			_camera->SetPos(0.0f, 0.0f, 0.0f);
@@ -236,14 +265,19 @@ namespace Coco {
 
 			_camera->LookAt(_camera->transform.position + _camera->transform.forward);
 		}
+
 		_camera->UseCamera();
 		GetLightManager()->UseLights();
 		GetRenderer()->SetView(_camera->GetViewMatrix());
 
+		//GetLightManager()->GetPointLightByIndex(0)->SetPos(_camera->transform.position);
+
 		//GetLightManager()->GetSpotLightByIndex(0)->SetDirection(_camera->transform.forward);
 		//GetLightManager()->GetSpotLightByIndex(0)->SetPos(_camera->transform.position.x, _camera->transform.position.y, _camera->transform.position.z);
 		
-		//_shape->DrawShape();
+		_shape->DrawShape();
+		_shape2->DrawShape();
+		_shape3->DrawShape();
 		//
 		_model1->DrawModel();
 		_model2->DrawModel();
@@ -251,7 +285,14 @@ namespace Coco {
 		_model4->DrawModel();
 		_model5->DrawModel();
 
-		//_shape2->DrawShape();
+		_model6->SetPos(glm::vec3(1, 2, 7));
+		_model6->SetAffectedByLight(true);
+		_model6->DrawModel();
+
+		_model6->SetPos(glm::vec3(-1, 2, 7));
+		_model6->SetAffectedByLight(false);
+		_model6->DrawModel();
+
 
 		GetWindow()->SwapBuffers();
 	}

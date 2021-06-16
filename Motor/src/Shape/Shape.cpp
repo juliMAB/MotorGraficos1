@@ -78,11 +78,14 @@ namespace Coco {
 		_height = 0;
 		_bitDepth = 0;
 		_usingTexture = false;
+
+		_usingOriginalMaterial = true;
 		_material = new Material(rend);
-		_material->SetAmbient(glm::vec3(1, 1, 1));
-		_material->SetDiffuse(glm::vec3( 1,1,1));
-		_material->SetSpecular(glm::vec3(1,1,1));
-		_material->SetShininess(0.25f);
+		_material->SetAmbient(glm::vec3( 0.5f,0.5f,0.5f));
+		_material->SetDiffuse(glm::vec3( 0.5f,0.5f,0.5f));
+		_material->SetSpecular(glm::vec3(0,0,0));
+		_material->SetShininess(1);
+		_affectedByLight = true;
 	}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
@@ -92,16 +95,16 @@ namespace Coco {
 			delete _texture;
 			_texture = NULL;
 		}
-		if (_material != NULL) {
-			delete _material;
-			_material = NULL;
-		}
+		if(_usingOriginalMaterial)
+			if (_material != NULL) {
+				delete _material;
+				_material = NULL;
+			}
 	}
 	void Shape::InitShape(TypeShape type, TypeShader t) {
 		typeOfShape = type;
 		typeShader = t;
 
-		_material = NULL;
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
@@ -153,16 +156,18 @@ namespace Coco {
 	void Shape::DrawShape() {
 		_renderer->UpdateMVP(matrix.model, _uniformModel, _uniformView, _uniformProjection);
 
-		if (_material != NULL)
+		if (_material != NULL) 
 			_renderer->UseMaterial(_material->GetAmbient(), _material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
 				_material->GetUniformAmbient(), _material->GetUniformSpecular(), _material->GetUniformDiffuse(), _material->GetUniformShininess());
+
 		if (_usingTexture) {
 			_texture->UseTexture();
-			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Texture);
+			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Texture, _affectedByLight);
 			_texture->StopTexture();
 		}
-		else
-			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
+		else 
+			_renderer->Draw(typeOfShape, GetIndexTam(), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour, _affectedByLight);
+
 	}
 	void Shape::SetMaterial(Material* m) {
 		if (_material != NULL) {
@@ -172,6 +177,14 @@ namespace Coco {
 		_material = m;
 	}
 	Material* Shape::GetMaterial() {
+		if (_usingOriginalMaterial) {
+			if (_material != NULL) {
+				delete _material;
+				_material = NULL;
+			}
+			_usingOriginalMaterial = false;
+		}
+
 		return _material;
 	}
 	int Shape::GetVerticesArrLenght() {

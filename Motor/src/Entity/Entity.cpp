@@ -12,6 +12,7 @@ namespace Coco {
 
 	Entity::Entity(Renderer* rend) {
 		_renderer = rend;
+		_affectedByLight = true;
 
 		matrix.model = glm::mat4(1.0f);
 		matrix.translate = glm::mat4(1.0f);
@@ -30,6 +31,9 @@ namespace Coco {
 	}
 	void Entity::SetCanDraw(bool cd) {
 		_canDraw = cd;
+	}
+	void Entity::SetAffectedByLight(bool abl) {
+		_affectedByLight = abl;
 	}
 	void Entity::SetRenderer(Renderer* r) {
 		_renderer = r;

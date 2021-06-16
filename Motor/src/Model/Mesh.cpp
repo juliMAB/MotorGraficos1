@@ -8,7 +8,7 @@ namespace Coco {
 		VBO = 0;
 		IBO = 0;
 		indexCount = 0;
-
+		
 		
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
@@ -54,7 +54,7 @@ namespace Coco {
 
 	void Mesh::RenderMesh() {
 		_renderer->UpdateMVP(matrix.model, _uniformModel, _uniformView, _uniformProjection);
-		_renderer->DrawMesh(indexCount, VAO, VBO, IBO);
+		_renderer->DrawMesh(indexCount, VAO, VBO, IBO, _affectedByLight);
 	}
 
 	void Mesh::ClearMesh() {

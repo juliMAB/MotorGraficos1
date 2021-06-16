@@ -49,7 +49,7 @@ namespace Coco {
 		glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
 		glEnableVertexAttribArray(location);
 	}
-	void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
+	void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t, bool affectedByLight) {
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -61,6 +61,9 @@ namespace Coco {
 			glUniform1i(useTextureLoc, false);
 		else
 			glUniform1i(useTextureLoc, true);
+
+		uint affectedByLightLocation = glGetUniformLocation(GetShader(), "afectedByLight");
+		glUniform1i(affectedByLightLocation, affectedByLight);
 
 		glEnable(GL_DEPTH_TEST);
 
@@ -75,7 +78,7 @@ namespace Coco {
 		glUseProgram(0);
 	}
 
-	void Renderer::DrawMesh(int verts, uint vao, uint vbo, uint ibo) {
+	void Renderer::DrawMesh(int verts, uint vao, uint vbo, uint ibo, bool affectedByLight) {
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -84,6 +87,9 @@ namespace Coco {
 		glUseProgram(GetShader());
 
 		glUniform1i(useTextureLoc, true);
+
+		uint affectedByLightLocation = glGetUniformLocation(GetShader(), "afectedByLight");
+		glUniform1i(affectedByLightLocation, affectedByLight);
 
 		glEnable(GL_DEPTH_TEST);
 

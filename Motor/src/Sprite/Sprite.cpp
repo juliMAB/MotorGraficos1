@@ -93,7 +93,7 @@ namespace Coco {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _texture);
 
-		_renderer->Draw(TypeShape::Quad, 6, _vao, _vbo, _ibo, texVertices, tamVertsTex,TypeShader::Texture);
+		_renderer->Draw(TypeShape::Quad, 6, _vao, _vbo, _ibo, texVertices, tamVertsTex,TypeShader::Texture, _affectedByLight);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDisable(GL_TEXTURE_2D);
 

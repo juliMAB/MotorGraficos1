@@ -6,6 +6,7 @@ namespace Coco {
 	class Game : GameBase {
 		Shape* _shape;
 		Shape* _shape2;
+		Shape* _shape3;
 		Camera* _camera;
 		Material* _goldMaterial;
 		Material* _obsidianMaterial;
@@ -14,6 +15,7 @@ namespace Coco {
 		Model* _model3;
 		Model* _model4;
 		Model* _model5;
+		Model* _model6;
 	public:
 		Game();
 		~Game();

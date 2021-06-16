@@ -51,6 +51,7 @@ namespace Coco {
 		bool _usingTexture;
 		ModelTexture* _texture;
 
+		bool _usingOriginalMaterial;
 		Material* _material;
 	public:
 		Shape(Renderer* rend);

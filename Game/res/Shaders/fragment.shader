@@ -10,6 +10,7 @@ out vec4 colour;
 uniform sampler2D theTexture;
 uniform bool useTexture;
 uniform bool useLight;
+uniform bool afectedByLight;
 
 struct BaseLight {
 	vec3 colour;
@@ -65,7 +66,7 @@ vec3 CalcPointLight(PointLight pl);
 vec3 CalcSpotLight(SpotLight sl);
 
 void main() {
-	if (useLight == true) {
+	if (useLight == true && afectedByLight == true) {
 		vec3 result = vec3(0,0,0);
 		if(baseLight.assigned)
 			result = material.ambient * baseLight.colour;
@@ -83,9 +84,9 @@ void main() {
 		else
 			colour = texture(theTexture, TexCoord) * vec4(result,1.0f);
 	}
-	else if (useLight == false && useTexture == false)
+	else if ( (useLight == false || afectedByLight == false) && useTexture == false)
 		colour = vec4(material.ambient, 1.0f);
-	else 
+	else 	
 		colour = texture(theTexture,TexCoord) * vec4(material.ambient, 1.0f);
 }
 

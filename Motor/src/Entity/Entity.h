@@ -43,6 +43,7 @@ namespace Coco {
 		uint _normalLocation;
 
 		bool _canDraw;
+		bool _affectedByLight;
 	public:
 		Entity(Renderer* rend);
 		~Entity();
@@ -51,6 +52,7 @@ namespace Coco {
 		Matrix matrix;
 		
 		void SetCanDraw(bool cd);
+		virtual void SetAffectedByLight(bool abl);
 		void SetRenderer(Renderer* r);
 		Renderer* GetRenderer();
 		virtual void SetPos(float x, float y, float z);
