@@ -15,8 +15,8 @@ namespace Coco {
 		~Camera();
 		glm::mat4 GetViewMatrix();
 		void LookAt(glm::vec3 direction);
-		void LookFromEntity();
-		void LookFromEntity(glm::vec3 offset);
+		void FirstPersonLook(glm::vec3 offset, bool drawEntity);
+		void ThirdPersonLook(glm::vec3 offset, float distance, bool drawEntity);
 		void SetEntity(Entity* entity);
 		void UseCamera();
 	};

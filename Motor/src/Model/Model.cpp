@@ -108,26 +108,36 @@ namespace Coco {
 		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetRotX(x);
+
+		UpdateTransformsData();
 	}
 	void Model::SetRotY(float y) {
 		transform.rotation.y = y;
 		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetRotY(y);
+
+		UpdateTransformsData();
 	}
 	void Model::SetRotZ(float z) {
 		transform.rotation.z = z;
 		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 		for (int i = 0; i < _meshList.size(); i++)
 			_meshList[i]->SetRotZ(z);
+
+		UpdateTransformsData();
+
 	}
 	void Model::SetRotations(float x, float y, float z) {
 		transform.rotation = glm::vec3(x, y, z);
 		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+
 		for (int i = 0; i < _meshList.size(); i++) 
 			_meshList[i]->SetRotations(x, y, z);
+
+		UpdateTransformsData();
 	}
 	
 	void Model::SetRotations(glm::vec3 rotation) {

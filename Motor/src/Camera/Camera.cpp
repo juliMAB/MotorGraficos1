@@ -19,13 +19,18 @@ namespace Coco {
 	void Camera::LookAt(glm::vec3 position) {
 		_viewMatrix = glm::lookAt(transform.position, position, _worldUp);
 	}
-	void Camera::LookFromEntity() {
-		LookFromEntity(glm::vec3(0, 0, 0));
-	}
-	void Camera::LookFromEntity(glm::vec3 offset) {
+	void Camera::FirstPersonLook(glm::vec3 offset, bool drawEntity) {
 		if (_entity != NULL) {
-			_entity->SetCanDraw(false);
-			SetPos(_entity->transform.position+offset);
+			_entity->SetCanDraw(drawEntity);
+			SetPos(_entity->transform.position + offset);
+			SetRotations(_entity->transform.rotation);
+			LookAt(transform.position + transform.forward);
+		}
+	}
+	void Camera::ThirdPersonLook(glm::vec3 offset, float distance, bool drawEntity) {
+		if (_entity != NULL) {
+			_entity->SetCanDraw(drawEntity);
+			SetPos(_entity->transform.position + (-_entity->transform.forward * distance) + offset);
 			SetRotations(_entity->transform.rotation);
 			LookAt(transform.position + transform.forward);
 		}
