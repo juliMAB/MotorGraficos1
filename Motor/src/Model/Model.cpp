@@ -59,9 +59,9 @@ namespace Coco {
 		for (int i = 0; i < _meshList.size(); i++) {
 			uint materialIndex = _meshesToTex[i];
 
-			if (materialIndex < _texturesList.size() && _texturesList[materialIndex]) {
+			if (materialIndex < _texturesList.size() && _texturesList[materialIndex]) 
 				_texturesList[materialIndex]->UseTexture();
-			}
+
 			if (_material != NULL)
 				_renderer->UseMaterial(_material->GetAmbient(), _material->GetSpecular(), _material->GetDiffuse(), _material->GetShininess(),
 					_material->GetUniformAmbient(), _material->GetUniformSpecular(), _material->GetUniformDiffuse(), _material->GetUniformShininess());

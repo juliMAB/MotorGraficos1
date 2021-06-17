@@ -21,7 +21,7 @@ namespace Coco {
         PointLight(Renderer* rend, int index);
         PointLight(Renderer* rend, float constant, float linear, float quadratic, int index);
         ~PointLight();
-        virtual void UseLight();
+        void UseLight() override;
 
         void SetConstantLinearQuadratic(float c, float l, float q);
         void SetConstant(float c);

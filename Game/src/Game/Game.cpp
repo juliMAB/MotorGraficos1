@@ -106,7 +106,7 @@ namespace Coco {
 
 		_model5 = new Model(GetRenderer());
 		_model5->LoadModel("res/models/helicopter/uh60.obj", "res/models/helicopter/");
-		_model5->SetPos(3, 0, 50);
+		_model5->SetPos(0,0,0);
 		_model5->SetScale(1, 1, 1);
 
 		_model6 = new Model(GetRenderer());
@@ -160,7 +160,7 @@ namespace Coco {
 			_lightAux->SetDirection(glm::vec3(0, 0, 1));
 		}
 
-		//
+	//	//
 	//	GetLightManager()->AddLight(TypeOfLight::Point);
 	//	PointLight* _lightAux2 = GetLightManager()->GetPointLightByIndex(0);
 	//	if (_lightAux2 != NULL) {
@@ -171,8 +171,8 @@ namespace Coco {
 	//		_lightAux2->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
 	//		_lightAux2->SetConstantLinearQuadratic(1.0f, 0.045f, 0.0075f);
 	//	}
-
-		// 
+	//
+	//// 
 	//	GetLightManager()->AddLight(TypeOfLight::Directional);
 	//	GetLightManager()->AddLight(TypeOfLight::Directional);
 	//	//
@@ -210,7 +210,6 @@ namespace Coco {
 	void Game::Update(float deltaTime) {
 		GetWindow()->ClearWindow(0.15f, 0.15f, 0.15f, 1.0f);
 
-
 		rotY += deltaTime * 50.0f;
 
 		_model1->SetRotY(rotY);
@@ -242,7 +241,6 @@ namespace Coco {
 			_camera->FirstPersonLook(glm::vec3(0, 1.66f, 0), false);
 		}
 		else {
-
 			if (Input::GetKey(Keycode::W))
 				_model5->SetPos(_model5->transform.position + (_model5->transform.forward * speed * deltaTime));
 			else if (Input::GetKey(Keycode::S))
