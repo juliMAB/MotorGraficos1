@@ -73,6 +73,10 @@
     <ClInclude Include="src\Timer\Timer.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\fragment.shader" />
+    <None Include="Shaders\vertex.shader" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F15CBE09-9B9E-4C6B-AAB0-ADEF0548B852}</ProjectGuid>

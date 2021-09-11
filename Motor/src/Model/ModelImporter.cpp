@@ -19,10 +19,25 @@ namespace Coco {
 			std::cout << "Model: " << fileName << " cant be loaded pa: " << importer.GetErrorString() << std::endl;
 			return;
 		}
-	
+
 		_meshList.clear();
 		_meshesToTex.clear();
 		_texturesList.clear();
+		_meshesParent.clear();
+
+		_meshesToTex.push_back(NULL);
+
+
+		_meshParentBase = new Mesh(_renderer);
+		_meshParentBase->CreateMesh(0, 0, 0, 0);
+		_meshParentBase->SetName(scene->mRootNode->mName.C_Str());
+		_meshList.push_back(_meshParentBase);
+		_meshParentBase->SetNode(scene->mRootNode);
+
+		if (_meshParentBase->GetNode()->mNumChildren > 0) {
+			_meshParentBase->SetIsParent(true);
+			_meshesParent.push_back(_meshParentBase);
+		}
 
 		LoadNode(scene->mRootNode, scene);
 		LoadMaterials(scene, texturesLocation);
@@ -39,13 +54,40 @@ namespace Coco {
 		_meshList.clear();
 		_meshesToTex.clear();
 		_texturesList.clear();
+		_meshesParent.clear();
 
+		_meshesToTex.push_back(NULL);
+
+		_meshParentBase = new Mesh(_renderer);
+		_meshParentBase->CreateMesh(0, 0, 0, 0);
+		_meshParentBase->SetName(scene->mRootNode->mName.C_Str());
+		_meshList.push_back(_meshParentBase);
+		_meshParentBase->SetNode(scene->mRootNode);
+
+		if (_meshParentBase->GetNode()->mNumChildren > 0) {
+			_meshParentBase->SetIsParent(true);
+			_meshesParent.push_back(_meshParentBase);
+		}
+	
 		LoadNode(scene->mRootNode, scene);
 		LoadMaterials(scene, texturesLocation, nameTexture);
 	}
 	void ModelImporter::LoadNode(aiNode* node, const aiScene* scene) {
 		for (size_t i = 0; i < node->mNumMeshes; i++) {
-			LoadMesh(scene->mMeshes[node->mMeshes[i]], scene);
+			Mesh* m = LoadMesh(scene->mMeshes[node->mMeshes[i]], scene);
+			m->SetNode(node);
+
+			for (int i = 0; i < _meshesParent.size(); i++) 
+				if (m->GetNode()->mParent == _meshesParent[i]->GetNode()) {
+					_meshesParent[i]->AddMeshSon(m);
+					break;
+				}
+
+			if (node->mNumChildren > 0) 
+				if (!m->GetIsParent()) {
+					m->SetIsParent(true);
+					_meshesParent.push_back(m);
+				}
 		}
 
 		for (size_t i = 0; i < node->mNumChildren; i++) {
@@ -53,7 +95,7 @@ namespace Coco {
 		}
 	}
 
-	void ModelImporter::LoadMesh(aiMesh* mesh, const aiScene* scene){
+	Mesh* ModelImporter::LoadMesh(aiMesh* mesh, const aiScene* scene) {
 		std::vector<float> vertices;
 		std::vector<uint> indices;
 
@@ -77,9 +119,17 @@ namespace Coco {
 
 		Mesh* newMesh = new Mesh(_renderer);
 		newMesh->CreateMesh(&vertices[0], &indices[0], vertices.size(), indices.size());
+		newMesh->SetName(mesh->mName.C_Str());
 		_meshList.push_back(newMesh);
 		_meshesToTex.push_back(mesh->mMaterialIndex);
+
+		return newMesh;
 	}
+
+	void ModelImporter::SetHierarchy() {
+
+	}
+
 	void ModelImporter::LoadMaterials(const aiScene* scene, std::string texturesLocation) {
 		_texturesList.resize(scene->mNumMaterials);
 

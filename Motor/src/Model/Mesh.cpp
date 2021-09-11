@@ -1,6 +1,9 @@
 #include "Mesh.h"
 #include "glew.h"
 
+#include "ASSIMP_N/include/assimp/scene.h"
+#include <iostream>
+
 namespace Coco {
 
 	Mesh::Mesh(Renderer* rend) : Entity(rend) {
@@ -8,8 +11,9 @@ namespace Coco {
 		VBO = 0;
 		IBO = 0;
 		indexCount = 0;
-		
-		
+
+		_node = NULL;
+
 		_uniformModel = glGetUniformLocation(_renderer->GetShader(), "model");
 		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
@@ -74,5 +78,100 @@ namespace Coco {
 		}
 
 		indexCount = 0;
+	}
+
+	void Mesh::SetPos(float x, float y, float z) {
+		transform.position = { x, y, z };
+		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
+
+		for (int i = 0; i < _meshSons.size(); i++)
+			_meshSons[i]->SetPos(x,y,z);
+
+		UpdateMatrixData();
+	}
+	void Mesh::SetPos(glm::vec3 pos) {
+		SetPos(pos.x, pos.y, pos.z);
+	}
+	void Mesh::SetRotX(float x) {
+		transform.rotation.x = x;
+		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		for (int i = 0; i < _meshSons.size(); i++)
+			_meshSons[i]->SetRotX(x);
+
+		UpdateMatrixData();
+		UpdateTransformsData();
+	}
+	void Mesh::SetRotY(float y) {
+		transform.rotation.y = y;
+		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		for (int i = 0; i < _meshSons.size(); i++)
+			_meshSons[i]->SetRotY(y);
+
+		UpdateMatrixData();
+		UpdateTransformsData();
+	}
+	void Mesh::SetRotZ(float z) {
+		transform.rotation.z = z;
+		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		for (int i = 0; i < _meshSons.size(); i++)
+			_meshSons[i]->SetRotZ(z);
+
+		UpdateMatrixData();
+		UpdateTransformsData();
+	}
+	void Mesh::SetRotations(float x, float y, float z) {
+		transform.rotation = glm::vec3(x, y, z);
+		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		for (int i = 0; i < _meshSons.size(); i++)
+			_meshSons[i]->SetRotations(x, y, z);
+
+		UpdateMatrixData();
+		UpdateTransformsData();
+	}
+	void Mesh::SetRotations(glm::vec3 rotation) {
+		SetRotations(rotation.x, rotation.y, rotation.z);
+	}
+	void Mesh::SetScale(float x, float y, float z) {
+		transform.scale = { x, y, z };
+		matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
+
+		for (int i = 0; i < _meshSons.size(); i++)
+			_meshSons[i]->SetScale(x, y, z);
+
+		UpdateMatrixData();
+	}
+
+	void Mesh::SetName(std::string value) {
+		_name = value;
+	}
+
+	void Mesh::AddMeshSon(Mesh* mesh) {
+		_meshSons.push_back(mesh);
+	}
+
+	void Mesh::SetNode(aiNode* node) {
+		_node = node;
+	}
+
+	void Mesh::SetIsParent(bool value) {
+		_isParent = value;
+	}
+	bool Mesh::GetIsParent() {
+		return _isParent;
+	}
+	aiNode* Mesh::GetNode() {
+		return _node;
+	}
+	std::string Mesh::GetName() {
+		return _name;
+	}
+	std::vector<Mesh*> Mesh::GetMeshesSons() {
+		return _meshSons;
 	}
 }

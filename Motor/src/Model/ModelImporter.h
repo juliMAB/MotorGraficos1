@@ -21,6 +21,8 @@ namespace Coco {
 		std::vector<Mesh*> _meshList;
 		std::vector<uint> _meshesToTex;
 		std::vector<ModelTexture*> _texturesList;
+		std::vector<Mesh*> _meshesParent;
+		Mesh* _meshParentBase;
 		Renderer* _renderer;
 	public:
 		ModelImporter(Renderer* renderer);
@@ -28,7 +30,8 @@ namespace Coco {
 		void LoadModel(std::string fileName, std::string texturesLocation);
 		void LoadModel(std::string fileName, std::string texturesLocation, std::string nameTexture);
 		void LoadNode(aiNode* node, const aiScene* scene);
-		void LoadMesh(aiMesh* mesh, const aiScene* scene);
+		Mesh* LoadMesh(aiMesh* mesh, const aiScene* scene);
+		void SetHierarchy();
 		void LoadMaterials(const aiScene* scene, std::string texturesLocation);
 		void LoadMaterials(const aiScene* scene, std::string textureLocation, std::string nameTexture);
 		std::vector<Mesh*> GetMeshList();
