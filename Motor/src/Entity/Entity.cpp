@@ -92,6 +92,7 @@ namespace Coco {
 	}
 	void Entity::SetPos(float x, float y, float z) {
 		transform.position = { x, y, z };
+		transform.localPosition = { x,y,z };
 		matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
 		UpdateMatrixData();
 	}
@@ -100,24 +101,28 @@ namespace Coco {
 	}
 	void Entity::SetRotX(float x) {
 		transform.rotation.x = x;
+		transform.localRotation.x = x;
 		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 		UpdateMatrixData();
 		UpdateTransformsData();
 	}
 	void Entity::SetRotY(float y) {
 		transform.rotation.y = y;
+		transform.localRotation.y = y;
 		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 		UpdateMatrixData();
 		UpdateTransformsData();
 	}
 	void Entity::SetRotZ(float z) {
 		transform.rotation.z = z;
+		transform.localRotation.z = z;
 		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 		UpdateMatrixData();
 		UpdateTransformsData();
 	}
 	void Entity::SetRotations(float x, float y, float z) {
 		transform.rotation = glm::vec3(x, y, z);
+		transform.localRotation = glm::vec3(x, y, z);
 		matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 		matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 		matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -129,6 +134,7 @@ namespace Coco {
 	}
 	void Entity::SetScale(float x, float y, float z) {
 		transform.scale = { x, y, z };
+		transform.localScale = { x,y,z };
 		matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
 		UpdateMatrixData();
 	}

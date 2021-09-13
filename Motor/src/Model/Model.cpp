@@ -99,31 +99,31 @@ namespace Coco {
 	}
 
 	void Model::SetScale(float x, float y, float z) {
-		SetMeshScale(x, y, z, 1);
+		SetMeshScale(x, y, z, 0);
 	}
 	void Model::SetRotX(float x) {
-		SetMeshRotX(x, 1);
+		SetMeshRotX(x, 0);
 	}
 	void Model::SetRotY(float y) {
-		SetMeshRotY(y, 1);
+		SetMeshRotY(y, 0);
 	}
 	void Model::SetRotZ(float z) {
-		SetMeshRotZ(z, 1);
+		SetMeshRotZ(z, 0);
 	}
 	void Model::SetRotations(float x, float y, float z) {
-		SetMeshRotations(x, y, z, 1);
+		SetMeshRotations(x, y, z, 0);
 	}
 
 	void Model::SetRotations(glm::vec3 rotation) {
-		SetMeshRotations(rotation.x, rotation.y, rotation.z, 1);
+		SetMeshRotations(rotation.x, rotation.y, rotation.z, 0);
 	}
 
 	void Model::SetPos(float x, float y, float z) {
-		SetMeshPos(x, y, z, 1);
+		SetMeshPos(x, y, z, 0);
 	}
 
 	void Model::SetPos(glm::vec3 pos) {
-		SetMeshPos(pos.x, pos.y, pos.z, 1);
+		SetMeshPos(pos.x, pos.y, pos.z, 0);
 	}
 
 	void Model::SetMeshPos(float x, float y, float z, int indexMesh) {

@@ -147,6 +147,38 @@ namespace Coco {
 		UpdateMatrixData();
 	}
 
+	void Mesh::SetLocalPos(float x, float y, float z) {
+
+	}
+
+	void Mesh::SetLocalPos(glm::vec3 pos) {
+
+	}
+
+	void Mesh::SetLocalRotX(float x) {
+
+	}
+
+	void Mesh::SetLocalRotY(float y) {
+
+	}
+
+	void Mesh::SetLocalRotZ(float z) {
+
+	}
+
+	void Mesh::SetLocalRotations(float x, float y, float z) {
+
+	}
+
+	void Mesh::SetLocalRotations(glm::vec3 rotation) {
+
+	}
+
+	void Mesh::SetLocalScale(float x, float y, float z) {
+
+	}
+
 	void Mesh::SetName(std::string value) {
 		_name = value;
 	}

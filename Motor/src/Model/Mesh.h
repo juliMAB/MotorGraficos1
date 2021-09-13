@@ -14,6 +14,7 @@ namespace Coco {
 		uint VAO, VBO, IBO;
 		int indexCount;
 		std::vector<Mesh*> _meshSons;
+		Mesh* _meshParent;
 		std::string _name;
 		aiNode* _node;
 		bool _isParent;
@@ -41,6 +42,15 @@ namespace Coco {
 		void SetRotations(float x, float y, float z)	override;
 		void SetRotations(glm::vec3 rotation)			override;
 		void SetScale(float x, float y, float z)		override;
+
+		void SetLocalPos(float x, float y, float z);
+		void SetLocalPos(glm::vec3 pos);
+		void SetLocalRotX(float x);
+		void SetLocalRotY(float y);
+		void SetLocalRotZ(float z);
+		void SetLocalRotations(float x, float y, float z);
+		void SetLocalRotations(glm::vec3 rotation);
+		void SetLocalScale(float x, float y, float z);
 	};
 
 }

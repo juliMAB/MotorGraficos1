@@ -73,6 +73,7 @@ namespace Coco {
 		LoadMaterials(scene, texturesLocation, nameTexture);
 	}
 	void ModelImporter::LoadNode(aiNode* node, const aiScene* scene) {
+
 		for (size_t i = 0; i < node->mNumMeshes; i++) {
 			Mesh* m = LoadMesh(scene->mMeshes[node->mMeshes[i]], scene);
 			m->SetNode(node);

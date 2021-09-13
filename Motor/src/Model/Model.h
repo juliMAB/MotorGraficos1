@@ -57,7 +57,6 @@ namespace Coco {
 		void SetMeshRotations(glm::vec3 rotation		,int indexMesh);
 		void SetMeshScale(float x, float y, float z		,int indexMesh);
 
-
 		std::vector<Mesh*> GetMeshes();
 	};
 

@@ -84,6 +84,7 @@ namespace Coco {
 		_model1->SetRotX(-90);
 
 		_model1->SetMeshPos(1, -0.5, 5, 5);
+		_model1->SetMeshPos(-1, -0.5, 5, 6);
 
 		//for (int i = 0; i < _model1->GetMeshes().size(); i++) {
 		//	std::cout << "name: " <<_model1->GetMeshes()[i]->GetName().c_str() << " scale x: " << _model1->GetMeshes()[i]->transform.scale.x << " y: " << _model1->GetMeshes()[i]->transform.scale.y << " z: " << _model1->GetMeshes()[i]->transform.scale.z << std::endl;
@@ -236,9 +237,9 @@ namespace Coco {
 	void Game::Update(float deltaTime) {
 		GetWindow()->ClearWindow(0.15f, 0.15f, 0.15f, 1.0f);
 
-		//rotY += deltaTime * 50.0f;
-		//
-		//_model1->SetRotY(rotY);
+		rotY += deltaTime * 50.0f;
+		
+		_model1->SetMeshRotZ(rotY, 6);
 		//_model2->SetRotY(rotY);
 		//_model3->SetRotY(rotY);
 		//_model4->SetRotations(rotY, rotY, rotY);
