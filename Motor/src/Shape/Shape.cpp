@@ -85,7 +85,7 @@ namespace Coco {
 		_material->SetDiffuse(glm::vec3( 0.5f,0.5f,0.5f));
 		_material->SetSpecular(glm::vec3(0,0,0));
 		_material->SetShininess(1);
-		_affectedByLight = true;
+		_affectedByLight = false;
 	}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);
@@ -130,7 +130,7 @@ namespace Coco {
 			tamVerts = sizeof(cubeVerticesCol);
 			break;
 		}
-		CalcAverageNormals(GetIndexs(), 36, _vb, 64, 8, 5);
+		//CalcAverageNormals(GetIndexs(), 36, _vb, 64, 8, 5);
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
 		if (typeOfShape != TypeShape::Triangle) {
 			_renderer->SetIndexThings(GetVerticesTam(), GetIndexs(), _ibo);

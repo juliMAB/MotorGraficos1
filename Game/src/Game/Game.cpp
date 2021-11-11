@@ -28,7 +28,7 @@ namespace Coco {
 		//_camera->SetEntity(_shape);
 
 		_shape = new Shape(GetRenderer());
-		_shape->InitShape(TypeShape::Cube, TypeShader::Colour);
+		_shape->InitShape(TypeShape::Quad, TypeShader::Colour);
 		_shape->SetScale(0.33f, 0.33f, 0.33f);
 		_shape->SetPos(-1.0f, -1, 5);
 		_shape->LoadTexture("res/textures/", "img1.jpg");
@@ -40,7 +40,7 @@ namespace Coco {
 
 	float speed = 5.0f;
 	float speedRotationCamera = 100.0f;
-	bool usingLight = true;
+	bool usingLight = false;
 
 	float timerLight = 0.0f;
 	const float maxTimerLight = 1.5f;
